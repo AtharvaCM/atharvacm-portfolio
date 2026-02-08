@@ -82,6 +82,37 @@ export default async function ProjectDetailPage({ params }: Props) {
         </div>
       </dl>
 
+      <section className="panel mt-10 p-6 md:p-7">
+        <h2 className="text-sm uppercase tracking-[0.15em] text-text/60">Project snapshot</h2>
+        <dl className="mt-5 grid gap-5 md:grid-cols-2">
+          <div>
+            <dt className="text-xs uppercase tracking-[0.14em] text-text/55">Context</dt>
+            <dd className="mt-2 text-sm leading-relaxed text-text/74">{project.context}</dd>
+          </div>
+          <div>
+            <dt className="text-xs uppercase tracking-[0.14em] text-text/55">Problem</dt>
+            <dd className="mt-2 text-sm leading-relaxed text-text/74">{project.problem}</dd>
+          </div>
+          <div>
+            <dt className="text-xs uppercase tracking-[0.14em] text-text/55">What I did</dt>
+            <dd className="mt-2 text-sm leading-relaxed text-text/74">{project.contribution}</dd>
+          </div>
+          <div>
+            <dt className="text-xs uppercase tracking-[0.14em] text-text/55">Why it mattered</dt>
+            <dd className="mt-2 text-sm leading-relaxed text-text/74">{project.impact}</dd>
+          </div>
+        </dl>
+
+        <div className="mt-6 rounded-2xl border border-border/65 bg-surface/70 p-5">
+          <h3 className="text-xs uppercase tracking-[0.14em] text-text/58">Metric highlights</h3>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-text/74">
+            {project.metricHighlights.map((metric) => (
+              <li key={metric}>{metric}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <div className="prose prose-neutral mt-12 max-w-none prose-a:text-accent prose-headings:font-display prose-headings:tracking-tight">
         <MdxRenderer source={project.content} />
       </div>

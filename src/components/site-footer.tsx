@@ -13,7 +13,7 @@ export function SiteFooter() {
             <div>
               <p className="font-display text-4xl leading-none tracking-tight md:text-5xl">Atharva CM</p>
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-text/72">
-                Product-focused front-end engineer crafting polished interfaces, scalable systems, and fast experiences.
+                Product-focused front-end engineer building scalable, performance-driven web systems.
               </p>
             </div>
 

@@ -11,6 +11,12 @@ const validProjectMdx = `---
 title: Test Project
 slug: test-project
 excerpt: Short summary
+context: Test context
+problem: Test problem
+contribution: Test contribution
+impact: Test impact
+metricHighlights:
+  - Test metric
 coverImage: /images/projects/test.svg
 year: 2025
 role: Lead Engineer
@@ -64,6 +70,11 @@ describe("project filters", () => {
       title: "A",
       slug: "a",
       excerpt: "a",
+      context: "context",
+      problem: "problem",
+      contribution: "contribution",
+      impact: "impact",
+      metricHighlights: ["metric"],
       coverImage: "x",
       year: 2025,
       role: "role",
@@ -77,6 +88,11 @@ describe("project filters", () => {
       title: "B",
       slug: "b",
       excerpt: "b",
+      context: "context",
+      problem: "problem",
+      contribution: "contribution",
+      impact: "impact",
+      metricHighlights: ["metric"],
       coverImage: "x",
       year: 2024,
       role: "role",

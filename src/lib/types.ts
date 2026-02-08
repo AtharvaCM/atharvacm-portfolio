@@ -4,6 +4,11 @@ export type ProjectMeta = {
   title: string;
   slug: string;
   excerpt: string;
+  context: string;
+  problem: string;
+  contribution: string;
+  impact: string;
+  metricHighlights: string[];
   coverImage: string;
   year: number;
   client?: string;
