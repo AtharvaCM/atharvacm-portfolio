@@ -1,0 +1,11 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#F2E6DB"/>
+  <g opacity="0.32">
+    <circle cx="250" cy="130" r="85" fill="#C8402B"/>
+    <circle cx="980" cy="210" r="120" fill="#C8402B"/>
+    <circle cx="840" cy="530" r="95" fill="#C8402B"/>
+  </g>
+  <rect x="140" y="140" width="920" height="390" rx="28" fill="#FFF9F3" stroke="#E4D2C2"/>
+  <text x="195" y="260" fill="#2F241F" font-size="58" font-family="Georgia, serif">Neural Assistant</text>
+  <text x="195" y="322" fill="#6E5950" font-size="30" font-family="Arial, sans-serif">AI narrative product experience</text>
+</svg>

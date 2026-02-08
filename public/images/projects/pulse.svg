@@ -1,0 +1,7 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#F4EADF"/>
+  <path d="M0 520C120 470 200 420 340 430C500 445 590 580 760 600C920 620 1040 520 1200 460V675H0V520Z" fill="#D7573B" fill-opacity="0.2"/>
+  <rect x="160" y="120" width="880" height="430" rx="36" fill="#FFF9F3" stroke="#E9DACA"/>
+  <text x="220" y="250" fill="#2F241F" font-size="62" font-family="Georgia, serif">Pulse Mobile</text>
+  <text x="220" y="315" fill="#6E5950" font-size="30" font-family="Arial, sans-serif">Cross-channel onboarding platform</text>
+</svg>
