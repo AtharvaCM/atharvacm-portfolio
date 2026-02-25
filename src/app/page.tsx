@@ -9,10 +9,15 @@ import { TechnologiesSection } from "@/components/technologies-section";
 import { getAllBlogPosts, getAllProjects } from "@/lib/content";
 
 export default async function HomePage() {
-  const [projects, posts] = await Promise.all([getAllProjects(), getAllBlogPosts()]);
+  const [projects, posts] = await Promise.all([
+    getAllProjects(),
+    getAllBlogPosts(),
+  ]);
   const showHowIDeliverSection = false;
 
-  const featuredProjects = projects.filter((project) => project.featured).slice(0, 3);
+  const featuredProjects = projects
+    .filter((project) => project.featured)
+    .slice(0, 3);
   const latestPosts = posts.slice(0, 3);
 
   return (
@@ -29,10 +34,14 @@ export default async function HomePage() {
               </p>
               <h2 className="section-heading mt-4">Featured Projects</h2>
               <p className="mt-3 max-w-xl text-sm text-text/68">
-                Every card highlights product context, what I delivered, and why the outcome mattered.
+                Every card highlights product context, what I delivered, and why
+                the outcome mattered.
               </p>
             </div>
-            <Link className="btn-secondary hidden md:inline-flex" href="/projects">
+            <Link
+              className="btn-secondary hidden md:inline-flex"
+              href="/projects"
+            >
               View all
             </Link>
           </div>
@@ -53,27 +62,37 @@ export default async function HomePage() {
               <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <h2 className="section-heading">How I deliver in teams</h2>
                 <p className="max-w-lg text-sm leading-relaxed text-text/68">
-                  I combine product thinking, design sensitivity, and engineering rigor from kickoff to release.
+                  I combine product thinking, design sensitivity, and
+                  engineering rigor from kickoff to release.
                 </p>
               </div>
 
               <div className="mt-8 grid gap-4 md:grid-cols-3">
                 <article className="rounded-2xl border border-border/65 bg-surface/75 p-5">
-                  <p className="text-xs uppercase tracking-[0.14em] text-text/55">01 Product Context</p>
+                  <p className="text-xs uppercase tracking-[0.14em] text-text/55">
+                    01 Product Context
+                  </p>
                   <p className="mt-3 text-sm leading-relaxed text-text/70">
-                    Align on user goals, constraints, and product priorities before implementation.
+                    Align on user goals, constraints, and product priorities
+                    before implementation.
                   </p>
                 </article>
                 <article className="rounded-2xl border border-border/65 bg-surface/75 p-5">
-                  <p className="text-xs uppercase tracking-[0.14em] text-text/55">02 System Design</p>
+                  <p className="text-xs uppercase tracking-[0.14em] text-text/55">
+                    02 System Design
+                  </p>
                   <p className="mt-3 text-sm leading-relaxed text-text/70">
-                    Build scalable component architecture with clear interaction and visual hierarchy.
+                    Build scalable component architecture with clear interaction
+                    and visual hierarchy.
                   </p>
                 </article>
                 <article className="rounded-2xl border border-border/65 bg-surface/75 p-5">
-                  <p className="text-xs uppercase tracking-[0.14em] text-text/55">03 Engineering Delivery</p>
+                  <p className="text-xs uppercase tracking-[0.14em] text-text/55">
+                    03 Engineering Delivery
+                  </p>
                   <p className="mt-3 text-sm leading-relaxed text-text/70">
-                    Ship robust front-end code, tune performance, and support iterative product growth.
+                    Ship robust front-end code, tune performance, and support
+                    iterative product growth.
                   </p>
                 </article>
               </div>
@@ -96,7 +115,8 @@ export default async function HomePage() {
               </p>
               <h2 className="section-heading mt-4">Latest insights</h2>
               <p className="mt-3 max-w-xl text-sm text-text/68">
-                Notes on front-end architecture, design systems, and practical product engineering.
+                Notes on front-end architecture, design systems, and practical
+                product engineering.
               </p>
             </div>
             <Link className="btn-secondary hidden md:inline-flex" href="/blog">
@@ -114,24 +134,28 @@ export default async function HomePage() {
 
       <section className="shell pb-20 pt-8">
         <div className="panel relative overflow-hidden p-8 md:p-12">
-          <div className="pointer-events-none absolute -right-12 -top-14 h-36 w-36 rounded-full bg-accent/20 blur-3xl" />
+          <div className="pointer-events-none absolute -right-12 -top-14 h-36 w-36 rounded-full bg-accent/20 blur-xl" />
           <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
               <p className="eyebrow inline-flex items-center gap-2">
                 <FiBriefcase aria-hidden className="h-3.5 w-3.5" />
                 Career
               </p>
-              <h2 className="section-heading mt-3 max-w-3xl">Open to senior front-end and product engineering roles.</h2>
+              <h2 className="section-heading mt-3 max-w-3xl">
+                Open to senior front-end and product engineering roles.
+              </h2>
               <p className="mt-5 max-w-xl text-sm leading-relaxed text-text/72">
-                If you&apos;re building a serious product and need someone who cares about code quality and delivery,
-                let&apos;s talk.
+                If you&apos;re building a serious product and need someone who
+                cares about code quality and delivery, let&apos;s talk.
               </p>
               <Link className="btn-primary mt-8" href="/contact">
                 Contact me
               </Link>
             </div>
             <div className="rounded-2xl border border-border/65 bg-surface/72 p-5 text-sm text-text/70">
-              <p className="text-xs uppercase tracking-[0.14em] text-text/55">What to expect</p>
+              <p className="text-xs uppercase tracking-[0.14em] text-text/55">
+                What to expect
+              </p>
               <ul className="mt-4 space-y-3">
                 <li>Short intro conversation.</li>
                 <li>Discussion on role scope and team needs.</li>

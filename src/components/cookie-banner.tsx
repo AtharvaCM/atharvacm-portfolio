@@ -35,11 +35,11 @@ export function CookieBanner() {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-4 z-[90]">
+    <div className="pointer-events-none fixed inset-x-0 bottom-4 z-[90]">
       <div className="shell">
         <div className="panel pointer-events-auto flex flex-col gap-4 p-4 md:flex-row md:items-center md:justify-between md:p-5">
           <p className="text-sm text-text/80">
-            This site uses analytics cookies to understand performance. Read the {" "}
+            This site uses analytics cookies to understand performance. Read the{" "}
             <Link className="link-inline-accent" href="/privacy">
               privacy policy
             </Link>

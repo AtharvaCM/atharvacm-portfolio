@@ -54,8 +54,8 @@ export function Hero() {
           className="absolute left-1/2 top-[-190px] h-[660px] w-[160vw] -translate-x-1/2 rounded-[100%] bg-[radial-gradient(ellipse_at_center,hsl(var(--accent)_/_0.23),transparent_60%)]"
           data-orb
         />
-        <div className="absolute right-[7%] top-20 h-56 w-56 rounded-full border border-accent/35 bg-accent/20 blur-3xl" />
-        <div className="absolute left-[12%] top-24 h-44 w-44 rounded-full bg-white/45 blur-3xl" />
+        <div className="absolute right-[7%] top-20 h-56 w-56 rounded-full border border-accent/35 bg-accent/20 blur-2xl" />
+        <div className="absolute left-[12%] top-24 h-44 w-44 rounded-full bg-white/45 blur-2xl" />
       </div>
 
       <div className="shell">

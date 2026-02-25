@@ -33,32 +33,17 @@ body {
   min-height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @apply antialiased font-sans text-text;
   position: relative;
   overflow-x: clip;
   background:
-    radial-gradient(
-      115% 70% at 6% -12%,
-      hsl(var(--accent) / 0.2),
-      transparent 52%
-    ),
-    radial-gradient(78% 66% at 95% 0%, hsl(18 75% 62% / 0.16), transparent 55%),
-    radial-gradient(
-      58% 62% at 92% 112%,
-      hsl(22 65% 58% / 0.12),
-      transparent 62%
-    ),
-    linear-gradient(180deg, hsl(var(--surface)), hsl(var(--bg)));
-}
-
-body::before {
-  content: "";
-  pointer-events: none;
-  position: fixed;
-  inset: -25% -16%;
-  z-index: -2;
-  background:
+    linear-gradient(to right, hsl(var(--text) / 0.007) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--text) / 0.007) 1px, transparent 1px),
     radial-gradient(
       circle at 22% 28%,
       hsl(var(--accent) / 0.14),
@@ -73,20 +58,29 @@ body::before {
       circle at 64% 84%,
       hsl(var(--accent) / 0.08),
       transparent 42%
-    );
-}
-
-body::after {
-  content: "";
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.12;
-  background-image:
-    linear-gradient(to right, hsl(var(--text) / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, hsl(var(--text) / 0.06) 1px, transparent 1px);
-  background-size: 84px 84px;
+    ),
+    radial-gradient(
+      115% 70% at 6% -12%,
+      hsl(var(--accent) / 0.2),
+      transparent 52%
+    ),
+    radial-gradient(78% 66% at 95% 0%, hsl(18 75% 62% / 0.16), transparent 55%),
+    radial-gradient(
+      58% 62% at 92% 112%,
+      hsl(22 65% 58% / 0.12),
+      transparent 62%
+    ),
+    linear-gradient(180deg, hsl(var(--surface)), hsl(var(--bg)));
+  background-size:
+    84px 84px,
+    84px 84px,
+    auto,
+    auto,
+    auto,
+    auto,
+    auto,
+    auto,
+    auto;
 }
 
 main {
@@ -108,12 +102,12 @@ a {
   }
 
   .panel {
-    @apply rounded-[1.75rem] border border-border/60 shadow-[0_25px_90px_-58px_hsl(var(--text)/0.55)] backdrop-blur-xl;
-    background-color: hsl(var(--surface) / 0.82);
+    @apply rounded-[1.75rem] border border-border/60 shadow-[0_12px_40px_-18px_hsl(var(--text)/0.18)];
+    background-color: hsl(var(--surface) / 0.96);
     background-image: linear-gradient(
       150deg,
-      hsl(var(--surface) / 0.95),
-      hsl(var(--surface-soft) / 0.78)
+      hsl(var(--surface) / 0.99),
+      hsl(var(--surface-soft) / 0.94)
     );
   }
 
@@ -253,123 +247,7 @@ a {
   color: hsl(var(--text));
 }
 
-.cursor-aura {
-  z-index: 9998;
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 22.5rem;
-  height: 22.5rem;
-  border-radius: 9999px;
-  opacity: 0;
-  background: radial-gradient(
-    circle at center,
-    hsl(var(--accent) / 0.2) 0%,
-    hsl(var(--accent) / 0.11) 32%,
-    transparent 72%
-  );
-  filter: blur(14px);
-  mix-blend-mode: multiply;
-  transition: opacity 0.32s ease;
-  will-change: transform, opacity;
-}
-
-.cursor-aura.is-active {
-  opacity: 1;
-}
-
-.cursor-ring,
-.cursor-dot {
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-.cursor-ring {
-  z-index: 9999;
-  width: 2rem;
-  height: 2rem;
-  border: 1.4px solid hsl(var(--accent) / 0.46);
-  border-radius: 9999px;
-  background: transparent;
-  transition:
-    opacity 0.28s ease,
-    border-color 0.28s ease,
-    background-color 0.28s ease;
-}
-
-.cursor-dot {
-  z-index: 10000;
-  width: 0.42rem;
-  height: 0.42rem;
-  border-radius: 9999px;
-  background: hsl(var(--accent));
-  box-shadow: 0 0 0 0.28rem hsl(var(--accent) / 0.11);
-  transition:
-    opacity 0.22s ease,
-    background-color 0.22s ease,
-    box-shadow 0.22s ease;
-}
-
-.cursor-ring.is-active,
-.cursor-dot.is-active {
-  opacity: 1;
-}
-
-.cursor-ring.is-hover {
-  border-color: hsl(var(--accent-strong) / 0.68);
-  background: transparent;
-}
-
-.cursor-dot.is-hover {
-  background: hsl(var(--accent-strong));
-  box-shadow: 0 0 0 0.2rem hsl(var(--accent) / 0.12);
-}
-
-.cursor-ring.is-press {
-  border-color: hsl(var(--accent) / 0.78);
-  background: transparent;
-}
-
-.cursor-dot.is-press {
-  background: hsl(var(--accent-strong));
-  box-shadow: 0 0 0 0.16rem hsl(var(--accent) / 0.15);
-}
-
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  html[data-custom-cursor="true"],
-  html[data-custom-cursor="true"] body,
-  html[data-custom-cursor="true"] a,
-  html[data-custom-cursor="true"] button,
-  html[data-custom-cursor="true"] input,
-  html[data-custom-cursor="true"] textarea,
-  html[data-custom-cursor="true"] select,
-  html[data-custom-cursor="true"] summary,
-  html[data-custom-cursor="true"] [role="button"],
-  html[data-custom-cursor="true"] [data-cursor="hover"] {
-    cursor: none !important;
-  }
-}
-
-@media (pointer: coarse) {
-  .cursor-aura,
-  .cursor-ring,
-  .cursor-dot {
-    display: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .cursor-aura,
-  .cursor-ring,
-  .cursor-dot {
-    display: none;
-  }
-
   *,
   *::before,
   *::after {
