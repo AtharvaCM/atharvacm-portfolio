@@ -134,7 +134,7 @@ export default async function HomePage() {
 
       <section className="shell pb-20 pt-8">
         <div className="panel relative overflow-hidden p-8 md:p-12">
-          <div className="pointer-events-none absolute -right-12 -top-14 h-36 w-36 rounded-full bg-accent/20 blur-xl" />
+          <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-accent/14 blur-lg" />
           <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
               <p className="eyebrow inline-flex items-center gap-2">

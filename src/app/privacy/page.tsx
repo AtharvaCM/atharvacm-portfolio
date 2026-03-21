@@ -20,6 +20,7 @@ export default function PrivacyPage() {
         <ul>
           <li>Form submission fields: name, email, opportunity type, company context, connect timeline, message.</li>
           <li>Basic usage metrics when analytics consent is provided.</li>
+          <li>Session analytics and behavior insights via Google Analytics and Microsoft Clarity.</li>
         </ul>
         <h2>Retention</h2>
         <p>

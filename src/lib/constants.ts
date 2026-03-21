@@ -1,5 +1,9 @@
+import { getMeaningfulExternalUrl } from "@/lib/utils";
+
 export const SITE_NAME = "Atharva CM";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+export const RESUME_URL = getMeaningfulExternalUrl(process.env.NEXT_PUBLIC_RESUME_URL);
+export const LINKEDIN_URL = getMeaningfulExternalUrl(process.env.NEXT_PUBLIC_LINKEDIN_URL);
 
 export const NAV_ITEMS = [
   { href: "/", label: "Home" },
@@ -34,7 +38,7 @@ export const CONNECT_TIMELINES = ["ASAP", "This month", "Next quarter", "Future 
 export const BLOG_PAGE_SIZE = 6;
 
 export const SOCIAL_LINKS = [
-  { label: "GitHub", href: "https://github.com/" },
-  { label: "LinkedIn", href: "https://linkedin.com/" },
-  { label: "X", href: "https://x.com/" }
-] as const;
+  { label: "GitHub", href: getMeaningfulExternalUrl(process.env.NEXT_PUBLIC_GITHUB_URL) },
+  { label: "LinkedIn", href: LINKEDIN_URL },
+  { label: "X", href: getMeaningfulExternalUrl(process.env.NEXT_PUBLIC_X_URL) }
+].filter((item): item is { label: string; href: string } => Boolean(item.href));

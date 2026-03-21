@@ -72,7 +72,7 @@ export function ContactForm() {
       className="panel relative overflow-hidden space-y-6 p-6 md:p-8"
       onSubmit={onSubmit}
     >
-      <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-accent/14 blur-xl" />
+      <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-accent/10 blur-lg" />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="form-label">

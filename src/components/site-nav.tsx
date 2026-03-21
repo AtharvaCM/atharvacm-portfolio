@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -60,44 +59,37 @@ export function SiteNav() {
           </button>
         </div>
 
-        <AnimatePresence>
-          {open ? (
-            <motion.div
-              animate={{ opacity: 1, y: 0 }}
-              className="panel mt-3 p-4 md:hidden"
-              exit={{ opacity: 0, y: -12 }}
-              initial={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-            >
-              <nav className="flex flex-col gap-2" aria-label="Mobile Primary">
-                {NAV_ITEMS.map((item, index) => {
-                  const active = pathname === item.href;
-                  return (
-                    <motion.div
-                      animate={{ opacity: 1, x: 0 }}
-                      initial={{ opacity: 0, x: -14 }}
-                      key={item.href}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <Link
-                        className={cn(
-                          "block rounded-2xl border px-4 py-3 font-display text-3xl tracking-tight transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 focus-visible:ring-offset-2",
-                          active
-                            ? "border-accent bg-accent text-white"
-                            : "border-border/65 bg-surface/65 text-text hover:border-accent/35 hover:bg-accent/8 hover:text-accent"
-                        )}
-                        href={item.href}
-                        onClick={() => setOpen(false)}
-                      >
-                        {item.label}
-                      </Link>
-                    </motion.div>
-                  );
-                })}
-              </nav>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
+        <div
+          className={cn(
+            "overflow-hidden transition-[max-height,opacity,transform,margin] duration-200 ease-out md:hidden",
+            open
+              ? "mt-3 max-h-96 opacity-100"
+              : "max-h-0 -translate-y-2 opacity-0 pointer-events-none"
+          )}
+        >
+          <div className="panel p-4">
+            <nav className="flex flex-col gap-2" aria-label="Mobile Primary">
+              {NAV_ITEMS.map((item) => {
+                const active = pathname === item.href;
+                return (
+                  <Link
+                    className={cn(
+                      "block rounded-2xl border px-4 py-3 font-display text-3xl tracking-tight transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 focus-visible:ring-offset-2",
+                      active
+                        ? "border-accent bg-accent text-white"
+                        : "border-border/65 bg-surface/65 text-text hover:border-accent/35 hover:bg-accent/8 hover:text-accent"
+                    )}
+                    href={item.href}
+                    key={item.href}
+                    onClick={() => setOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
       </div>
     </header>
   );
