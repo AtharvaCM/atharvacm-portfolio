@@ -9,22 +9,22 @@ type TechnologyGroup = {
 const TECHNOLOGY_GROUPS: TechnologyGroup[] = [
   {
     title: "Interface systems",
-    summary: "For product surfaces, component architecture, and resilient UI composition.",
+    summary: "For responsive, scalable product surfaces.",
     items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Design systems"]
   },
   {
     title: "Application layer",
-    summary: "For state ownership, content modeling, and predictable application behavior.",
+    summary: "For state, content, and app composition.",
     items: ["Node.js", "NestJS", "GraphQL", "Sanity CMS", "Prisma"]
   },
   {
     title: "Data workflows",
-    summary: "For APIs, persistence, and end-to-end product delivery when the front-end boundary moves.",
+    summary: "For APIs, persistence, and backend delivery.",
     items: ["PostgreSQL", "MySQL", "MongoDB", "Python", "Django"]
   },
   {
     title: "Delivery stack",
-    summary: "For shipping, observability, release flow, and designer-engineer collaboration.",
+    summary: "For shipping, iteration, and design handoff.",
     items: ["AWS", "Docker", "Vercel", "GitHub", "Figma"]
   }
 ];
@@ -37,17 +37,17 @@ export function TechnologiesSection() {
           <div>
             <p className="eyebrow inline-flex items-center gap-2">
               <FiCode aria-hidden className="h-3.5 w-3.5" />
-              Working stack
+              Tech stack
             </p>
             <h2 className="section-heading mt-4 max-w-4xl">
-              The stack is chosen for <span className="text-accent">clarity</span>,{" "}
-              <span className="text-accent">speed</span>, and long-term delivery.
+              <span className="text-accent">Technologies</span>{" "}
+              <span className="text-text">I use</span>
             </h2>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-text/70">
-            I treat tools as levers, not branding. The priority is always the
-            same: ship high-quality interfaces that stay maintainable as product
-            scope changes.
+            Front-end is my primary focus, but I work full stack across APIs,
+            databases, and cloud delivery when products need end-to-end
+            ownership.
           </p>
         </div>
 

@@ -32,13 +32,15 @@ body {
   background:
     linear-gradient(to right, hsl(var(--text) / 0.006) 1px, transparent 1px),
     linear-gradient(to bottom, hsl(var(--text) / 0.006) 1px, transparent 1px),
-    radial-gradient(circle at 18% 24%, hsl(var(--accent) / 0.12), transparent 32%),
-    radial-gradient(circle at 82% 10%, hsl(18 75% 62% / 0.12), transparent 28%),
-    radial-gradient(72% 58% at 82% 100%, hsl(var(--accent) / 0.08), transparent 54%),
+    radial-gradient(circle at 16% 22%, hsl(var(--accent) / 0.13), transparent 32%),
+    radial-gradient(circle at 82% 12%, hsl(18 75% 62% / 0.13), transparent 28%),
+    radial-gradient(70% 56% at 84% 100%, hsl(var(--accent) / 0.08), transparent 54%),
+    radial-gradient(circle at 52% 0%, hsl(var(--text) / 0.018), transparent 38%),
     linear-gradient(180deg, hsl(var(--surface)), hsl(var(--bg)));
   background-size:
-    84px 84px,
-    84px 84px,
+    92px 92px,
+    92px 92px,
+    auto,
     auto,
     auto,
     auto,
@@ -60,25 +62,26 @@ a {
 
 @layer components {
   .shell {
-    @apply mx-auto w-full max-w-[1280px] px-4 md:px-8;
+    @apply mx-auto w-full max-w-[1320px] px-4 md:px-8;
   }
 
   .panel {
-    @apply rounded-[1.75rem] border border-border/60 shadow-[0_10px_28px_-20px_hsl(var(--text)/0.16)];
-    background-color: hsl(var(--surface) / 0.96);
+    @apply rounded-[1.75rem] border border-border/60 shadow-[0_28px_90px_-58px_hsl(var(--text)/0.38)];
+    background-color: hsl(var(--surface) / 0.82);
     background-image: linear-gradient(
       150deg,
-      hsl(var(--surface) / 0.99),
-      hsl(var(--surface-soft) / 0.94)
+      hsl(var(--surface) / 0.98),
+      hsl(var(--surface-soft) / 0.88)
     );
+    backdrop-filter: blur(16px);
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold tracking-[0.03em] text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[hsl(var(--accent-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold tracking-[0.03em] text-white shadow-[0_18px_40px_-24px_hsl(var(--accent)/0.9)] transition duration-300 hover:-translate-y-0.5 hover:bg-[hsl(var(--accent-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-border bg-surface/95 px-6 py-3 text-sm font-semibold tracking-[0.03em] text-text transition duration-300 hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-full border border-border bg-surface/90 px-6 py-3 text-sm font-semibold tracking-[0.03em] text-text transition duration-300 hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
   }
 
   .eyebrow {
@@ -127,6 +130,11 @@ a {
 
   .form-textarea {
     @apply min-h-40 resize-y leading-relaxed;
+  }
+
+  .content-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 900px;
   }
 }
 
@@ -217,5 +225,12 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@supports not (content-visibility: auto) {
+  .content-auto {
+    content-visibility: visible;
+    contain-intrinsic-size: auto;
   }
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { SITE_NAME } from "@/lib/constants";
+import { RESUME_URL, SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: `Resume - ${SITE_NAME}`,
@@ -43,7 +43,7 @@ const skills = [
 ];
 
 export default function ResumePage() {
-  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL ?? "#";
+  const resumeUrl = RESUME_URL;
 
   return (
     <section className="shell py-16 md:py-20">
@@ -52,14 +52,16 @@ export default function ResumePage() {
         Experience and technical profile.
       </h1>
       <p className="mt-4 max-w-2xl text-text/72">
-        Product-focused front-end engineer with experience building reliable, high-performance interfaces for teams and
-        users at scale.
+        Product-focused front-end engineer with experience building reliable,
+        high-performance interfaces for teams and users at scale.
       </p>
 
       <div className="mt-8 flex flex-wrap gap-3">
-        <Link className="btn-primary" href={resumeUrl} rel="noreferrer" target="_blank">
-          Download PDF Resume
-        </Link>
+        {resumeUrl ? (
+          <Link className="btn-primary" href={resumeUrl} rel="noreferrer" target="_blank">
+            Download PDF Resume
+          </Link>
+        ) : null}
         <Link className="btn-secondary" href="/contact">
           Contact
         </Link>

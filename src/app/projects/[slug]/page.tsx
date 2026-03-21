@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { MdxRenderer } from "@/components/mdx-renderer";
 import { getAllProjects, getProjectBySlug, getProjectSlugs } from "@/lib/content";
 import { SITE_NAME } from "@/lib/constants";
+import { getMeaningfulExternalUrl } from "@/lib/utils";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -43,6 +44,8 @@ export default async function ProjectDetailPage({ params }: Props) {
   const next = currentIndex >= 0 && currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : null;
   const showNavigation = Boolean(previous || next);
   const navLayoutClass = previous && next ? "md:grid-cols-2" : "md:grid-cols-1";
+  const liveUrl = getMeaningfulExternalUrl(project.liveUrl);
+  const repoUrl = getMeaningfulExternalUrl(project.repoUrl);
 
   return (
     <article className="shell py-16 md:py-20">
@@ -125,13 +128,13 @@ export default async function ProjectDetailPage({ params }: Props) {
           ))}
         </ul>
         <div className="mt-6 flex flex-wrap gap-3">
-          {project.liveUrl ? (
-            <Link className="btn-primary" href={project.liveUrl} rel="noreferrer" target="_blank">
+          {liveUrl ? (
+            <Link className="btn-primary" href={liveUrl} rel="noreferrer" target="_blank">
               Visit live
             </Link>
           ) : null}
-          {project.repoUrl ? (
-            <Link className="btn-secondary" href={project.repoUrl} rel="noreferrer" target="_blank">
+          {repoUrl ? (
+            <Link className="btn-secondary" href={repoUrl} rel="noreferrer" target="_blank">
               View repo
             </Link>
           ) : null}

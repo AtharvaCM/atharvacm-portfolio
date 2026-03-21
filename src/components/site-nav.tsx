@@ -14,14 +14,16 @@ export function SiteNav() {
   return (
     <header className="sticky top-3 z-50">
       <div className="shell">
-        <div className="panel relative flex h-[4.85rem] items-center justify-between px-4 md:px-6">
+        <div className="panel relative flex h-[5.2rem] items-center justify-between px-4 md:px-6">
           <div className="subtle-rule pointer-events-none absolute inset-x-6 bottom-0" />
 
           <Link
-            className="link-display rounded-md text-3xl leading-none md:text-[2.1rem] focus-visible:ring-offset-0"
+            className="rounded-md focus-visible:ring-offset-0"
             href="/"
           >
-            Atharva CM
+            <span className="block font-display text-3xl leading-none tracking-tight text-text transition duration-300 hover:text-accent md:text-[2.1rem]">
+              Atharva CM
+            </span>
           </Link>
 
           <nav className="hidden items-center gap-2 md:flex" aria-label="Primary">
@@ -47,7 +49,7 @@ export function SiteNav() {
           <button
             aria-expanded={open}
             aria-label="Toggle navigation"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-text md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface/80 text-text md:hidden"
             onClick={() => setOpen((value) => !value)}
             type="button"
           >
