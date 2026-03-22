@@ -1,93 +1,102 @@
 import Link from "next/link";
 import { FiBriefcase, FiGrid, FiStar, FiZap } from "react-icons/fi";
 
-const HERO_SIGNALS = [
-  {
-    label: "Experience",
-    value: "5+ yrs",
-    description:
-      "Front-end and product engineering across SaaS, internal tools, and customer-facing platforms.",
-    icon: FiBriefcase
-  },
-  {
-    label: "Projects",
-    value: "40+",
-    description: "Delivered across SaaS, platform, commerce, and AI contexts.",
-    icon: FiGrid
-  },
-  {
-    label: "Core strengths",
-    value: "UI + DX",
-    description:
-      "Design systems, motion, and performance-driven front-end architecture.",
-    icon: FiZap
-  }
-] as const;
+import { RESUME_URL } from "@/lib/constants";
+import {
+  AVAILABILITY_NOTE,
+  HERO_BADGES,
+  HERO_PROOF_POINTS
+} from "@/lib/profile-content";
+
+const HERO_SIGNAL_ICONS = [FiBriefcase, FiGrid, FiZap, FiStar];
 
 export function Hero() {
+  const resumeHref = RESUME_URL ?? "/resume";
+  const resumeTarget = RESUME_URL ? "_blank" : undefined;
+  const resumeRel = RESUME_URL ? "noreferrer" : undefined;
+
   return (
-    <section className="relative overflow-hidden pb-16 pt-14 md:pb-24 md:pt-20">
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]">
-        <div className="absolute left-1/2 top-[-220px] h-[640px] w-[145vw] -translate-x-1/2 rounded-[100%] bg-[radial-gradient(ellipse_at_center,hsl(var(--accent)_/_0.2),transparent_60%)]" />
-        <div className="absolute left-[8%] top-28 h-52 w-52 rounded-full border border-accent/16 bg-accent/10 blur-2xl" />
-        <div className="absolute right-[8%] top-24 h-40 w-40 rounded-full border border-accent/18 bg-[hsl(18_78%_60%_/_0.14)] blur-2xl" />
+    <section className="relative overflow-hidden pb-14 pt-12 md:pb-20 md:pt-16">
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[440px]">
+        <div className="absolute left-1/2 top-[-180px] h-[420px] w-[72rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,hsl(var(--accent)_/_0.12),transparent_62%)]" />
+        <div className="absolute inset-x-[6%] top-0 h-[340px] rounded-[2.2rem] bg-[linear-gradient(180deg,hsl(var(--surface)_/_0.42),transparent_82%)]" />
       </div>
 
       <div className="shell">
-        <div>
-          <p className="eyebrow inline-flex items-center gap-2">
-            <FiStar aria-hidden className="h-3.5 w-3.5" />
-            Product Storytelling • Performance • Motion
-          </p>
+        <div className="mx-auto max-w-[71rem]">
+          <div className="max-w-[64rem]">
+            <p className="eyebrow inline-flex items-center gap-2">
+              <FiStar aria-hidden className="h-3.5 w-3.5 text-accent/80" />
+              Frontend Architecture • Performance • Product Delivery
+            </p>
 
-          <h1 className="mt-6 max-w-5xl font-display text-[clamp(3.2rem,8vw,7.35rem)] leading-[0.88] tracking-tight">
-            <span className="inline-block">Building</span>{" "}
-            <span className="inline-block text-accent">scalable</span>{" "}
-            <span className="inline-block">front-end</span>{" "}
-            <span className="inline-block">systems</span>{" "}
-            <span className="inline-block">for</span>{" "}
-            <span className="inline-block">real</span>{" "}
-            <span className="inline-block">products</span>
-          </h1>
+            <h1 className="mt-5 font-display text-[clamp(3.65rem,8vw,7.15rem)] leading-[0.8] tracking-[-0.02em]">
+              <span className="block md:whitespace-nowrap">
+                Senior Frontend Engineer
+              </span>
+              <span className="mt-1 block text-accent">
+                building scalable
+              </span>
+              <span className="mt-1 block md:whitespace-nowrap">
+                product systems
+              </span>
+            </h1>
 
-          <p className="mt-7 max-w-2xl text-balance text-base leading-relaxed text-text/75 md:text-lg">
-            I&apos;m a front-end / product engineer with 5+ years building and
-            maintaining production systems in React, Next.js, and TypeScript. I
-            focus on performance, maintainability, and shipping work that
-            actually gets used.
-          </p>
+            <p className="mt-7 max-w-[43rem] text-balance text-base leading-7 text-text/74 md:text-[1.05rem]">
+              I build high-performance React and Next.js applications with a
+              strong focus on architecture, maintainability, and shipping work
+              that survives real production use.
+            </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <Link className="btn-primary" href="/projects">
-              View projects
-            </Link>
-            <Link className="btn-secondary" href="/resume">
-              View resume
-            </Link>
-            <Link className="link-inline" href="/blog">
-              Read latest insights
-            </Link>
+            <div className="mt-9 flex flex-wrap items-center gap-3.5">
+              <Link className="btn-primary" href="/projects">
+                View projects
+              </Link>
+              <Link className="btn-secondary" href={resumeHref} rel={resumeRel} target={resumeTarget}>
+                Download Resume
+              </Link>
+              <Link className="link-inline" href="/contact">
+                Contact Me
+              </Link>
+            </div>
+
+            <p className="mt-5 text-sm font-medium leading-7 text-text/68">
+              {AVAILABILITY_NOTE}
+            </p>
+
+            <ul className="mt-7 flex flex-wrap gap-2 text-[11px] text-text/70">
+              {HERO_BADGES.map((badge) => (
+                <li className="tag-chip font-semibold tracking-[0.06em]" key={badge}>
+                  {badge}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            {HERO_SIGNALS.map((signal) => {
-              const Icon = signal.icon;
+          <div className="mt-12 overflow-hidden rounded-[1.45rem] border border-border/65 bg-border/65 shadow-[0_22px_54px_-40px_hsl(var(--text)/0.18)]">
+            <div className="grid gap-px sm:grid-cols-2 xl:grid-cols-4">
+              {HERO_PROOF_POINTS.map((signal, index) => {
+                const Icon = HERO_SIGNAL_ICONS[index] ?? FiBriefcase;
 
-              return (
-                <article className="panel h-full p-5 md:p-6" key={signal.label}>
-                  <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-text/55">
-                    <Icon aria-hidden className="h-3.5 w-3.5 text-accent/70" />
-                    {signal.label}
-                  </p>
-                  <p className="mt-3 font-display text-[2.3rem] leading-[0.92] tracking-tight text-text">
-                    {signal.value}
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-text/68">
-                    {signal.description}
-                  </p>
-                </article>
-              );
-            })}
+                return (
+                  <article
+                    className="bg-[hsl(var(--surface)/0.96)] p-5 md:p-6"
+                    key={signal.label}
+                  >
+                    <p className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-text/52">
+                      <Icon aria-hidden className="h-3.5 w-3.5 text-accent/75" />
+                      {signal.label}
+                    </p>
+                    <p className="mt-3 font-display text-[1.75rem] leading-[0.96] tracking-tight text-text md:text-[1.95rem]">
+                      {signal.value}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-text/66">
+                      {signal.description}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,59 @@
+---
+title: Sprih Supply Chain and Reporting Systems
+slug: sprih-supply-chain-reporting-systems
+excerpt: Owned frontend architecture and delivery for reporting and supply chain workflows in a React monorepo, including vendor analytics, permissions, dashboard flows, and schema-driven forms.
+context: React monorepo powering reporting and supply chain modules used for operational workflows, analytics, and internal product teams.
+problem: The product had complex data flows, permissions, and form logic that needed to stay maintainable as modules expanded and reporting requirements grew.
+contribution: Led frontend architecture and delivery across reporting and supply chain surfaces, introduced reusable hooks, schema-driven validation with Zod and jsonLogic, scalable RTK Query integrations, and Playwright coverage for critical flows.
+impact: The modules became easier to extend, safer to release, and more efficient to load, with bundle size reduced from roughly 7 MB to modular KB-level chunks.
+metricHighlights:
+  - Reduced bundle size from roughly 7 MB to modular KB-level chunks
+  - Added Playwright E2E coverage for critical flows
+  - Improved release confidence for data-heavy dashboard workflows
+coverImage: /images/projects/aurora.svg
+year: 2026
+client: Sprih
+role: Member of Technical Staff
+services:
+  - Frontend architecture
+  - Reporting systems
+  - Supply chain dashboards
+  - Performance optimization
+techStack:
+  - React
+  - TypeScript
+  - Monorepo
+  - RTK Query
+  - Zod
+  - jsonLogic
+  - Playwright
+  - Performance
+category: platform
+duration: Ongoing
+outcomes:
+  - Improved maintainability of large reporting flows
+  - Enabled more scalable API integration patterns
+  - Increased release confidence with Playwright E2E coverage
+  - Improved load behavior through code splitting and dependency optimization
+featured: true
+---
+
+## Overview
+
+This work sits inside a live production product, so the details here stay at the systems level rather than exposing internal implementation specifics. The core responsibility was owning frontend architecture and delivery for reporting and supply chain modules in a growing React monorepo.
+
+## What I worked on
+
+- Dashboard workflows for assignments, permissions, vendor analytics, and reporting.
+- Reusable hooks and API integration patterns with Redux Toolkit and RTK Query.
+- Schema-driven validation with Zod and jsonLogic for dynamic form flows.
+- Playwright coverage for critical user paths.
+- Bundle reduction through code splitting, lazy loading, and dependency cleanup.
+
+## Why this mattered
+
+The product surface was getting more complex over time, which meant feature work had to stay fast without turning the frontend into a collection of one-off flows. The architectural work here was about keeping the system understandable while still shipping quickly.
+
+## Engineering notes
+
+I also worked through cross-browser issues and improved observability with structured logging so bugs were easier to trace in production. That made the system more predictable to support, not just easier to demo.

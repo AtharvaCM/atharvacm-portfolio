@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { SITE_NAME } from "@/lib/constants";
+import { buildMetadata } from "@/lib/seo";
 import { getMeaningfulEmail } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: `Terms - ${SITE_NAME}`,
-  description: "Terms and usage conditions for this website."
-};
+export const metadata: Metadata = buildMetadata({
+  title: `Terms | ${SITE_NAME}`,
+  description: "Terms and usage conditions for the Atharva Mahamuni portfolio website.",
+  path: "/terms"
+});
 
 export default function TermsPage() {
   const contactEmail = getMeaningfulEmail(

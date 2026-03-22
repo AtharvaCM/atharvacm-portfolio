@@ -3,10 +3,10 @@ import { __resetRateLimitStoreForTests, handleContactSubmission } from "@/lib/co
 const validInput = {
   name: "Ada Lovelace",
   email: "ada@example.com",
-  opportunityType: "Senior front-end engineer role",
+  opportunityType: "Senior frontend engineer role",
   companyContext: "Growth stage (50-500)",
   connectTimeline: "This month",
-  message: "I am reaching out about a senior front-end role and wanted to discuss team fit.",
+  message: "I am reaching out about a senior frontend role and wanted to discuss team fit.",
   website: ""
 };
 

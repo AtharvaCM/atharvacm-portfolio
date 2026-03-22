@@ -6,14 +6,14 @@
   --font-display:
     "Cormorant Garamond", "Bookman Old Style", "Times New Roman", serif;
   --font-sans: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
-  --bg: 33 38% 93%;
-  --surface: 34 42% 97%;
-  --surface-soft: 31 33% 95%;
-  --muted: 30 22% 86%;
-  --text: 14 23% 15%;
-  --accent: 7 78% 45%;
-  --accent-strong: 7 85% 37%;
-  --border: 23 20% 76%;
+  --bg: 32 23% 95%;
+  --surface: 34 30% 98%;
+  --surface-soft: 33 21% 96%;
+  --muted: 31 14% 89%;
+  --text: 14 18% 13%;
+  --accent: 8 72% 42%;
+  --accent-strong: 8 78% 35%;
+  --border: 24 16% 81%;
 }
 
 * {
@@ -30,21 +30,11 @@ body {
   position: relative;
   overflow-x: clip;
   background:
-    linear-gradient(to right, hsl(var(--text) / 0.006) 1px, transparent 1px),
-    linear-gradient(to bottom, hsl(var(--text) / 0.006) 1px, transparent 1px),
-    radial-gradient(circle at 16% 22%, hsl(var(--accent) / 0.13), transparent 32%),
-    radial-gradient(circle at 82% 12%, hsl(18 75% 62% / 0.13), transparent 28%),
-    radial-gradient(70% 56% at 84% 100%, hsl(var(--accent) / 0.08), transparent 54%),
-    radial-gradient(circle at 52% 0%, hsl(var(--text) / 0.018), transparent 38%),
+    linear-gradient(180deg, hsl(0 0% 100% / 0.48), transparent 18%),
+    radial-gradient(80% 48% at 50% 0%, hsl(var(--accent) / 0.09), transparent 58%),
+    radial-gradient(54% 32% at 100% 0%, hsl(var(--text) / 0.028), transparent 56%),
+    radial-gradient(40% 26% at 0% 12%, hsl(var(--accent) / 0.035), transparent 62%),
     linear-gradient(180deg, hsl(var(--surface)), hsl(var(--bg)));
-  background-size:
-    92px 92px,
-    92px 92px,
-    auto,
-    auto,
-    auto,
-    auto,
-    auto;
 }
 
 main {
@@ -62,46 +52,58 @@ a {
 
 @layer components {
   .shell {
-    @apply mx-auto w-full max-w-[1320px] px-4 md:px-8;
+    @apply mx-auto w-full max-w-[1240px] px-5 md:px-8 lg:px-10;
   }
 
   .panel {
-    @apply rounded-[1.75rem] border border-border/60 shadow-[0_28px_90px_-58px_hsl(var(--text)/0.38)];
-    background-color: hsl(var(--surface) / 0.82);
+    @apply rounded-[1.45rem] border;
+    border-color: hsl(var(--border) / 0.65);
+    background-color: hsl(var(--surface) / 0.94);
     background-image: linear-gradient(
-      150deg,
+      180deg,
       hsl(var(--surface) / 0.98),
-      hsl(var(--surface-soft) / 0.88)
+      hsl(var(--surface-soft) / 0.92)
     );
-    backdrop-filter: blur(16px);
+    box-shadow:
+      0 22px 54px -40px hsl(var(--text) / 0.18),
+      inset 0 1px 0 hsl(0 0% 100% / 0.55);
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold tracking-[0.03em] text-white shadow-[0_18px_40px_-24px_hsl(var(--accent)/0.9)] transition duration-300 hover:-translate-y-0.5 hover:bg-[hsl(var(--accent-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-[13px] font-semibold tracking-[0.02em] text-white shadow-[0_16px_34px_-24px_hsl(var(--accent)/0.75)] transition duration-200 hover:bg-[hsl(var(--accent-strong))] hover:shadow-[0_20px_38px_-24px_hsl(var(--accent)/0.68)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-border bg-surface/90 px-6 py-3 text-sm font-semibold tracking-[0.03em] text-text transition duration-300 hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-full border bg-surface px-5 py-3 text-[13px] font-semibold tracking-[0.02em] text-text transition duration-200 hover:border-accent hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
+    border-color: hsl(var(--border) / 0.85);
   }
 
   .eyebrow {
-    @apply font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-accent;
+    @apply font-sans text-[10px] font-semibold uppercase tracking-[0.18em];
+    color: hsl(var(--text) / 0.6);
   }
 
   .section-heading {
-    @apply font-display text-[clamp(2.2rem,4.8vw,4.4rem)] leading-[0.95] tracking-tight;
+    @apply font-display text-[clamp(2rem,4.3vw,3.85rem)] leading-[0.96] tracking-tight;
   }
 
   .subtle-rule {
-    @apply h-px w-full bg-gradient-to-r from-accent/40 via-border/70 to-transparent;
+    @apply h-px w-full;
+    background-image: linear-gradient(
+      90deg,
+      hsl(var(--text) / 0.1),
+      hsl(var(--border) / 0.8),
+      transparent
+    );
   }
 
   .link-inline {
-    @apply relative inline-flex items-center text-sm font-medium text-text/75 transition duration-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-offset-2;
+    @apply relative inline-flex items-center text-sm font-medium transition duration-200 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
+    color: hsl(var(--text) / 0.72);
   }
 
   .link-inline-accent {
-    @apply relative inline-flex items-center text-sm font-semibold text-accent transition duration-300 hover:text-[hsl(var(--accent-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-offset-2;
+    @apply relative inline-flex items-center text-sm font-semibold text-accent transition duration-200 hover:text-[hsl(var(--accent-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
   }
 
   .link-action {
@@ -109,23 +111,25 @@ a {
   }
 
   .link-display {
-    @apply relative inline-flex font-display tracking-tight text-text transition duration-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-offset-2;
+    @apply relative inline-flex font-display tracking-tight text-text transition duration-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
   }
 
   .form-label {
-    @apply block text-[11px] font-semibold uppercase tracking-[0.12em] text-text/60;
+    @apply block text-[11px] font-semibold uppercase tracking-[0.12em];
+    color: hsl(var(--text) / 0.6);
   }
 
   .form-input,
   .form-select,
   .form-textarea {
-    @apply w-full rounded-2xl border border-border/70 bg-surface/95 px-4 py-3 text-sm text-text shadow-[inset_0_1px_0_hsl(var(--surface)/0.95)] transition duration-300 placeholder:text-text/40 focus-visible:border-accent/50 focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/25;
+    @apply w-full rounded-2xl border bg-surface px-4 py-3 text-sm text-text shadow-[inset_0_1px_0_hsl(var(--surface)/0.95)] transition duration-300 focus-visible:border-accent focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent;
+    border-color: hsl(var(--border) / 0.7);
   }
 
   .form-input:hover,
   .form-select:hover,
   .form-textarea:hover {
-    @apply border-accent/30;
+    @apply border-accent;
   }
 
   .form-textarea {
@@ -135,6 +139,23 @@ a {
   .content-auto {
     content-visibility: auto;
     contain-intrinsic-size: 1px 900px;
+  }
+
+  .tag-chip {
+    @apply rounded-full border bg-surface px-3 py-1.5 text-[11px] font-medium tracking-[0.03em];
+    border-color: hsl(var(--border) / 0.75);
+    color: hsl(var(--text) / 0.68);
+  }
+
+  .meta-chip {
+    @apply inline-flex items-center rounded-full border bg-surface px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em];
+    border-color: hsl(var(--border) / 0.75);
+    color: hsl(var(--text) / 0.58);
+  }
+
+  .section-copy {
+    @apply max-w-[66ch] text-sm leading-7 md:text-[15px];
+    color: hsl(var(--text) / 0.72);
   }
 }
 
@@ -158,7 +179,7 @@ a {
 
 .link-inline::after,
 .link-display::after {
-  background: linear-gradient(90deg, hsl(var(--accent) / 0.7), transparent 92%);
+  background: linear-gradient(90deg, hsl(var(--accent) / 0.58), transparent 92%);
 }
 
 .link-inline-accent::after {
@@ -215,6 +236,11 @@ a {
 .form-select option {
   background: hsl(var(--surface));
   color: hsl(var(--text));
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: hsl(var(--text) / 0.4);
 }
 
 @media (prefers-reduced-motion: reduce) {

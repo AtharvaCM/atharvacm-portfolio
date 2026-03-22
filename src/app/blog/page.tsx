@@ -5,11 +5,20 @@ import { AnimatedSection } from "@/components/animated-section";
 import { BlogCard } from "@/components/blog-card";
 import { BLOG_PAGE_SIZE, SITE_NAME } from "@/lib/constants";
 import { filterPostsByTag, getAllBlogPosts, getAllTags, paginatePosts } from "@/lib/content";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Blog - ${SITE_NAME}`,
-  description: "Writing about design systems, performance, interaction, and creative development craft."
-};
+export const metadata: Metadata = buildMetadata({
+  title: `Blog | ${SITE_NAME}`,
+  description:
+    "Writing about frontend architecture, performance, testing, and practical product engineering.",
+  path: "/blog",
+  keywords: [
+    "Frontend Architecture",
+    "Performance Optimization",
+    "React",
+    "Next.js"
+  ]
+});
 
 function buildTagHref(tag?: string) {
   if (!tag) {
@@ -46,7 +55,8 @@ export default async function BlogPage({
           <p className="eyebrow">Blog</p>
           <h1 className="mt-5 font-display text-[clamp(2.5rem,6vw,5rem)] tracking-tight">Insights and notes</h1>
           <p className="mt-4 max-w-2xl text-text/70">
-            Essays on interaction design, creative engineering, and strategy behind premium web experiences.
+            Notes on frontend architecture, performance, testing, and the engineering decisions behind maintainable
+            product systems.
           </p>
         </div>
         <Link className="btn-secondary" href="/rss.xml">

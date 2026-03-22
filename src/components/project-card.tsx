@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { PROJECT_CATEGORY_LABELS } from "@/lib/constants";
 import type { ProjectMeta } from "@/lib/types";
 
 type Props = {
@@ -9,44 +10,50 @@ type Props = {
 
 export function ProjectCard({ project }: Props) {
   return (
-    <article className="panel group h-full overflow-hidden p-5 transition duration-300 hover:-translate-y-1 hover:border-accent/45 hover:shadow-[0_34px_90px_-52px_hsl(var(--accent)/0.58)] md:p-6">
-      <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-2xl border border-border/60">
+    <article className="panel group h-full overflow-hidden p-5 transition duration-200 hover:border-border/90 hover:shadow-[0_26px_56px_-40px_hsl(var(--text)/0.18)] md:p-6">
+      <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-[1.2rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.72)]">
         <Image
           alt={project.title}
-          className="object-cover transition duration-700 group-hover:scale-105"
+          className="object-cover transition duration-500 group-hover:scale-[1.02]"
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           src={project.coverImage}
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-text/35 via-transparent to-transparent" />
-        <div className="absolute left-3 top-3 rounded-full bg-surface/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-text/70">
-          {project.category}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-text/22 via-transparent to-transparent" />
+        <div className="absolute left-3 top-3">
+          <span className="meta-chip">
+          {PROJECT_CATEGORY_LABELS[project.category]}
+          </span>
         </div>
       </div>
 
-      <div className="mb-4 flex items-center justify-between text-[11px] uppercase tracking-[0.14em] text-text/55">
+      <div className="mb-4 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.16em] text-text/52">
         <span>{project.year}</span>
         <span>{project.role}</span>
       </div>
 
-      <h3 className="font-display text-[2.1rem] leading-[0.95] tracking-tight">
+      <h3 className="max-w-[15ch] font-display text-[2rem] leading-[0.95] tracking-tight">
         <Link className="link-display text-[inherit]" href={`/projects/${project.slug}`}>
           {project.title}
         </Link>
       </h3>
 
-      <p className="mt-4 text-sm leading-relaxed text-text/70">{project.excerpt}</p>
+      <p className="mt-4 text-sm leading-7 text-text/70">{project.excerpt}</p>
+
+      <p className="mt-4 border-t border-border/65 pt-4 text-sm leading-6 text-text/65">
+        {project.metricHighlights[0]}
+      </p>
 
       <ul className="mt-5 flex flex-wrap gap-2 text-[11px] text-text/68">
         {project.techStack.slice(0, 4).map((tech) => (
-          <li className="rounded-full border border-border/75 bg-bg/60 px-3 py-1" key={tech}>
+          <li className="tag-chip" key={tech}>
             {tech}
           </li>
         ))}
       </ul>
 
       <Link className="link-action mt-7" href={`/projects/${project.slug}`}>
-        Read case study <span aria-hidden>-&gt;</span>
+        View project details <span aria-hidden>-&gt;</span>
       </Link>
     </article>
   );

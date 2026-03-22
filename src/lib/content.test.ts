@@ -24,7 +24,7 @@ services:
   - Design
 techStack:
   - Next.js
-category: web
+category: platform
 outcomes:
   - Better conversion
 featured: true
@@ -80,7 +80,7 @@ describe("project filters", () => {
       role: "role",
       services: ["service"],
       techStack: ["Next.js"],
-      category: "web" as const,
+      category: "platform" as const,
       outcomes: ["outcome"],
       featured: true
     },
@@ -98,14 +98,14 @@ describe("project filters", () => {
       role: "role",
       services: ["service"],
       techStack: ["React Native"],
-      category: "mobile" as const,
+      category: "full-stack" as const,
       outcomes: ["outcome"],
       featured: false
     }
   ];
 
   it("filters by category", () => {
-    expect(filterProjects(projects, "web", undefined)).toHaveLength(1);
+    expect(filterProjects(projects, "platform", undefined)).toHaveLength(1);
   });
 
   it("filters by tech case-insensitively", () => {

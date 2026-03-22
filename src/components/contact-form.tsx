@@ -59,7 +59,7 @@ export function ContactForm() {
       }
 
       setStatus("success");
-      setMessage("Message sent. I will get back to you soon.");
+      setMessage("Message sent. I will get back to you shortly.");
       setForm(initialState);
     } catch {
       setStatus("error");
@@ -167,7 +167,7 @@ export function ContactForm() {
           onChange={(event) =>
             setForm((state) => ({ ...state, message: event.target.value }))
           }
-          placeholder="Share the role context and what you found relevant in my work."
+          placeholder="Share the role, team context, and the systems or product areas you need help owning."
           required
           value={form.message}
         />

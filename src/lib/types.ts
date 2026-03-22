@@ -1,4 +1,4 @@
-export type ProjectCategory = "web" | "mobile" | "ai" | "branding" | "other";
+export type ProjectCategory = "platform" | "frontend" | "full-stack" | "performance" | "other";
 
 export type ProjectMeta = {
   title: string;

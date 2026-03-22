@@ -1,16 +1,22 @@
 import Link from "next/link";
 
-import { NAV_ITEMS, SOCIAL_LINKS } from "@/lib/constants";
+import { NAV_ITEMS, SITE_NAME, SOCIAL_LINKS } from "@/lib/constants";
+import { FOOTER_BIO } from "@/lib/profile-content";
+import { getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
 
 export function SiteFooter() {
   const hasSocialLinks = SOCIAL_LINKS.length > 0;
+  const contactEmail = getMeaningfulEmail(
+    process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
+  );
+  const contactHref = getMailtoHref(
+    process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
+  );
 
   return (
-    <footer className="mt-24 pb-14 pt-10">
+    <footer className="mt-24 pb-14 pt-6">
       <div className="shell">
-        <div className="panel relative overflow-hidden px-6 py-10 md:px-10 md:py-12">
-          <div className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-accent/10 blur-lg" />
-
+        <div className="border-t border-border/65 px-1 pt-10 md:pt-12">
           <div
             className={`grid gap-10 md:items-start ${
               hasSocialLinks ? "md:grid-cols-[1.2fr_1fr_1fr]" : "md:grid-cols-[1.45fr_1fr]"
@@ -18,11 +24,10 @@ export function SiteFooter() {
           >
             <div>
               <p className="font-display text-4xl leading-none tracking-tight md:text-5xl">
-                Atharva CM
+                {SITE_NAME}
               </p>
-              <p className="mt-4 max-w-sm text-sm leading-relaxed text-text/72">
-                Product-focused front-end engineer building scalable,
-                performance-driven web systems.
+              <p className="mt-4 max-w-sm text-sm leading-7 text-text/70">
+                {FOOTER_BIO}
               </p>
             </div>
 
@@ -59,6 +64,13 @@ export function SiteFooter() {
                       </Link>
                     </li>
                   ))}
+                  {contactEmail && contactHref ? (
+                    <li>
+                      <Link className="link-inline" href={contactHref}>
+                        {contactEmail}
+                      </Link>
+                    </li>
+                  ) : null}
                   <li className="pt-2 text-text/65">
                     <Link className="link-inline" href="/privacy">
                       Privacy
@@ -81,6 +93,13 @@ export function SiteFooter() {
                       Contact
                     </Link>
                   </li>
+                  {contactEmail && contactHref ? (
+                    <li>
+                      <Link className="link-inline" href={contactHref}>
+                        {contactEmail}
+                      </Link>
+                    </li>
+                  ) : null}
                   <li className="pt-2 text-text/65">
                     <Link className="link-inline" href="/privacy">
                       Privacy
@@ -95,9 +114,9 @@ export function SiteFooter() {
             )}
           </div>
 
-          <div className="subtle-rule mt-9" />
+          <div className="subtle-rule mt-10" />
           <p className="mt-5 text-xs uppercase tracking-[0.14em] text-text/55">
-            Built with Next.js, MDX, and intentional motion.
+            Built with Next.js, TypeScript, and performance in mind.
           </p>
         </div>
       </div>

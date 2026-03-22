@@ -5,8 +5,10 @@ import { notFound } from "next/navigation";
 import { ArticleProgress } from "@/components/article-progress";
 import { BlogCard } from "@/components/blog-card";
 import { MdxRenderer } from "@/components/mdx-renderer";
+import { StructuredData } from "@/components/structured-data";
 import { getAllBlogPosts, getBlogPostBySlug, getBlogSlugs, getRelatedPosts } from "@/lib/content";
 import { SITE_NAME } from "@/lib/constants";
+import { buildMetadata, getArticleStructuredData } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 type Props = {
@@ -26,10 +28,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
-  return {
-    title: `${post.title} - ${SITE_NAME}`,
-    description: post.excerpt
-  };
+  return buildMetadata({
+    title: `${post.title} | ${SITE_NAME}`,
+    description: post.excerpt,
+    path: `/blog/${post.slug}`,
+    image: post.coverImage,
+    keywords: post.tags,
+    type: "article",
+    publishedTime: post.publishedAt,
+    modifiedTime: post.updatedAt ?? post.publishedAt
+  });
 }
 
 export default async function BlogDetailPage({ params }: Props) {
@@ -45,6 +53,7 @@ export default async function BlogDetailPage({ params }: Props) {
   return (
     <article className="shell py-16 md:py-20">
       <ArticleProgress />
+      <StructuredData data={getArticleStructuredData(post)} />
       <p className="eyebrow">Article</p>
       <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.2rem,5.7vw,4.8rem)] tracking-tight">{post.title}</h1>
       <p className="mt-5 text-sm uppercase tracking-[0.15em] text-text/55">

@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { SITE_NAME } from "@/lib/constants";
+import { buildMetadata } from "@/lib/seo";
 import { getMeaningfulEmail } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: `Privacy Policy - ${SITE_NAME}`,
-  description: "Privacy policy for analytics and contact form submissions."
-};
+export const metadata: Metadata = buildMetadata({
+  title: `Privacy Policy | ${SITE_NAME}`,
+  description: "Privacy policy for analytics, site usage data, and contact form submissions.",
+  path: "/privacy"
+});
 
 export default function PrivacyPage() {
   const contactEmail = getMeaningfulEmail(
