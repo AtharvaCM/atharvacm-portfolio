@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+  publish = ".next"
+
+[build.environment]
+  NEXT_PUBLIC_SITE_URL = "https://atharvacm-portfolio.netlify.app"
+
+[context.production.environment]
+  NEXT_PUBLIC_CLARITY_ID = "vzl3sv6czd"

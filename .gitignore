@@ -27,3 +27,6 @@ pnpm-debug.log*
 # testing
 /coverage
 *.tsbuildinfo
+
+# Local Netlify folder
+.netlify
