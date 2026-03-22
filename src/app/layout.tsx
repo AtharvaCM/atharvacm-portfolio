@@ -48,7 +48,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${fontSans.variable} ${fontDisplay.variable}`}>
+      <body
+        className={`${fontSans.variable} ${fontDisplay.variable}`}
+        suppressHydrationWarning
+      >
         <StructuredData data={getSiteStructuredData()} />
         <SiteNav />
         <main>{children}</main>
