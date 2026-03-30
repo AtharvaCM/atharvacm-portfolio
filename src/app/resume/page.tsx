@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { BadgeLabel } from "@/components/badge-label";
 import { RESUME_URL, SITE_NAME } from "@/lib/constants";
 import { RESUME_EXPERIENCE, RESUME_SKILLS } from "@/lib/profile-content";
 import { buildMetadata } from "@/lib/seo";
@@ -71,7 +72,7 @@ export default function ResumePage() {
         <ul className="mt-5 flex flex-wrap gap-2">
           {RESUME_SKILLS.map((skill) => (
             <li className="tag-chip" key={skill}>
-              {skill}
+              <BadgeLabel label={skill} />
             </li>
           ))}
         </ul>

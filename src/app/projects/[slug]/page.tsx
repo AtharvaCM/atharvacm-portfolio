@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { MdxRenderer } from "@/components/mdx-renderer";
+import { ProjectCoverFrame } from "@/components/project-cover-frame";
 import { StructuredData } from "@/components/structured-data";
 import {
   PROJECT_CATEGORY_LABELS,
@@ -58,6 +58,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   const navLayoutClass = previous && next ? "md:grid-cols-2" : "md:grid-cols-1";
   const liveUrl = getMeaningfulExternalUrl(project.liveUrl);
   const repoUrl = getMeaningfulExternalUrl(project.repoUrl);
+  const coverFit = project.slug === "vehicle-vault-maintenance-platform" ? "contain" : "cover";
 
   return (
     <article className="shell py-16 md:py-20">
@@ -67,16 +68,14 @@ export default async function ProjectDetailPage({ params }: Props) {
       <p className="section-copy mt-6 max-w-[46rem] md:text-base">{project.excerpt}</p>
 
       <div className="panel mt-8 overflow-hidden p-3">
-        <div className="relative aspect-[16/9] overflow-hidden rounded-[1.15rem] border border-border/60 bg-[hsl(var(--surface-soft)/0.72)]">
-          <Image
-            alt={project.title}
-            className="object-cover"
-            fill
-            priority
-            sizes="(min-width: 1024px) 1024px, 100vw"
-            src={project.coverImage}
-          />
-        </div>
+        <ProjectCoverFrame
+          alt={project.title}
+          fit={coverFit}
+          imageClassName="scale-[1.01]"
+          priority
+          sizes="(min-width: 1024px) 1024px, 100vw"
+          src={project.coverImage}
+        />
       </div>
 
       <div className="mt-8 overflow-hidden rounded-[1.45rem] border border-border/65 bg-border/65 shadow-[0_22px_54px_-40px_hsl(var(--text)/0.16)]">

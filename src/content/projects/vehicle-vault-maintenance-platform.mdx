@@ -1,0 +1,62 @@
+---
+title: Vehicle Vault Maintenance Platform
+slug: vehicle-vault-maintenance-platform
+excerpt: Built a full-stack vehicle maintenance platform covering authenticated ownership workflows, maintenance records, reminders, receipt uploads, fuel logs, and a curated vehicle catalog inside a shared monorepo.
+context: Product monorepo with a Vite + React frontend, NestJS API, shared TypeScript contracts, and user-scoped ownership data across vehicles, maintenance history, reminders, attachments, and fuel logs.
+problem: Vehicle ownership data is usually fragmented across notes, invoices, reminders, and spreadsheets. The product needed to become one reliable place for service history, due work, receipts, and supporting analytics without turning the system into a pile of disconnected flows.
+contribution: Built the product end to end across frontend, backend, shared schemas, and deployment paths. Shipped authenticated vehicle, maintenance, reminder, attachment, OCR, fuel-log, and dashboard workflows; expanded the India-first vehicle catalog pipeline; and added regression coverage plus CI for the main garage journey.
+impact: The app now supports the core ownership loop with production-ready auth, storage-backed attachments, OCR-assisted receipt parsing, fuel tracking, automated reminder alerts, and a deployment story that works across Vercel, GHCR, and a self-hosted API runtime.
+metricHighlights:
+  - Shipped end-to-end vehicle, maintenance, reminder, attachment, and fuel-log workflows
+  - Added Gemini-backed receipt OCR and Supabase Storage-backed attachment handling
+  - Covered the main garage journey with GitHub Actions, Vitest, and Playwright smoke tests
+coverImage: /images/projects/vehicle-vault-overview-screenshot.png
+year: 2026
+client: Independent Product
+role: Product Engineer
+services:
+  - Product architecture
+  - Full-stack development
+  - Workflow design
+  - Delivery hardening
+techStack:
+  - React
+  - TypeScript
+  - NestJS
+  - Prisma
+  - PostgreSQL
+  - TanStack Query
+  - TanStack Router
+  - Playwright
+  - Supabase
+category: platform
+duration: Ongoing product build
+outcomes:
+  - Built a single product surface for vehicle ownership, service history, due work, receipts, and fuel tracking
+  - Added production-grade auth, attachment storage, and OCR-assisted receipt capture across the ownership workflow
+  - Expanded the catalog model to support generation-aware and year-aware vehicle data for the India market
+  - Hardened delivery with shared contracts, CI, and regression coverage across the main garage flow
+liveUrl: https://vehicle-vault-eight.vercel.app
+repoUrl: https://github.com/AtharvaCM/vehicle-vault
+featured: false
+---
+
+## Overview
+
+Vehicle Vault is a product-led full-stack build rather than a one-screen CRUD demo. The work spans ownership data modeling, authenticated product flows, deployment, and the operational details needed to make the product usable over time.
+
+## What I built
+
+- Authenticated vehicle, maintenance, reminder, attachment, and dashboard flows.
+- Receipt upload and storage handling with metadata in PostgreSQL and binaries in Supabase Storage.
+- Gemini 1.5 Flash-backed OCR for extracting receipt data into the product workflow.
+- Fuel logging with usage-aware analytics and cost tracking.
+- India-first make/model/variant catalog ingestion with aliases, year-aware offerings, and internal review tooling.
+
+## Engineering focus
+
+The repo is structured as a pnpm monorepo with `apps/web`, `apps/api`, and shared packages for contracts, schemas, and workspace config. On the frontend, the app uses React, TanStack Router, TanStack Query, and shared validation patterns. On the backend, NestJS, Prisma, and PostgreSQL handle user ownership, domain logic, and persistence.
+
+## Delivery and product quality
+
+This project also includes the less visible but important work: GitHub Actions CI, Playwright smoke coverage for the core garage flow, Vercel deployment for the frontend, GHCR publishing for the API image, and a self-hosted runtime path for the backend. That made the product easier to keep moving, not just easier to demo locally.

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BadgeLabel } from "@/components/badge-label";
 import type { BlogPostMeta } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 
@@ -26,7 +27,7 @@ export function BlogCard({ post }: Props) {
       <ul className="mt-5 flex flex-wrap gap-2 text-[11px] text-text/68">
         {post.tags.map((tag) => (
           <li className="tag-chip" key={tag}>
-            {tag}
+            <BadgeLabel label={tag} />
           </li>
         ))}
       </ul>

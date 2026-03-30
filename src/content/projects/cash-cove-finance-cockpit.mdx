@@ -1,0 +1,61 @@
+---
+title: Cash Cove Finance Cockpit
+slug: cash-cove-finance-cockpit
+excerpt: Built a personal finance cockpit for transactions, budgets, reports, subscriptions, funds, and loans, with smart import flows, offline queueing, and automation hooks for Telegram and inbound email parsing.
+context: Single-page finance product built with Vite, React, Redux Toolkit, RTK Query, and Supabase, with Netlify and Supabase functions extending ingestion, notifications, and automation workflows.
+problem: Personal finance tools often force a tradeoff between fast data entry and serious analysis. The product needed better ways to capture transactions from messy real-world inputs while still supporting reports, budgets, subscriptions, loans, and operational control.
+contribution: Built the app shell, route architecture, finance modules, and import workflows across dashboard, transactions, budgets, subscriptions, funds, loans, and reports. Added Smart Paste, PDF statement parsing, Telegram bot ingestion, inbound email parsing, offline transaction queueing, quick templates, and bundle-health regression gates.
+impact: The product evolved from a budget-and-expense tracker into a broader finance workspace with faster input paths, automation-assisted ingestion, and stronger delivery discipline around a large UI surface.
+metricHighlights:
+  - Added Smart Paste, PDF statement parsing, and Telegram or email ingestion paths
+  - Introduced offline transaction queueing with automatic sync and visible status feedback
+  - Reduced startup cost with route-level lazy loading, vendor chunking, and a build regression gate
+coverImage: /images/projects/cash-cove-dashboard-screenshot.png
+year: 2026
+client: Independent Product
+role: Product Engineer
+services:
+  - Product engineering
+  - Import workflows
+  - Offline UX
+  - Build optimization
+techStack:
+  - React
+  - TypeScript
+  - Redux Toolkit
+  - RTK Query
+  - Supabase
+  - Netlify Functions
+  - AG Grid
+  - Recharts
+category: full-stack
+duration: Ongoing product build
+outcomes:
+  - Built a broader finance workspace spanning transactions, budgets, subscriptions, funds, loans, and reports
+  - Made data entry faster through smart text parsing, bulk entry, and template-driven workflows
+  - Added automation hooks for Telegram chat ingestion and inbound email parsing
+  - Improved build health through route-level lazy loading and regression checks tied to bundle changes
+liveUrl: https://cashcove.netlify.app
+repoUrl: https://github.com/AtharvaCM/cash-cove
+featured: false
+---
+
+## Overview
+
+Cash Cove is a product engineering project focused on reducing friction in personal finance tracking without flattening everything into a simple ledger. The app mixes everyday transaction capture with richer analysis, planning, and automation.
+
+## What I built
+
+- Core product areas for dashboarding, transactions, bills, budgets, subscriptions, funds, loans, cashflow, and reports.
+- Smart text import for bank SMS, UPI alerts, Telegram-style messages, and free-form notes.
+- PDF statement parsing with bank-specific heuristics and editable preview flows.
+- Quick bulk entry and reusable templates for repeated transaction patterns.
+- Offline transaction queueing with automatic sync and visible app-level status.
+
+## Automation and ingestion
+
+The interesting part of this project is how many input paths feed the same finance model. I built a Telegram bot on Supabase Edge Functions, an inbound email parser on Netlify Functions, and parser utilities that reuse categorization and mapping rules instead of creating separate import silos.
+
+## Delivery and build work
+
+As the app grew, build health became part of the product work. I added route-level lazy loading, vendor chunking, and a dedicated regression gate that ties test coverage and production build output together before shipping bundle-related changes.

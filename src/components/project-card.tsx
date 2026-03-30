@@ -1,6 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { BadgeLabel } from "@/components/badge-label";
+import { ProjectCoverFrame } from "@/components/project-cover-frame";
 import { PROJECT_CATEGORY_LABELS } from "@/lib/constants";
 import type { ProjectMeta } from "@/lib/types";
 
@@ -9,23 +10,21 @@ type Props = {
 };
 
 export function ProjectCard({ project }: Props) {
+  const coverFit = project.slug === "vehicle-vault-maintenance-platform" ? "contain" : "cover";
+
   return (
     <article className="panel group h-full overflow-hidden p-5 transition duration-200 hover:border-border/90 hover:shadow-[0_26px_56px_-40px_hsl(var(--text)/0.18)] md:p-6">
-      <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-[1.2rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.72)]">
-        <Image
-          alt={project.title}
-          className="object-cover transition duration-500 group-hover:scale-[1.02]"
-          fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-          src={project.coverImage}
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-text/22 via-transparent to-transparent" />
-        <div className="absolute left-3 top-3">
-          <span className="meta-chip">
-          {PROJECT_CATEGORY_LABELS[project.category]}
-          </span>
-        </div>
-      </div>
+      <ProjectCoverFrame
+        alt={project.title}
+        className="mb-6"
+        chromeDensity="compact"
+        fit={coverFit}
+        imageClassName="transition duration-500 group-hover:scale-[1.02]"
+        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+        src={project.coverImage}
+      >
+        <span className="meta-chip">{PROJECT_CATEGORY_LABELS[project.category]}</span>
+      </ProjectCoverFrame>
 
       <div className="mb-4 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.16em] text-text/52">
         <span>{project.year}</span>
@@ -47,7 +46,7 @@ export function ProjectCard({ project }: Props) {
       <ul className="mt-5 flex flex-wrap gap-2 text-[11px] text-text/68">
         {project.techStack.slice(0, 4).map((tech) => (
           <li className="tag-chip" key={tech}>
-            {tech}
+            <BadgeLabel label={tech} />
           </li>
         ))}
       </ul>

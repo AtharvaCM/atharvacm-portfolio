@@ -14,22 +14,26 @@ export const HERO_PROOF_POINTS = [
   {
     label: "Experience",
     value: "5+ years",
-    description: "Building production systems across SaaS, dashboards, and high-traffic web applications."
+    description:
+      "Building production web applications across SaaS, dashboards, and workflow-heavy products."
   },
   {
     label: "Architecture",
-    value: "Monorepo ownership",
-    description: "Owned frontend architecture and delivery for reporting and supply chain modules in React monorepos."
+    value: "Frontend systems at scale",
+    description:
+      "Owned architecture and delivery across React monorepos, reporting flows, and complex business modules."
   },
   {
     label: "Performance",
-    value: "7 MB to KB chunks",
-    description: "Reduced bundle weight through code splitting, lazy loading, and dependency optimization."
+    value: "7 MB to KB-level chunks",
+    description:
+      "Reduced frontend overhead through code splitting, lazy loading, and tighter dependency control."
   },
   {
     label: "Product scale",
     value: "High-traffic + data-heavy",
-    description: "Built for GraphQL-backed platforms, reporting dashboards, permissions, and workflow-heavy products."
+    description:
+      "Built for GraphQL-backed platforms, reporting systems, permissions, and operational workflows."
   }
 ] as const;
 
@@ -52,27 +56,27 @@ export const HOME_FOCUS_AREAS = [
 ] as const;
 
 export const HOME_IMPACT_ITEMS = [
-  "Reduced a large frontend bundle from 7 MB to modular chunks.",
-  "Introduced Playwright E2E coverage for critical flows.",
-  "Refactored dynamic forms into reusable, schema-driven systems.",
+  "Reduced a large frontend bundle from 7 MB to modular, load-on-demand chunks.",
+  "Introduced Playwright coverage for critical user flows and release confidence.",
+  "Refactored dynamic forms into reusable, schema-driven frontend systems.",
   "Improved backend response performance by 17% on a production platform.",
-  "Built scalable API integrations for complex reporting dashboards."
+  "Built scalable integrations for reporting dashboards and workflow-heavy products."
 ] as const;
 
 export const QUICK_SNAPSHOT_ITEMS = [
-  "5+ years experience building production systems",
-  "React / Next.js / TypeScript",
-  "Frontend architecture in monorepos",
-  "Performance optimization, bundle reduction, and lazy loading",
-  "Production systems across dashboards, reporting, and workflows",
-  "GraphQL and API-heavy systems"
+  "5+ years building production web applications",
+  "React, Next.js, and TypeScript across real product teams",
+  "Frontend architecture for monorepos and shared systems",
+  "Performance work across bundles, rendering, and load behavior",
+  "Complex products spanning dashboards, workflows, and reporting",
+  "GraphQL and API-heavy applications with production constraints"
 ] as const;
 
 export const AVAILABILITY_NOTE =
-  "Currently open to senior frontend / full-stack opportunities.";
+  "Currently open to senior frontend and frontend-focused full-stack opportunities.";
 
 export const BEST_FIT_NOTE =
-  "Best fit: teams building real products where performance, scale, and maintainability matter.";
+  "Best fit: teams building serious products where performance, maintainability, and delivery quality all matter.";
 
 export const ABOUT_INTERESTS = [
   "Frontend architecture",
@@ -149,4 +153,4 @@ export const RESUME_SKILLS = [
 ] as const;
 
 export const FOOTER_BIO =
-  "Frontend-focused full-stack engineer building scalable, performance-driven web systems for real products.";
+  "Senior software engineer focused on frontend systems, product quality, and scalable web applications.";

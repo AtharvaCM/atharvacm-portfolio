@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { AnimatedSection } from "@/components/animated-section";
+import { BadgeLabel } from "@/components/badge-label";
 import { BlogCard } from "@/components/blog-card";
 import { BLOG_PAGE_SIZE, SITE_NAME } from "@/lib/constants";
 import { filterPostsByTag, getAllBlogPosts, getAllTags, paginatePosts } from "@/lib/content";
@@ -83,7 +84,7 @@ export default async function BlogPage({
                 href={buildTagHref(tag)}
                 key={tag}
               >
-                {tag}
+                <BadgeLabel label={tag} />
               </Link>
             ))}
           </div>

@@ -1,5 +1,6 @@
 import { FiBriefcase, FiCode, FiGrid, FiZap } from "react-icons/fi";
 
+import { BadgeLabel } from "@/components/badge-label";
 import { HERO_BADGES, HOME_FOCUS_AREAS } from "@/lib/profile-content";
 
 const FOCUS_ICONS = [FiGrid, FiZap, FiBriefcase];
@@ -58,7 +59,7 @@ export function TechnologiesSection() {
             <ul className="flex flex-wrap gap-2 text-[11px] text-text/70">
               {HERO_BADGES.map((item) => (
                 <li className="tag-chip font-semibold tracking-[0.04em]" key={item}>
-                  {item}
+                  <BadgeLabel label={item} />
                 </li>
               ))}
             </ul>

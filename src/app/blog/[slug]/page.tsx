@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ArticleProgress } from "@/components/article-progress";
+import { BadgeLabel } from "@/components/badge-label";
 import { BlogCard } from "@/components/blog-card";
 import { MdxRenderer } from "@/components/mdx-renderer";
 import { StructuredData } from "@/components/structured-data";
@@ -63,8 +64,8 @@ export default async function BlogDetailPage({ params }: Props) {
 
       <ul className="mt-6 flex flex-wrap gap-2 text-xs">
         {post.tags.map((tag) => (
-          <li className="rounded-full border border-border bg-bg/60 px-3 py-1" key={tag}>
-            {tag}
+          <li className="tag-chip bg-bg/60 text-xs" key={tag}>
+            <BadgeLabel label={tag} />
           </li>
         ))}
       </ul>

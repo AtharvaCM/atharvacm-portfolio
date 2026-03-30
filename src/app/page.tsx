@@ -1,9 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { FiBookOpen, FiBriefcase, FiFolder, FiStar } from "react-icons/fi";
 
 import { AnimatedSection } from "@/components/animated-section";
+import { BadgeLabel } from "@/components/badge-label";
 import { Hero } from "@/components/hero";
+import { ProjectCoverFrame } from "@/components/project-cover-frame";
 import { TechnologiesSection } from "@/components/technologies-section";
 import { getAllBlogPosts, getAllProjects } from "@/lib/content";
 import { PROJECT_CATEGORY_LABELS, RESUME_URL } from "@/lib/constants";
@@ -38,24 +39,21 @@ const HIRING_FIT_AREAS = [
 ] as const;
 
 function FeaturedProjectStory({ project }: { project: ProjectMeta }) {
+  const coverFit = project.slug === "vehicle-vault-maintenance-platform" ? "contain" : "cover";
+
   return (
     <article className="panel group overflow-hidden p-4 md:p-5">
       <div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch">
-        <div className="relative min-h-[18rem] overflow-hidden rounded-[1.2rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.72)] lg:min-h-full">
-          <Image
-            alt={project.title}
-            className="object-cover transition duration-500 group-hover:scale-[1.02]"
-            fill
-            sizes="(min-width: 1280px) 42vw, (min-width: 1024px) 48vw, 100vw"
-            src={project.coverImage}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-text/32 via-text/4 to-transparent" />
-          <div className="absolute left-4 top-4">
-            <span className="meta-chip">
-            {PROJECT_CATEGORY_LABELS[project.category]}
-            </span>
-          </div>
-        </div>
+        <ProjectCoverFrame
+          alt={project.title}
+          className="min-h-[18rem] lg:min-h-full"
+          fit={coverFit}
+          imageClassName="transition duration-500 group-hover:scale-[1.02]"
+          sizes="(min-width: 1280px) 42vw, (min-width: 1024px) 48vw, 100vw"
+          src={project.coverImage}
+        >
+          <span className="meta-chip">{PROJECT_CATEGORY_LABELS[project.category]}</span>
+        </ProjectCoverFrame>
 
         <div className="flex flex-col">
           <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-text/52">
@@ -110,7 +108,7 @@ function FeaturedProjectStory({ project }: { project: ProjectMeta }) {
           <ul className="mt-6 flex flex-wrap gap-2 text-[11px] text-text/70">
             {project.techStack.slice(0, 5).map((tech) => (
               <li className="tag-chip font-semibold tracking-[0.04em]" key={tech}>
-                {tech}
+                <BadgeLabel label={tech} />
               </li>
             ))}
           </ul>
@@ -154,7 +152,7 @@ function CompactProjectStory({ project }: { project: ProjectMeta }) {
       <ul className="mt-5 flex flex-wrap gap-2 text-[11px] text-text/68">
         {project.techStack.slice(0, 4).map((tech) => (
           <li className="tag-chip" key={tech}>
-            {tech}
+            <BadgeLabel label={tech} />
           </li>
         ))}
       </ul>
@@ -190,7 +188,7 @@ function FeaturedArticleCard({ post }: { post: BlogPostMeta }) {
       <ul className="mt-6 flex flex-wrap gap-2 text-[11px] text-text/68">
         {post.tags.map((tag) => (
           <li className="tag-chip" key={tag}>
-            {tag}
+            <BadgeLabel label={tag} />
           </li>
         ))}
       </ul>
@@ -252,7 +250,7 @@ export default async function HomePage() {
               Quick Snapshot
             </p>
             <h2 className="mt-4 max-w-[14ch] font-display text-[clamp(2rem,4vw,3.2rem)] leading-[0.95] tracking-tight">
-              Senior frontend engineer for scalable web applications.
+              Senior frontend engineer for product teams that need scale.
             </h2>
             <p className="section-copy mt-4 max-w-[34rem]">
               {AVAILABILITY_NOTE}
@@ -288,7 +286,7 @@ export default async function HomePage() {
 
       {leadProject ? (
         <AnimatedSection>
-          <section className="shell content-auto pb-16 md:pb-24">
+          <section className="shell content-auto pb-16 md:pb-24" id="selected-work">
             <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="eyebrow inline-flex items-center gap-2">
@@ -297,8 +295,8 @@ export default async function HomePage() {
                 </p>
                 <h2 className="section-heading mt-4">Selected Work</h2>
                 <p className="section-copy mt-3 max-w-[38rem]">
-                  A few examples of products, systems, and engineering work
-                  that reflect how I approach real-world frontend development.
+                  A few projects that show how I work: product-minded,
+                  frontend-first, and built for production.
                 </p>
               </div>
               <Link className="btn-secondary hidden md:inline-flex" href="/projects">
@@ -321,12 +319,12 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <section className="shell content-auto pb-16 md:pb-24">
-          <div className="mb-8">
-            <p className="eyebrow inline-flex items-center gap-2">
-              <FiStar aria-hidden className="h-3.5 w-3.5 text-accent/80" />
-              Engineering Impact
-            </p>
-            <h2 className="section-heading mt-4">What I&apos;ve improved</h2>
+            <div className="mb-8">
+              <p className="eyebrow inline-flex items-center gap-2">
+                <FiStar aria-hidden className="h-3.5 w-3.5 text-accent/80" />
+                Engineering Impact
+              </p>
+              <h2 className="section-heading mt-4">What I&apos;ve improved</h2>
           </div>
 
           <div className="overflow-hidden rounded-[1.45rem] border border-border/65 bg-border/65 shadow-[0_22px_54px_-40px_hsl(var(--text)/0.16)]">
@@ -349,20 +347,21 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <section className="shell content-auto pb-16 md:pb-24">
-          <div className="panel grid gap-8 p-8 md:p-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+            <div className="panel grid gap-8 p-8 md:p-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
             <div>
               <p className="eyebrow inline-flex items-center gap-2">
                 <FiBriefcase aria-hidden className="h-3.5 w-3.5 text-accent/80" />
                 About
               </p>
-              <h2 className="section-heading mt-4">Frontend-first, product-aware, and built for production.</h2>
+              <h2 className="section-heading mt-4">Product-aware, and built for production.</h2>
             </div>
             <div className="flex h-full flex-col justify-end">
               <p className="section-copy max-w-[42rem] md:text-base">
-                I&apos;m a frontend-focused full-stack engineer who enjoys solving messy product and architecture
-                problems. My work usually sits where performance, maintainability, and product complexity collide,
-                whether that means cleaning up large UI systems, building dashboards, improving release confidence,
-                or designing structures that make future development easier instead of harder.
+                I work on frontend systems that need to hold up under real
+                product pressure. That usually means improving
+                maintainability, handling complexity without losing clarity,
+                and shipping features that stay reliable as products and teams
+                grow.
               </p>
               <Link className="btn-secondary mt-6" href="/about">
                 Read more
@@ -383,8 +382,8 @@ export default async function HomePage() {
                 </p>
                 <h2 className="section-heading mt-4">Writing</h2>
                 <p className="section-copy mt-3 max-w-[38rem]">
-                  Notes on frontend architecture, performance, delivery quality,
-                  and building maintainable product systems.
+                  Notes on frontend systems, performance, debugging, and
+                  production engineering.
                 </p>
               </div>
               <Link className="btn-secondary hidden md:inline-flex" href="/blog">
@@ -419,7 +418,8 @@ export default async function HomePage() {
               <p className="section-copy mt-5 max-w-[36rem]">
                 If you&apos;re building a serious product and need someone who
                 can own frontend systems, improve delivery quality, and work
-                across product and engineering constraints, let&apos;s talk.
+                comfortably across product and engineering constraints,
+                let&apos;s talk.
               </p>
               <p className="mt-4 text-sm leading-7 text-text/66">
                 {AVAILABILITY_NOTE}
@@ -437,12 +437,13 @@ export default async function HomePage() {
             <div className="rounded-[1.2rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.66)] p-5 md:p-6">
               <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">Best fit</p>
               <p className="mt-4 text-sm leading-7 text-text/70">
-                Teams that care about quality, delivery, performance, and clean engineering.
+                Teams building complex web products where frontend quality,
+                performance, and clean engineering all matter.
               </p>
               <ul className="mt-5 flex flex-wrap gap-2">
                 {HIRING_FIT_AREAS.map((item) => (
                   <li className="tag-chip" key={item}>
-                    {item}
+                    <BadgeLabel label={item} />
                   </li>
                 ))}
               </ul>

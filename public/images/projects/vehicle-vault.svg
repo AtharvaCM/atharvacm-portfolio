@@ -1,0 +1,18 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#F3E8DE"/>
+  <rect x="88" y="88" width="1024" height="499" rx="34" fill="#FFF9F4" stroke="#E6D8CA"/>
+  <rect x="150" y="160" width="360" height="260" rx="28" fill="#F7EFE8"/>
+  <rect x="560" y="160" width="490" height="58" rx="18" fill="#F8EFE7"/>
+  <rect x="560" y="246" width="418" height="18" rx="9" fill="#D8C6B8"/>
+  <rect x="560" y="282" width="372" height="18" rx="9" fill="#D8C6B8"/>
+  <rect x="560" y="348" width="214" height="74" rx="22" fill="#C8402B"/>
+  <circle cx="308" cy="454" r="56" fill="#2F241F"/>
+  <circle cx="772" cy="463" r="40" fill="#F1DED0"/>
+  <circle cx="880" cy="463" r="40" fill="#F1DED0"/>
+  <circle cx="988" cy="463" r="40" fill="#F1DED0"/>
+  <path d="M216 400H408C442 400 470 372 470 338V312C470 286 450 265 423 261L370 253L334 212C324 200 309 193 293 193H235C218 193 201 202 191 216L166 250L144 261C128 269 118 285 118 303V338C118 372 146 400 180 400H216Z" fill="#2F241F"/>
+  <path d="M199 266H378L344 225C339 219 331 215 323 215H235C227 215 219 219 214 225L199 266Z" fill="#C8402B"/>
+  <text x="150" y="515" fill="#2F241F" font-size="56" font-family="Georgia, serif">Vehicle Vault</text>
+  <text x="560" y="202" fill="#2F241F" font-size="44" font-family="Georgia, serif">Maintenance Platform</text>
+  <text x="560" y="392" fill="#FFF9F4" font-size="28" font-family="Arial, sans-serif">Auth • Records • Reminders • OCR</text>
+</svg>

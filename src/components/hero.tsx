@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { FiBriefcase, FiGrid, FiStar, FiZap } from "react-icons/fi";
 
+import { BadgeLabel } from "@/components/badge-label";
 import { RESUME_URL } from "@/lib/constants";
 import {
   AVAILABILITY_NOTE,
   HERO_BADGES,
-  HERO_PROOF_POINTS
+  HERO_PROOF_POINTS,
 } from "@/lib/profile-content";
 
 const HERO_SIGNAL_ICONS = [FiBriefcase, FiGrid, FiZap, FiStar];
@@ -27,32 +28,35 @@ export function Hero() {
           <div className="max-w-[64rem]">
             <p className="eyebrow inline-flex items-center gap-2">
               <FiStar aria-hidden className="h-3.5 w-3.5 text-accent/80" />
-              Frontend Architecture • Performance • Product Delivery
+              Frontend Systems • Performance • Product Delivery
             </p>
 
             <h1 className="mt-5 font-display text-[clamp(3.65rem,8vw,7.15rem)] leading-[0.8] tracking-[-0.02em]">
               <span className="block md:whitespace-nowrap">
-                Senior Frontend Engineer
+                Senior Software Engineer
               </span>
-              <span className="mt-1 block text-accent">
-                building scalable
-              </span>
+              <span className="mt-1 block text-accent">building scalable</span>
               <span className="mt-1 block md:whitespace-nowrap">
                 product systems
               </span>
             </h1>
 
-            <p className="mt-7 max-w-[43rem] text-balance text-base leading-7 text-text/74 md:text-[1.05rem]">
-              I build high-performance React and Next.js applications with a
-              strong focus on architecture, maintainability, and shipping work
-              that survives real production use.
+            <p className="mt-9 max-w-[43rem] text-balance text-base leading-7 text-text/74 md:text-[1.05rem]">
+              I build frontend-heavy web products that stay fast, reliable,
+              and maintainable as they grow. My work spans UI architecture,
+              performance, and production delivery across real product teams.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3.5">
-              <Link className="btn-primary" href="/projects">
-                View projects
+              <Link className="btn-primary" href="#selected-work">
+                View Selected Work
               </Link>
-              <Link className="btn-secondary" href={resumeHref} rel={resumeRel} target={resumeTarget}>
+              <Link
+                className="btn-secondary"
+                href={resumeHref}
+                rel={resumeRel}
+                target={resumeTarget}
+              >
                 Download Resume
               </Link>
               <Link className="link-inline" href="/contact">
@@ -66,8 +70,11 @@ export function Hero() {
 
             <ul className="mt-7 flex flex-wrap gap-2 text-[11px] text-text/70">
               {HERO_BADGES.map((badge) => (
-                <li className="tag-chip font-semibold tracking-[0.06em]" key={badge}>
-                  {badge}
+                <li
+                  className="tag-chip font-semibold tracking-[0.06em]"
+                  key={badge}
+                >
+                  <BadgeLabel label={badge} />
                 </li>
               ))}
             </ul>
@@ -84,7 +91,10 @@ export function Hero() {
                     key={signal.label}
                   >
                     <p className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-text/52">
-                      <Icon aria-hidden className="h-3.5 w-3.5 text-accent/75" />
+                      <Icon
+                        aria-hidden
+                        className="h-3.5 w-3.5 text-accent/75"
+                      />
                       {signal.label}
                     </p>
                     <p className="mt-3 font-display text-[1.75rem] leading-[0.96] tracking-tight text-text md:text-[1.95rem]">
