@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { draftMode } from "next/headers";
 import { FiBookOpen, FiBriefcase, FiFolder, FiStar } from "react-icons/fi";
 
 import { AnimatedSection } from "@/components/animated-section";
@@ -223,9 +224,10 @@ function CompactArticleCard({ post }: { post: BlogPostMeta }) {
 }
 
 export default async function HomePage() {
+  const { isEnabled } = await draftMode();
   const [projects, posts] = await Promise.all([
     getAllProjects(),
-    getAllBlogPosts()
+    getAllBlogPosts({ includeUnpublished: isEnabled })
   ]);
   const resumeHref = RESUME_URL ?? "/resume";
   const resumeTarget = RESUME_URL ? "_blank" : undefined;

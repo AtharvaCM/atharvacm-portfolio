@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 
 import { ClientOverlays } from "@/components/client-overlays";
+import { DraftModeBanner } from "@/components/draft-mode-banner";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { StructuredData } from "@/components/structured-data";
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
   })
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -53,6 +54,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <StructuredData data={getSiteStructuredData()} />
+        <DraftModeBanner />
         <SiteNav />
         <main>{children}</main>
         <SiteFooter />

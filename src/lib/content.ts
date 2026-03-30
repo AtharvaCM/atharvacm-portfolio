@@ -3,8 +3,8 @@ import path from "node:path";
 import matter from "gray-matter";
 import { z } from "zod";
 
-import { BLOG_PAGE_SIZE, PROJECT_CATEGORIES } from "@/lib/constants";
-import type { BlogPost, BlogPostMeta, Project, ProjectMeta } from "@/lib/types";
+import { BLOG_PAGE_SIZE, PROJECT_CATEGORIES } from "./constants";
+import type { BlogPost, BlogPostMeta, Project, ProjectMeta } from "./types";
 
 const CONTENT_ROOT = path.join(process.cwd(), "src/content");
 const BLOG_DIR = path.join(CONTENT_ROOT, "blog");
@@ -47,8 +47,14 @@ const blogMetaSchema = z.object({
   tags: z.array(z.string()).min(1),
   coverImage: z.string().optional(),
   readingTime: z.number().int().positive().optional(),
-  featured: z.boolean()
+  featured: z.boolean(),
+  draft: z.boolean().optional().default(false)
 });
+
+type BlogQueryOptions = {
+  includeUnpublished?: boolean;
+  now?: Date;
+};
 
 function calculateReadingTime(content: string) {
   const words = content.trim().split(/\s+/).length;
@@ -87,6 +93,13 @@ export function parseBlogMdx(source: string): BlogPost {
     readingTime: parsed.data.readingTime ?? calculateReadingTime(content),
     content
   };
+}
+
+export function isPublishedBlogPost(
+  post: Pick<BlogPostMeta, "draft" | "publishedAt">,
+  now = new Date()
+) {
+  return !post.draft && +new Date(post.publishedAt) <= +now;
 }
 
 function sortProjects(projects: ProjectMeta[]) {
@@ -162,7 +175,8 @@ export function filterProjects(projects: ProjectMeta[], category?: string, tech?
   });
 }
 
-export async function getAllBlogPosts(): Promise<BlogPostMeta[]> {
+export async function getAllBlogPosts(options: BlogQueryOptions = {}): Promise<BlogPostMeta[]> {
+  const now = options.now ?? new Date();
   const files = await getFileList(BLOG_DIR);
   const posts = await Promise.all(
     files.map(async (file) => {
@@ -177,28 +191,53 @@ export async function getAllBlogPosts(): Promise<BlogPostMeta[]> {
         tags: parsed.tags,
         coverImage: parsed.coverImage,
         readingTime: parsed.readingTime,
-        featured: parsed.featured
+        featured: parsed.featured,
+        draft: parsed.draft
       };
     })
   );
 
-  return sortPosts(posts);
+  const sorted = sortPosts(posts);
+  return options.includeUnpublished ? sorted : sorted.filter((post) => isPublishedBlogPost(post, now));
 }
 
-export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+export async function getBlogPostBySlug(
+  slug: string,
+  options: BlogQueryOptions = {}
+): Promise<BlogPost | null> {
+  const now = options.now ?? new Date();
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
 
   try {
     const source = await fs.readFile(filePath, "utf8");
-    return parseBlogMdx(source);
+    const post = parseBlogMdx(source);
+    if (!options.includeUnpublished && !isPublishedBlogPost(post, now)) {
+      return null;
+    }
+
+    return post;
   } catch {
     return null;
   }
 }
 
-export async function getBlogSlugs() {
+export async function getBlogSlugs(options: BlogQueryOptions = {}) {
+  const now = options.now ?? new Date();
   const files = await getFileList(BLOG_DIR);
-  return files.map((file) => file.replace(/\.mdx$/, ""));
+
+  if (options.includeUnpublished) {
+    return files.map((file) => file.replace(/\.mdx$/, ""));
+  }
+
+  const visibleFiles = await Promise.all(
+    files.map(async (file) => {
+      const source = await fs.readFile(path.join(BLOG_DIR, file), "utf8");
+      const parsed = parseBlogMdx(source);
+      return isPublishedBlogPost(parsed, now) ? file.replace(/\.mdx$/, "") : null;
+    })
+  );
+
+  return visibleFiles.filter((slug): slug is string => Boolean(slug));
 }
 
 export function getAllTags(posts: BlogPostMeta[]) {

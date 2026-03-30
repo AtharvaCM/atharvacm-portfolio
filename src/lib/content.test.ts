@@ -2,6 +2,7 @@ import {
   filterPostsByTag,
   filterProjects,
   getAllTags,
+  isPublishedBlogPost,
   paginatePosts,
   parseBlogMdx,
   parseProjectMdx
@@ -40,6 +41,7 @@ publishedAt: 2025-01-01T00:00:00.000Z
 tags:
   - Next.js
 featured: false
+draft: true
 ---
 
 One two three four five six seven eight nine ten.`;
@@ -61,6 +63,26 @@ describe("content parsing", () => {
     const parsed = parseBlogMdx(validBlogMdx);
     expect(parsed.slug).toBe("test-post");
     expect(parsed.readingTime).toBeGreaterThanOrEqual(1);
+    expect(parsed.draft).toBe(true);
+  });
+
+  it("treats draft and future posts as unpublished", () => {
+    expect(
+      isPublishedBlogPost({
+        draft: true,
+        publishedAt: "2025-01-01T00:00:00.000Z"
+      })
+    ).toBe(false);
+
+    expect(
+      isPublishedBlogPost(
+        {
+          draft: false,
+          publishedAt: "2099-01-01T00:00:00.000Z"
+        },
+        new Date("2025-01-01T00:00:00.000Z")
+      )
+    ).toBe(false);
   });
 });
 
@@ -122,7 +144,8 @@ describe("blog discovery", () => {
       publishedAt: "2025-01-01T00:00:00.000Z",
       tags: ["Next.js", "Performance"],
       featured: true,
-      readingTime: 3
+      readingTime: 3,
+      draft: false
     },
     {
       title: "B",
@@ -131,7 +154,8 @@ describe("blog discovery", () => {
       publishedAt: "2025-01-02T00:00:00.000Z",
       tags: ["UX"],
       featured: false,
-      readingTime: 2
+      readingTime: 2,
+      draft: false
     }
   ];
 

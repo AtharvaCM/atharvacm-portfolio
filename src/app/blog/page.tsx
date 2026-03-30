@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { draftMode } from "next/headers";
 import Link from "next/link";
 
 import { AnimatedSection } from "@/components/animated-section";
@@ -44,7 +45,8 @@ export default async function BlogPage({
   searchParams: Promise<{ tag?: string; page?: string }>;
 }) {
   const params = await searchParams;
-  const allPosts = await getAllBlogPosts();
+  const { isEnabled } = await draftMode();
+  const allPosts = await getAllBlogPosts({ includeUnpublished: isEnabled });
   const tags = getAllTags(allPosts);
   const filtered = filterPostsByTag(allPosts, params.tag);
   const pagination = paginatePosts(filtered, Number(params.page ?? "1"));
@@ -59,6 +61,9 @@ export default async function BlogPage({
             Notes on frontend architecture, performance, testing, and the engineering decisions behind maintainable
             product systems.
           </p>
+          {isEnabled ? (
+            <p className="mt-3 text-sm text-accent">Preview mode includes drafts and scheduled posts.</p>
+          ) : null}
         </div>
         <Link className="btn-secondary" href="/rss.xml">
           Subscribe via RSS

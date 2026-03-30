@@ -10,7 +10,8 @@ describe("generateRssXml", () => {
         publishedAt: "2025-01-01T00:00:00.000Z",
         tags: ["tag"],
         featured: false,
-        readingTime: 2
+        readingTime: 2,
+        draft: false
       }
     ]);
 

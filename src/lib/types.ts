@@ -37,6 +37,7 @@ export type BlogPostMeta = {
   coverImage?: string;
   readingTime?: number;
   featured: boolean;
+  draft: boolean;
 };
 
 export type BlogPost = BlogPostMeta & {

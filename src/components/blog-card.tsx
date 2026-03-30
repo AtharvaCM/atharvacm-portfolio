@@ -9,12 +9,21 @@ type Props = {
 };
 
 export function BlogCard({ post }: Props) {
+  const statusLabel = post.draft ? "Draft" : undefined;
+
   return (
     <article className="panel flex h-full flex-col p-5 transition duration-200 hover:border-border/90 hover:shadow-[0_24px_48px_-38px_hsl(var(--text)/0.16)] md:p-6">
       <div className="subtle-rule" />
-      <p className="mt-5 text-[10px] uppercase tracking-[0.16em] text-text/52">
-        {formatDate(post.publishedAt)} • {post.readingTime ?? 1} min read
-      </p>
+      <div className="mt-5 flex flex-wrap items-center gap-2">
+        <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">
+          {formatDate(post.publishedAt)} • {post.readingTime ?? 1} min read
+        </p>
+        {statusLabel ? (
+          <span className="rounded-full border border-accent/25 bg-accent/8 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent">
+            {statusLabel}
+          </span>
+        ) : null}
+      </div>
 
       <h3 className="mt-4 max-w-[15ch] font-display text-[1.95rem] leading-[0.95] tracking-tight">
         <Link className="link-display text-[inherit]" href={`/blog/${post.slug}`}>

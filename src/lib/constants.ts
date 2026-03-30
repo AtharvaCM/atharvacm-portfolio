@@ -1,5 +1,5 @@
-import { getMeaningfulExternalUrl } from "@/lib/utils";
-import { PROFILE_NAME } from "@/lib/profile-content";
+import { getMeaningfulExternalUrl } from "./utils";
+import { PROFILE_NAME } from "./profile-content";
 
 export const SITE_NAME = PROFILE_NAME;
 export const SITE_URL =

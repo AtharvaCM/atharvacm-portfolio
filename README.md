@@ -31,6 +31,10 @@ Open http://localhost:3000.
 - `npm run lint` - lint
 - `npm run typecheck` - TypeScript checks
 - `npm test` - run unit tests
+- `npm run blog:new -- "Post title"` - scaffold a hidden draft post in `src/content/blog`
+- `npm run blog:publish -- <slug>` - flip a draft live and optionally prepare git/PR workflow
+- `npm run blog:validate` - validate all blog posts
+- `npm run mcp:blog` - start the local MCP server for blog authoring tools
 
 ## Environment variables
 
@@ -44,6 +48,19 @@ Copy `.env.example` to `.env.local` and update values.
 - `NEXT_PUBLIC_GITHUB_URL`
 - `NEXT_PUBLIC_X_URL`
 - `NEXT_PUBLIC_CONTACT_EMAIL`
+- `BLOG_PREVIEW_SECRET`
+- `BLOG_PREVIEW_BASE_URL`
 - `RESEND_API_KEY`
 - `CONTACT_TO_EMAIL`
 - `CONTACT_FROM_EMAIL`
+
+## Blog workflow
+
+- Blog posts live in `src/content/blog/*.mdx`.
+- Set `draft: true` to keep a post hidden from the public site.
+- Preview unpublished posts by visiting `/api/draft?secret=<BLOG_PREVIEW_SECRET>&slug=/blog/<slug>`.
+- Exit preview mode at `/api/draft/disable`.
+- Future-dated posts are treated as scheduled and remain hidden until their `publishedAt` date.
+- Publish from the terminal with `npm run blog:publish -- <slug>`.
+- Add `--branch=publish/<slug> --commit --pr` to create a branch, commit just that post, and open a PR through `gh`.
+- Start the MCP server with `npm run mcp:blog` to use `create_draft`, `publish_post`, `outline_post`, `suggest_metadata`, `review_post`, `link_suggestions`, and `rewrite_post_section` from an MCP client.

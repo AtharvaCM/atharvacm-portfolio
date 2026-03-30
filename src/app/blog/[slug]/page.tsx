@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { draftMode } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -7,7 +8,13 @@ import { BadgeLabel } from "@/components/badge-label";
 import { BlogCard } from "@/components/blog-card";
 import { MdxRenderer } from "@/components/mdx-renderer";
 import { StructuredData } from "@/components/structured-data";
-import { getAllBlogPosts, getBlogPostBySlug, getBlogSlugs, getRelatedPosts } from "@/lib/content";
+import {
+  getAllBlogPosts,
+  getBlogPostBySlug,
+  getBlogSlugs,
+  getRelatedPosts,
+  isPublishedBlogPost
+} from "@/lib/content";
 import { SITE_NAME } from "@/lib/constants";
 import { buildMetadata, getArticleStructuredData } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
@@ -22,8 +29,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { isEnabled } = await draftMode();
   const { slug } = await params;
-  const post = await getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug, { includeUnpublished: isEnabled });
 
   if (!post) {
     return {};
@@ -42,20 +50,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogDetailPage({ params }: Props) {
+  const { isEnabled } = await draftMode();
   const { slug } = await params;
-  const [post, allPosts] = await Promise.all([getBlogPostBySlug(slug), getAllBlogPosts()]);
+  const [post, allPosts] = await Promise.all([
+    getBlogPostBySlug(slug, { includeUnpublished: isEnabled }),
+    getAllBlogPosts({ includeUnpublished: isEnabled })
+  ]);
 
   if (!post) {
     notFound();
   }
 
   const related = getRelatedPosts(allPosts, post.slug);
+  const isPreviewingUnpublished = isEnabled && !isPublishedBlogPost(post);
 
   return (
     <article className="shell py-16 md:py-20">
       <ArticleProgress />
       <StructuredData data={getArticleStructuredData(post)} />
       <p className="eyebrow">Article</p>
+      {isPreviewingUnpublished ? (
+        <p className="mt-4 text-sm uppercase tracking-[0.16em] text-accent">
+          Previewing {post.draft ? "draft" : "scheduled"} post
+        </p>
+      ) : null}
       <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.2rem,5.7vw,4.8rem)] tracking-tight">{post.title}</h1>
       <p className="mt-5 text-sm uppercase tracking-[0.15em] text-text/55">
         {formatDate(post.publishedAt)} • {post.readingTime ?? 1} min read
