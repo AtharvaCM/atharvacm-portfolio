@@ -415,11 +415,11 @@ export default async function HomePage() {
           <p className="chapter-index">Next</p>
           <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end">
             <div>
-              <h2 className="section-heading max-w-[8ch]">
-                Open to serious frontend work.
+              <h2 className="section-heading max-w-[18ch]">
+                Looking for the next serious product to help build.
               </h2>
-              <p className="section-copy mt-5 max-w-[25rem]">
-                {AVAILABILITY_NOTE} Best fit: complex, user-facing software.
+              <p className="section-copy mt-5 max-w-[50rem]">
+                {AVAILABILITY_NOTE}
               </p>
             </div>
 

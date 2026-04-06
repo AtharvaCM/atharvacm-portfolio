@@ -7,7 +7,7 @@ export const HERO_BADGES = [
   "Monorepos",
   "Performance",
   "GraphQL",
-  "Playwright"
+  "Playwright",
 ] as const;
 
 export const HERO_PROOF_POINTS = [
@@ -15,51 +15,48 @@ export const HERO_PROOF_POINTS = [
     label: "Experience",
     value: "5+ years",
     description:
-      "Building production web applications across SaaS, dashboards, and workflow-heavy products."
+      "Building production web applications across SaaS, dashboards, and workflow-heavy products.",
   },
   {
     label: "Architecture",
     value: "Frontend systems at scale",
     description:
-      "Owned architecture and delivery across React monorepos, reporting flows, and complex business modules."
+      "Owned architecture and delivery across React monorepos, reporting flows, and complex business modules.",
   },
   {
     label: "Performance",
     value: "7 MB to KB-level chunks",
     description:
-      "Reduced frontend overhead through code splitting, lazy loading, and tighter dependency control."
+      "Reduced frontend overhead through code splitting, lazy loading, and tighter dependency control.",
   },
   {
     label: "Product scale",
     value: "High-traffic + data-heavy",
     description:
-      "Built for GraphQL-backed platforms, reporting systems, permissions, and operational workflows."
-  }
+      "Built for GraphQL-backed platforms, reporting systems, permissions, and operational workflows.",
+  },
 ] as const;
 
 export const HOME_FOCUS_AREAS = [
   {
     title: "Architecture for growing products",
-    copy:
-      "Keep React and Next.js codebases from turning into patchwork."
+    copy: "Keep React and Next.js codebases from turning into patchwork.",
   },
   {
     title: "Performance and release confidence",
-    copy:
-      "Use performance, testing, and observability to keep releases safer."
+    copy: "Use performance, testing, and observability to keep releases safer.",
   },
   {
     title: "Frontend decisions with product context",
-    copy:
-      "Build around APIs, permissions, and workflows, not screens alone."
-  }
+    copy: "Build around APIs, permissions, and workflows, not screens alone.",
+  },
 ] as const;
 
 export const HOME_IMPACT_ITEMS = [
   "Cut a large production frontend from roughly 7 MB to modular, on-demand chunks.",
   "Added Playwright coverage for critical workflow-heavy product flows.",
   "Turned dynamic product flows into reusable, schema-driven frontend systems.",
-  "Improved backend response time by 17% on a high-traffic Next.js platform."
+  "Improved backend response time by 17% on a high-traffic Next.js platform.",
 ] as const;
 
 export const QUICK_SNAPSHOT_ITEMS = [
@@ -68,11 +65,11 @@ export const QUICK_SNAPSHOT_ITEMS = [
   "Frontend architecture for monorepos and shared systems",
   "Performance work across bundles, rendering, and load behavior",
   "Complex products spanning dashboards, workflows, and reporting",
-  "GraphQL and API-heavy applications with production constraints"
+  "GraphQL and API-heavy applications with production constraints",
 ] as const;
 
 export const AVAILABILITY_NOTE =
-  "Open to senior frontend and full-stack roles.";
+  "Senior frontend or full-stack roles where engineering quality, ownership, and long-term product health matter.";
 
 export const BEST_FIT_NOTE =
   "Best fit: teams building serious products where performance, maintainability, and delivery quality all matter.";
@@ -83,7 +80,7 @@ export const ABOUT_INTERESTS = [
   "Scalable UI systems",
   "Testing and release confidence",
   "Developer experience",
-  "Product engineering"
+  "Product engineering",
 ] as const;
 
 export const WORK_STYLE_POINTS = [
@@ -91,7 +88,7 @@ export const WORK_STYLE_POINTS = [
   "Bias toward maintainability.",
   "Care about performance where it actually matters.",
   "Build for shipping, not just elegance.",
-  "Prefer clarity over cleverness."
+  "Prefer clarity over cleverness.",
 ] as const;
 
 export const EXPERIENCE_SNAPSHOT = [
@@ -99,14 +96,14 @@ export const EXPERIENCE_SNAPSHOT = [
     company: "Sprih",
     title: "Member of Technical Staff",
     summary:
-      "Frontend architecture, reporting systems, supply chain dashboards, RTK Query, Zod, Playwright, and performance optimization."
+      "Frontend architecture, reporting systems, supply chain dashboards, RTK Query, Zod, Playwright, and performance optimization.",
   },
   {
     company: "Bluepineapple",
     title: "Software Engineer",
     summary:
-      "High-traffic Next.js application, GraphQL APIs, product features, performance improvements, and reusable UI systems."
-  }
+      "High-traffic Next.js application, GraphQL APIs, product features, performance improvements, and reusable UI systems.",
+  },
 ] as const;
 
 export const RESUME_EXPERIENCE = [
@@ -119,8 +116,8 @@ export const RESUME_EXPERIENCE = [
       "Built dashboard workflows for assignments, permissions, vendor analytics, and API-driven reporting flows.",
       "Refactored dynamic forms using reusable hooks, Zod validation, and jsonLogic-based schema rules.",
       "Introduced Playwright E2E coverage, structured logging, and cross-browser fixes to improve release confidence.",
-      "Reduced bundle size from roughly 7 MB to modular KB-level chunks through code splitting and dependency optimization."
-    ]
+      "Reduced bundle size from roughly 7 MB to modular KB-level chunks through code splitting and dependency optimization.",
+    ],
   },
   {
     title: "Software Engineer",
@@ -131,9 +128,9 @@ export const RESUME_EXPERIENCE = [
       "Shipped important product-facing features while improving frontend maintainability and release quality.",
       "Improved backend response performance by 17% and reduced frontend overhead with lazy loading and dynamic imports.",
       "Strengthened engineering standards with reusable components, linting, and testing.",
-      "Collaborated closely across Product, QA, and DevOps to keep delivery reliable."
-    ]
-  }
+      "Collaborated closely across Product, QA, and DevOps to keep delivery reliable.",
+    ],
+  },
 ] as const;
 
 export const RESUME_SKILLS = [
@@ -148,7 +145,7 @@ export const RESUME_SKILLS = [
   "Playwright",
   "Performance optimization",
   "Testing and release confidence",
-  "Node.js"
+  "Node.js",
 ] as const;
 
 export const FOOTER_BIO =
