@@ -182,8 +182,8 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="shell relative overflow-hidden pb-8 pt-6 md:pb-12 md:pt-8">
-        <div className="flex min-h-[calc(100svh-5.25rem-2.5rem)] items-start pt-6 md:pt-8 lg:pt-10">
+      <section className="shell relative overflow-hidden pb-4 pt-6 md:pb-8 md:pt-8">
+        <div className="flex min-h-[calc(86svh-5.25rem)] items-start pt-8 md:min-h-[calc(88svh-5.25rem)] md:pt-10 lg:pt-12">
           <div className="w-full max-w-[66rem]">
             <p
               className="intro-reveal text-[clamp(2.4rem,4vw,4.2rem)] font-semibold tracking-[-0.07em] text-text"
@@ -242,7 +242,7 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <section className="shell content-band content-auto">
-          <div className="section-frame">
+          <div className="section-frame-tight">
             <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
                 <p className="chapter-index">Proof</p>

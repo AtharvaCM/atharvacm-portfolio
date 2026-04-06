@@ -80,6 +80,10 @@ a {
     @apply border-t border-border/90 pt-10 md:pt-14;
   }
 
+  .section-frame-tight {
+    @apply border-t border-border/90 pt-8 md:pt-10;
+  }
+
   .eyebrow {
     font-family:
       ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
