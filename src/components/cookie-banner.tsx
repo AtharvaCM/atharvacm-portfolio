@@ -35,16 +35,16 @@ export function CookieBanner() {
   };
 
   return (
-    <div className="pointer-events-none fixed bottom-4 right-4 z-[90] w-[min(24rem,calc(100vw-1.5rem))] md:bottom-5 md:right-5">
-      <div className="panel pointer-events-auto rounded-[1.25rem] border border-text/12 bg-[hsl(var(--surface))/0.94] p-4 backdrop-blur-md">
-        <p className="text-sm leading-7 text-text/78">
+    <div className="pointer-events-none fixed bottom-3 right-3 z-[90] w-[min(21rem,calc(100vw-1rem))] md:bottom-4 md:right-4 md:w-[19rem]">
+      <div className="panel pointer-events-auto rounded-[1.1rem] border border-text/12 bg-[hsl(var(--surface))/0.94] p-3.5 backdrop-blur-md">
+        <p className="text-sm leading-6 text-text/78">
           Analytics cookies are used to understand performance. Read the{" "}
           <Link className="link-inline-accent" href="/privacy">
             privacy policy
           </Link>
           .
         </p>
-        <div className="mt-4 flex items-center gap-2">
+        <div className="mt-3 flex items-center gap-2">
           <button
             className="btn-secondary cursor-pointer px-4 py-2 text-[0.72rem]"
             onClick={() => handleConsent("rejected")}

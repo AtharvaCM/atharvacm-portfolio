@@ -1,0 +1,294 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Atharva Mahamuni" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: Atharva Mahamuni
+      - navigation "Primary" [ref=e7]:
+        - link "01Home" [ref=e8] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e9]: "01"
+          - text: Home
+        - link "02Projects" [ref=e10] [cursor=pointer]:
+          - /url: /projects
+          - generic [ref=e11]: "02"
+          - text: Projects
+        - link "03Resume" [ref=e12] [cursor=pointer]:
+          - /url: /resume
+          - generic [ref=e13]: "03"
+          - text: Resume
+        - link "04Blog" [ref=e14] [cursor=pointer]:
+          - /url: /blog
+          - generic [ref=e15]: "04"
+          - text: Blog
+        - link "05About" [ref=e16] [cursor=pointer]:
+          - /url: /about
+          - generic [ref=e17]: "05"
+          - text: About
+        - link "06Contact" [ref=e18] [cursor=pointer]:
+          - /url: /contact
+          - generic [ref=e19]: "06"
+          - text: Contact
+  - main [ref=e20]:
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - paragraph [ref=e25]: Atharva Mahamuni
+        - paragraph [ref=e26]: Senior frontend-focused full-stack engineer
+      - heading "I build production-grade frontend systems." [level=1] [ref=e27]
+      - generic [ref=e28]:
+        - paragraph [ref=e29]: React, Next.js, and TypeScript work focused on architecture, performance, maintainability, testing, and shipping cleanly under real product constraints.
+        - generic [ref=e30]:
+          - link "View selected work" [ref=e31] [cursor=pointer]:
+            - /url: "#selected-work"
+          - link "Download resume" [ref=e32] [cursor=pointer]:
+            - /url: https://atharvacm.com/resume.pdf
+          - link "Get in touch" [ref=e33] [cursor=pointer]:
+            - /url: /contact
+    - generic [ref=e37]:
+      - paragraph [ref=e39]: Proof
+      - generic [ref=e40]:
+        - heading "Evidence over self-promotion." [level=2] [ref=e41]
+        - paragraph [ref=e42]: "The strongest case for seniority is what changed: load cost, delivery confidence, system clarity, and the ability to keep shipping without the frontend turning brittle."
+        - generic [ref=e43]:
+          - article [ref=e44]:
+            - paragraph [ref=e45]: "01"
+            - paragraph [ref=e46]: Reduced a large production frontend from roughly 7 MB to modular, load-on-demand chunks.
+            - paragraph [ref=e47]: Performance
+          - article [ref=e48]:
+            - paragraph [ref=e49]: "02"
+            - paragraph [ref=e50]: Added Playwright coverage for critical user journeys across workflow-heavy product surfaces.
+            - paragraph [ref=e51]: Reliability
+          - article [ref=e52]:
+            - paragraph [ref=e53]: "03"
+            - paragraph [ref=e54]: Refactored dynamic product flows into reusable, schema-driven frontend systems.
+            - paragraph [ref=e55]: Architecture
+          - article [ref=e56]:
+            - paragraph [ref=e57]: "04"
+            - paragraph [ref=e58]: Improved backend response performance by 17% on a high-traffic Next.js platform.
+            - paragraph [ref=e59]: Delivery
+    - generic [ref=e62]:
+      - generic [ref=e63]:
+        - paragraph [ref=e65]: Selected work
+        - generic [ref=e66]:
+          - heading "Real systems. Real constraints. Real product work." [level=2] [ref=e67]
+          - paragraph [ref=e68]: Not portfolio exercises. These projects show architecture, product judgment, delivery discipline, and frontend systems work that had to hold up in production.
+      - generic [ref=e69]:
+        - article [ref=e70]:
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - generic [ref=e73]:
+                - paragraph [ref=e74]: "01"
+                - paragraph [ref=e75]: Platform
+                - paragraph [ref=e76]: "2026"
+              - heading "Sprih Supply Chain and Reporting Systems" [level=3] [ref=e77]:
+                - link "Sprih Supply Chain and Reporting Systems" [ref=e78] [cursor=pointer]:
+                  - /url: /projects/sprih-supply-chain-reporting-systems
+              - paragraph [ref=e79]: Led frontend architecture and delivery for reporting and supply chain workflows in a React monorepo, covering vendor analytics, permissions, dashboards, and schema-driven forms.
+              - generic [ref=e80]:
+                - generic [ref=e81]:
+                  - paragraph [ref=e82]: Role
+                  - paragraph [ref=e83]: Member of Technical Staff
+                - generic [ref=e84]:
+                  - paragraph [ref=e85]: Context
+                  - paragraph [ref=e86]: React monorepo powering reporting and supply chain modules used across operational workflows, analytics, and internal product teams.
+              - list [ref=e87]:
+                - listitem [ref=e88]:
+                  - generic [ref=e90]: Reduced bundle size from roughly 7 MB to modular KB-level chunks
+                - listitem [ref=e91]:
+                  - generic [ref=e93]: Added Playwright E2E coverage for critical flows
+                - listitem [ref=e94]:
+                  - generic [ref=e96]: Improved release confidence for data-heavy dashboard workflows
+              - link "View project details" [ref=e98] [cursor=pointer]:
+                - /url: /projects/sprih-supply-chain-reporting-systems
+                - text: View project details
+                - generic [ref=e99]: "->"
+            - img "Sprih Supply Chain and Reporting Systems" [ref=e102]
+        - article [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]:
+              - generic [ref=e106]:
+                - paragraph [ref=e107]: "02"
+                - paragraph [ref=e108]: Performance
+                - paragraph [ref=e109]: "2024"
+              - heading "High-Traffic Next.js Platform at Bluepineapple" [level=3] [ref=e110]:
+                - link "High-Traffic Next.js Platform at Bluepineapple" [ref=e111] [cursor=pointer]:
+                  - /url: /projects/bluepineapple-nextjs-platform
+              - paragraph [ref=e112]: Built and improved product flows for a high-traffic Next.js platform backed by GraphQL APIs, with a focus on performance, reliability, and maintainable UI systems.
+              - generic [ref=e113]:
+                - generic [ref=e114]:
+                  - paragraph [ref=e115]: Role
+                  - paragraph [ref=e116]: Software Engineer
+                - generic [ref=e117]:
+                  - paragraph [ref=e118]: Context
+                  - paragraph [ref=e119]: Production Next.js application serving high-traffic product flows with GraphQL-backed services.
+              - list [ref=e120]:
+                - listitem [ref=e121]:
+                  - generic [ref=e123]: Improved backend response performance by 17%
+                - listitem [ref=e124]:
+                  - generic [ref=e126]: Reduced frontend overhead with lazy loading and dynamic imports
+                - listitem [ref=e127]:
+                  - generic [ref=e129]: Strengthened reusable component and testing standards
+              - generic [ref=e130]:
+                - link "View project details" [ref=e131] [cursor=pointer]:
+                  - /url: /projects/bluepineapple-nextjs-platform
+                  - text: View project details
+                  - generic [ref=e132]: "->"
+                - link "Live site" [ref=e133] [cursor=pointer]:
+                  - /url: https://drive.com.au
+                  - text: Live site
+                  - img [ref=e134]
+            - img "High-Traffic Next.js Platform at Bluepineapple" [ref=e139]
+        - article [ref=e140]:
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - generic [ref=e143]:
+                - paragraph [ref=e144]: "03"
+                - paragraph [ref=e145]: Full-Stack
+                - paragraph [ref=e146]: "2023"
+              - heading "Growthstats" [level=3] [ref=e147]:
+                - link "Growthstats" [ref=e148] [cursor=pointer]:
+                  - /url: /projects/growthstats
+              - paragraph [ref=e149]: Built a CMS-powered Next.js platform with Sanity, including a page builder, publishing workflow, analytics instrumentation, and CI/CD automation.
+              - generic [ref=e150]:
+                - generic [ref=e151]:
+                  - paragraph [ref=e152]: Role
+                  - paragraph [ref=e153]: Independent Project
+                - generic [ref=e154]:
+                  - paragraph [ref=e155]: Context
+                  - paragraph [ref=e156]: Content and analytics platform designed to let marketing and product teams publish quickly without constant developer involvement.
+              - list [ref=e157]:
+                - listitem [ref=e158]:
+                  - generic [ref=e160]: Implemented ISR publishing with webhook revalidation
+                - listitem [ref=e161]:
+                  - generic [ref=e163]: Added a dynamic page builder and blog system
+                - listitem [ref=e164]:
+                  - generic [ref=e166]: Wired analytics and CI/CD into a production-ready workflow
+              - generic [ref=e167]:
+                - link "View project details" [ref=e168] [cursor=pointer]:
+                  - /url: /projects/growthstats
+                  - text: View project details
+                  - generic [ref=e169]: "->"
+                - link "Live site" [ref=e170] [cursor=pointer]:
+                  - /url: https://growthstats.io
+                  - text: Live site
+                  - img [ref=e171]
+            - img "Growthstats" [ref=e176]
+    - generic [ref=e180]:
+      - paragraph [ref=e182]: Approach
+      - generic [ref=e183]:
+        - heading "How I keep systems usable as they grow." [level=2] [ref=e184]
+        - paragraph [ref=e185]: "I care about frontend craft, but the real goal is durable product delivery: architecture that scales, performance that stays measurable, and interfaces that don't collapse under complexity."
+        - generic [ref=e186]:
+          - article [ref=e187]:
+            - paragraph [ref=e188]: "01"
+            - heading "Scalable Frontend Architecture" [level=3] [ref=e189]
+            - paragraph [ref=e190]: Designing React and Next.js systems that stay understandable as product scope, team size, and complexity increase.
+          - article [ref=e191]:
+            - paragraph [ref=e192]: "02"
+            - heading "Performance and Reliability" [level=3] [ref=e193]
+            - paragraph [ref=e194]: Reducing frontend cost, improving load behavior, and making releases safer through testing, profiling, and delivery discipline.
+          - article [ref=e195]:
+            - paragraph [ref=e196]: "03"
+            - heading "Product Delivery" [level=3] [ref=e197]
+            - paragraph [ref=e198]: Turning complex requirements into production-ready features that hold up under real usage, iteration, and team handoff.
+    - generic [ref=e202]:
+      - paragraph [ref=e204]: Experience
+      - generic [ref=e205]:
+        - heading "Built inside teams, products, and production pressure." [level=2] [ref=e206]
+        - paragraph [ref=e207]: "Best fit: teams building serious products where performance, maintainability, and delivery quality all matter."
+        - generic [ref=e208]:
+          - article [ref=e209]:
+            - generic [ref=e210]:
+              - generic [ref=e211]:
+                - paragraph [ref=e212]: "01"
+                - heading "Sprih" [level=3] [ref=e213]
+                - paragraph [ref=e214]: Member of Technical Staff
+              - paragraph [ref=e215]: Current
+            - list [ref=e216]:
+              - listitem [ref=e217]:
+                - generic [ref=e219]: Own frontend architecture and delivery for Reports and Supply Chain modules in a React monorepo.
+              - listitem [ref=e220]:
+                - generic [ref=e222]: Built dashboard workflows for assignments, permissions, vendor analytics, and API-driven reporting flows.
+              - listitem [ref=e223]:
+                - generic [ref=e225]: Refactored dynamic forms using reusable hooks, Zod validation, and jsonLogic-based schema rules.
+              - listitem [ref=e226]:
+                - generic [ref=e228]: Introduced Playwright E2E coverage, structured logging, and cross-browser fixes to improve release confidence.
+          - article [ref=e229]:
+            - generic [ref=e230]:
+              - generic [ref=e231]:
+                - paragraph [ref=e232]: "02"
+                - heading "Bluepineapple" [level=3] [ref=e233]
+                - paragraph [ref=e234]: Software Engineer
+              - paragraph [ref=e235]: Previous
+            - list [ref=e236]:
+              - listitem [ref=e237]:
+                - generic [ref=e239]: Worked on a high-traffic Next.js platform backed by GraphQL APIs.
+              - listitem [ref=e240]:
+                - generic [ref=e242]: Shipped important product-facing features while improving frontend maintainability and release quality.
+              - listitem [ref=e243]:
+                - generic [ref=e245]: Improved backend response performance by 17% and reduced frontend overhead with lazy loading and dynamic imports.
+              - listitem [ref=e246]:
+                - generic [ref=e248]: Strengthened engineering standards with reusable components, linting, and testing.
+    - generic [ref=e250]:
+      - paragraph [ref=e251]: Next opportunity
+      - generic [ref=e252]:
+        - generic [ref=e253]:
+          - heading "Open to products that need engineering discipline and taste." [level=2] [ref=e254]
+          - paragraph [ref=e255]: Open to senior frontend and frontend-focused full-stack opportunities. If the product has real complexity and the frontend has to be both robust and well judged, I'm interested.
+        - generic [ref=e256]:
+          - link "Contact" [ref=e257] [cursor=pointer]:
+            - /url: /contact
+          - link "Download resume" [ref=e258] [cursor=pointer]:
+            - /url: https://atharvacm.com/resume.pdf
+  - contentinfo [ref=e259]:
+    - generic [ref=e260]:
+      - generic [ref=e261]:
+        - generic [ref=e262]:
+          - paragraph [ref=e263]: Atharva Mahamuni
+          - paragraph [ref=e264]: Senior software engineer focused on frontend systems, maintainable product delivery, and scalable web applications.
+        - generic [ref=e265]:
+          - paragraph [ref=e266]: Navigate
+          - list [ref=e267]:
+            - listitem [ref=e268]:
+              - link "Home" [ref=e269] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e270]:
+              - link "Projects" [ref=e271] [cursor=pointer]:
+                - /url: /projects
+            - listitem [ref=e272]:
+              - link "Resume" [ref=e273] [cursor=pointer]:
+                - /url: /resume
+            - listitem [ref=e274]:
+              - link "Blog" [ref=e275] [cursor=pointer]:
+                - /url: /blog
+            - listitem [ref=e276]:
+              - link "About" [ref=e277] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e278]:
+              - link "Contact" [ref=e279] [cursor=pointer]:
+                - /url: /contact
+        - generic [ref=e280]:
+          - paragraph [ref=e281]: Elsewhere
+          - list [ref=e282]:
+            - listitem [ref=e283]:
+              - link "GitHub" [ref=e284] [cursor=pointer]:
+                - /url: https://github.com/your-handle
+            - listitem [ref=e285]:
+              - link "LinkedIn" [ref=e286] [cursor=pointer]:
+                - /url: https://linkedin.com/in/your-handle
+            - listitem [ref=e287]:
+              - link "X" [ref=e288] [cursor=pointer]:
+                - /url: https://x.com/your-handle
+            - listitem [ref=e289]:
+              - link "hello@atharvacm.com" [ref=e290] [cursor=pointer]:
+                - /url: mailto:hello@atharvacm.com
+      - generic [ref=e291]:
+        - paragraph [ref=e292]: Built with Next.js, TypeScript, and production-first instincts.
+        - paragraph [ref=e293]:
+          - link "Privacy" [ref=e294] [cursor=pointer]:
+            - /url: /privacy
+          - text: /
+          - link "Terms" [ref=e295] [cursor=pointer]:
+            - /url: /terms
+  - button "Open Next.js Dev Tools" [ref=e301] [cursor=pointer]:
+    - img [ref=e302]

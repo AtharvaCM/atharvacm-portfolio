@@ -41,17 +41,17 @@ export const HOME_FOCUS_AREAS = [
   {
     title: "Architecture for growing products",
     copy:
-      "Structure React and Next.js codebases so new modules and handoffs do not turn into patchwork."
+      "Keep React and Next.js codebases from turning into patchwork."
   },
   {
     title: "Performance and release confidence",
     copy:
-      "Use performance, testing, and observability to keep releases safer and product work measurable."
+      "Use performance, testing, and observability to keep releases safer."
   },
   {
     title: "Frontend decisions with product context",
     copy:
-      "Build around APIs, permissions, workflows, and operational constraints, not screens alone."
+      "Build around APIs, permissions, and workflows, not screens alone."
   }
 ] as const;
 

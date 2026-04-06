@@ -157,8 +157,8 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="shell relative overflow-hidden pb-16 pt-12 md:pb-20 md:pt-20">
-        <div className="flex min-h-[calc(100svh-5.25rem)] items-center">
+      <section className="shell relative overflow-hidden pb-8 pt-6 md:pb-12 md:pt-8">
+        <div className="flex min-h-[calc(100svh-5.25rem-2.5rem)] items-start pt-6 md:pt-8 lg:pt-10">
           <div className="w-full max-w-[66rem]">
             <p
               className="intro-reveal text-[clamp(2.4rem,4vw,4.2rem)] font-semibold tracking-[-0.07em] text-text"
@@ -174,9 +174,9 @@ export default async function HomePage() {
             </p>
 
             <h1
-              className="intro-reveal mt-8 text-[clamp(3.1rem,6.9vw,6.4rem)] font-bold tracking-[-0.09em] text-text"
+              className="intro-reveal mt-6 text-[clamp(2.85rem,6.35vw,5.95rem)] font-bold tracking-[-0.09em] text-text"
               style={
-                { "--delay": "0.18s", lineHeight: "0.9" } as CSSProperties
+                { "--delay": "0.18s", lineHeight: "0.88" } as CSSProperties
               }
             >
               <span className="block">I build</span>
@@ -187,15 +187,14 @@ export default async function HomePage() {
             </h1>
 
             <p
-              className="intro-reveal mt-8 max-w-[35rem] text-[1rem] leading-8 text-[hsl(var(--text-muted))] md:text-[1.06rem]"
+              className="intro-reveal mt-6 max-w-[34rem] text-[0.98rem] leading-7 text-[hsl(var(--text-muted))] md:text-[1.03rem]"
               style={{ "--delay": "0.26s" } as CSSProperties}
             >
-              React, Next.js, and TypeScript for reporting systems,
-              high-traffic product flows, and CMS-backed platforms.
+              React, Next.js, and TypeScript for production product systems.
             </p>
 
             <div
-              className="intro-reveal mt-10 flex flex-wrap items-center gap-3"
+              className="intro-reveal mt-8 flex flex-wrap items-center gap-3"
               style={{ "--delay": "0.34s" } as CSSProperties}
             >
               <Link className="btn-primary" href="#selected-work">
@@ -219,7 +218,7 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <section className="shell content-band content-auto">
-          <div className="border-t border-border/90 pt-10 md:pt-14">
+          <div className="section-frame">
             <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
                 <p className="chapter-index">Proof</p>
@@ -229,10 +228,6 @@ export default async function HomePage() {
                 <h2 className="section-heading max-w-[9ch]">
                   What the work changed.
                 </h2>
-                <p className="section-copy mt-5 max-w-[24rem]">
-                  Four outcomes I care about in production.
-                </p>
-
                 <div className="mt-10 grid gap-x-8 gap-y-8 md:grid-cols-2">
                   {HOME_IMPACT_ITEMS.map((item, index) => (
                     <article
@@ -255,7 +250,7 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <section className="shell content-band content-auto" id="selected-work">
-          <div className="border-t border-border/90 pt-10 md:pt-14">
+          <div className="section-frame">
             <div className="mb-10 grid gap-6 lg:mb-14 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
                 <p className="chapter-index">Selected work</p>
@@ -265,9 +260,8 @@ export default async function HomePage() {
                 <h2 className="section-heading max-w-[9ch]">
                   Where it shows up.
                 </h2>
-                <p className="section-copy max-w-[26rem]">
-                  Large systems, high-traffic product work, and full-stack
-                  platform ownership.
+                <p className="section-copy max-w-[21rem]">
+                  Large systems, high-traffic product work, and platform ownership.
                 </p>
               </div>
             </div>
@@ -287,7 +281,7 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <section className="shell content-band content-auto">
-          <div className="border-t border-border/90 pt-10 md:pt-14">
+          <div className="section-frame">
             <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
                 <p className="chapter-index">Approach</p>
@@ -297,11 +291,6 @@ export default async function HomePage() {
                 <h2 className="section-heading max-w-[8ch]">
                   How I build.
                 </h2>
-                <p className="section-copy mt-5 max-w-[26rem]">
-                  Architecture, performance, and product judgment that hold up
-                  as systems grow.
-                </p>
-
                 <div className="mt-10 grid gap-8 md:grid-cols-3">
                   {HOME_FOCUS_AREAS.map((area, index) => (
                     <article
@@ -326,7 +315,7 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <section className="shell content-band content-auto">
-          <div className="border-t border-border/90 pt-10 md:pt-14">
+          <div className="section-frame">
             <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
                 <p className="chapter-index">Experience</p>
@@ -336,9 +325,8 @@ export default async function HomePage() {
                 <h2 className="section-heading max-w-[9ch]">
                   Where I&apos;ve applied it.
                 </h2>
-                <p className="section-copy mt-5 max-w-[28rem]">
-                  A React monorepo with reporting complexity, and a
-                  high-traffic Next.js product with real delivery pressure.
+                <p className="section-copy mt-5 max-w-[24rem]">
+                  React monorepo complexity and high-traffic product delivery.
                 </p>
 
                 <div className="mt-10 space-y-10">
@@ -386,17 +374,16 @@ export default async function HomePage() {
         </section>
       </AnimatedSection>
 
-      <section className="shell content-band">
-        <div className="border-y border-border/90 py-10 md:py-14">
+      <section className="shell content-band content-auto">
+        <div className="section-frame">
           <p className="chapter-index">Next</p>
           <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end">
             <div>
               <h2 className="section-heading max-w-[10ch]">
                 Open to senior frontend work on serious products.
               </h2>
-              <p className="section-copy mt-5 max-w-[30rem]">
-                {AVAILABILITY_NOTE} Best fit: complex, user-facing software
-                where frontend quality matters.
+              <p className="section-copy mt-5 max-w-[25rem]">
+                {AVAILABILITY_NOTE} Best fit: complex, user-facing software.
               </p>
             </div>
 
