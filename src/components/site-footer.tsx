@@ -5,7 +5,6 @@ import { FOOTER_BIO } from "@/lib/profile-content";
 import { getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
 
 export function SiteFooter() {
-  const hasSocialLinks = SOCIAL_LINKS.length > 0;
   const contactEmail = getMeaningfulEmail(
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
   );
@@ -14,109 +13,67 @@ export function SiteFooter() {
   );
 
   return (
-    <footer className="mt-24 pb-14 pt-6">
+    <footer className="border-t border-border/90 py-10 md:py-14">
       <div className="shell">
-        <div className="border-t border-border/65 px-1 pt-10 md:pt-12">
-          <div
-            className={`grid gap-10 md:items-start ${
-              hasSocialLinks ? "md:grid-cols-[1.2fr_1fr_1fr]" : "md:grid-cols-[1.45fr_1fr]"
-            }`}
-          >
-            <div>
-              <p className="font-display text-4xl leading-none tracking-tight md:text-5xl">
-                {SITE_NAME}
-              </p>
-              <p className="mt-4 max-w-sm text-sm leading-7 text-text/70">
-                {FOOTER_BIO}
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xs uppercase tracking-[0.18em] text-text/60">
-                Navigate
-              </h3>
-              <ul className="mt-4 space-y-2 text-sm">
-                {NAV_ITEMS.map((item) => (
-                  <li key={item.href}>
-                    <Link className="link-inline" href={item.href}>
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {hasSocialLinks ? (
-              <div>
-                <h3 className="text-xs uppercase tracking-[0.18em] text-text/60">
-                  Elsewhere
-                </h3>
-                <ul className="mt-4 space-y-2 text-sm">
-                  {SOCIAL_LINKS.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        className="link-inline"
-                        href={item.href}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                  {contactEmail && contactHref ? (
-                    <li>
-                      <Link className="link-inline" href={contactHref}>
-                        {contactEmail}
-                      </Link>
-                    </li>
-                  ) : null}
-                  <li className="pt-2 text-text/65">
-                    <Link className="link-inline" href="/privacy">
-                      Privacy
-                    </Link>
-                    {" / "}
-                    <Link className="link-inline" href="/terms">
-                      Terms
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            ) : (
-              <div>
-                <h3 className="text-xs uppercase tracking-[0.18em] text-text/60">
-                  Elsewhere
-                </h3>
-                <ul className="mt-4 space-y-2 text-sm">
-                  <li>
-                    <Link className="link-inline" href="/contact">
-                      Contact
-                    </Link>
-                  </li>
-                  {contactEmail && contactHref ? (
-                    <li>
-                      <Link className="link-inline" href={contactHref}>
-                        {contactEmail}
-                      </Link>
-                    </li>
-                  ) : null}
-                  <li className="pt-2 text-text/65">
-                    <Link className="link-inline" href="/privacy">
-                      Privacy
-                    </Link>
-                    {" / "}
-                    <Link className="link-inline" href="/terms">
-                      Terms
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            )}
+        <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+          <div>
+            <p className="text-[0.9rem] font-semibold uppercase tracking-[0.22em] text-text">
+              {SITE_NAME}
+            </p>
+            <p className="mt-4 max-w-md text-sm leading-7 text-[hsl(var(--text-muted))]">
+              {FOOTER_BIO}
+            </p>
           </div>
 
-          <div className="subtle-rule mt-10" />
-          <p className="mt-5 text-xs uppercase tracking-[0.14em] text-text/55">
-            Built with Next.js, TypeScript, and performance in mind.
+          <div>
+            <p className="eyebrow">Navigate</p>
+            <ul className="mt-4 space-y-2">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.href}>
+                  <Link className="link-inline" href={item.href}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="eyebrow">Elsewhere</p>
+            <ul className="mt-4 space-y-2">
+              {SOCIAL_LINKS.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    className="link-inline"
+                    href={item.href}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              {contactEmail && contactHref ? (
+                <li>
+                  <Link className="link-inline" href={contactHref}>
+                    {contactEmail}
+                  </Link>
+                </li>
+              ) : null}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-10 flex flex-col gap-3 border-t border-border/80 pt-5 text-[0.72rem] uppercase tracking-[0.18em] text-text/42 md:flex-row md:items-center md:justify-between">
+          <p>Built with Next.js, TypeScript, and production-first instincts.</p>
+          <p>
+            <Link className="link-inline" href="/privacy">
+              Privacy
+            </Link>
+            {" / "}
+            <Link className="link-inline" href="/terms">
+              Terms
+            </Link>
           </p>
         </div>
       </div>

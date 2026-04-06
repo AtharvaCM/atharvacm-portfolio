@@ -39,28 +39,27 @@ export const HERO_PROOF_POINTS = [
 
 export const HOME_FOCUS_AREAS = [
   {
-    title: "Scalable Frontend Architecture",
+    title: "Architecture for growing products",
     copy:
-      "Designing maintainable React and Next.js systems that can handle product growth without collapsing into spaghetti."
+      "Structure React and Next.js codebases so new modules and handoffs do not turn into patchwork."
   },
   {
-    title: "Performance and Reliability",
+    title: "Performance and release confidence",
     copy:
-      "Reducing bundle size, improving load behavior, and making releases safer through testing and better engineering practices."
+      "Use performance, testing, and observability to keep releases safer and product work measurable."
   },
   {
-    title: "Product Delivery",
+    title: "Frontend decisions with product context",
     copy:
-      "Turning complex requirements into production-ready features that are usable, measurable, and built to last."
+      "Build around APIs, permissions, workflows, and operational constraints, not screens alone."
   }
 ] as const;
 
 export const HOME_IMPACT_ITEMS = [
-  "Reduced a large frontend bundle from 7 MB to modular, load-on-demand chunks.",
-  "Introduced Playwright coverage for critical user flows and release confidence.",
-  "Refactored dynamic forms into reusable, schema-driven frontend systems.",
-  "Improved backend response performance by 17% on a production platform.",
-  "Built scalable integrations for reporting dashboards and workflow-heavy products."
+  "Cut a large production frontend from roughly 7 MB to modular, on-demand chunks.",
+  "Added Playwright coverage for critical workflow-heavy product flows.",
+  "Turned dynamic product flows into reusable, schema-driven frontend systems.",
+  "Improved backend response time by 17% on a high-traffic Next.js platform."
 ] as const;
 
 export const QUICK_SNAPSHOT_ITEMS = [
@@ -73,7 +72,7 @@ export const QUICK_SNAPSHOT_ITEMS = [
 ] as const;
 
 export const AVAILABILITY_NOTE =
-  "Currently open to senior frontend and frontend-focused full-stack opportunities.";
+  "Open to senior frontend and frontend-focused full-stack roles.";
 
 export const BEST_FIT_NOTE =
   "Best fit: teams building serious products where performance, maintainability, and delivery quality all matter.";
@@ -153,4 +152,4 @@ export const RESUME_SKILLS = [
 ] as const;
 
 export const FOOTER_BIO =
-  "Senior software engineer focused on frontend systems, product quality, and scalable web applications.";
+  "Senior software engineer focused on frontend systems, maintainable product delivery, and scalable web applications.";

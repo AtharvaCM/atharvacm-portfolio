@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Manrope, Space_Grotesk } from "next/font/google";
 
 import { ClientOverlays } from "@/components/client-overlays";
 import { DraftModeBanner } from "@/components/draft-mode-banner";
@@ -24,12 +24,12 @@ const fontSans = Manrope({
   fallback: ["Avenir Next", "Segoe UI", "sans-serif"],
 });
 
-const fontDisplay = Cormorant_Garamond({
+const fontDisplay = Space_Grotesk({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "700"],
   display: "swap",
-  fallback: ["Bookman Old Style", "Times New Roman", "serif"],
+  fallback: ["Avenir Next", "Segoe UI", "sans-serif"],
 });
 
 export const metadata: Metadata = {
