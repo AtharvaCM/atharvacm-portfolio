@@ -1,7 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties } from "react";
-import { FiArrowUpRight } from "react-icons/fi";
+import { createElement, type CSSProperties } from "react";
+import type { IconType } from "react-icons";
+import {
+  FiArrowUpRight,
+  FiGrid,
+  FiShield,
+  FiTrendingUp,
+  FiUpload,
+} from "react-icons/fi";
 
 import { AnimatedSection } from "@/components/animated-section";
 import { PROJECT_CATEGORY_LABELS, RESUME_URL } from "@/lib/constants";
@@ -36,6 +43,13 @@ const IMPACT_LABELS = [
   "Delivery",
 ] as const;
 
+const IMPACT_ICONS: IconType[] = [FiTrendingUp, FiShield, FiGrid, FiUpload];
+
+const EXPERIENCE_PERIODS = [
+  "Current • 2025–Present",
+  "Previous • 2022–2025",
+] as const;
+
 function getHomepageProjects(projects: ProjectMeta[]) {
   const selected: ProjectMeta[] = [];
   const seen = new Set<string>();
@@ -63,21 +77,32 @@ function getHomepageProjects(projects: ProjectMeta[]) {
   return selected.slice(0, 3);
 }
 
-function WorkRow({ project, imageFirst }: { project: ProjectMeta; imageFirst: boolean }) {
-
+function WorkRow({
+  project,
+  imageFirst,
+}: {
+  project: ProjectMeta;
+  imageFirst: boolean;
+}) {
   return (
     <article className="border-t border-border/90 py-10 first:border-t-0 first:pt-0 md:py-16">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
         <div className={imageFirst ? "" : "lg:order-2"}>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5 text-[hsl(var(--text-muted))]">
             <p className="eyebrow">
               {PROJECT_CATEGORY_LABELS[project.category]}
             </p>
+            <span aria-hidden className="text-text/28">
+              •
+            </span>
             <p className="eyebrow">{project.year}</p>
+            <span aria-hidden className="text-text/28">
+              •
+            </span>
             <p className="eyebrow">{project.role}</p>
           </div>
 
-          <h3 className="mt-4 max-w-[16ch] text-[clamp(2rem,3.8vw,4.4rem)] font-bold tracking-[-0.06em] text-text">
+          <h3 className="mt-4 max-w-[16ch] text-[clamp(1.75rem,3.15vw,3.45rem)] font-bold tracking-[-0.055em] text-text">
             <Link className="link-display" href={`/projects/${project.slug}`}>
               {project.title}
             </Link>
@@ -170,7 +195,7 @@ export default async function HomePage() {
               className="intro-reveal mt-5 chapter-index"
               style={{ "--delay": "0.1s" } as CSSProperties}
             >
-              Senior frontend-focused full-stack engineer
+              Senior full-stack engineer
             </p>
 
             <h1
@@ -179,11 +204,10 @@ export default async function HomePage() {
                 { "--delay": "0.18s", lineHeight: "0.88" } as CSSProperties
               }
             >
-              <span className="block">I build</span>
+              <span className="block">I build scalable,</span>
               <span className="block md:whitespace-nowrap">
-                production-grade frontend
+                content-driven platforms.
               </span>
-              <span className="block">systems.</span>
             </h1>
 
             <p
@@ -234,11 +258,23 @@ export default async function HomePage() {
                       className="border-t border-border/80 pt-5"
                       key={item}
                     >
+                      {(() => {
+                        const Icon = IMPACT_ICONS[index]!;
+
+                        return (
+                          <p className="eyebrow mt-3 inline-flex items-center gap-2">
+                            {createElement(Icon, {
+                              "aria-hidden": true,
+                              className: "h-3.5 w-3.5 text-text/55",
+                            })}
+                            <span>{IMPACT_LABELS[index]}</span>
+                          </p>
+                        );
+                      })()}
                       <p className="chapter-index">0{index + 1}</p>
                       <p className="mt-3 text-[1.05rem] leading-8 text-text">
                         {item}
                       </p>
-                      <p className="eyebrow mt-3">{IMPACT_LABELS[index]}</p>
                     </article>
                   ))}
                 </div>
@@ -261,7 +297,8 @@ export default async function HomePage() {
                   Where it shows up.
                 </h2>
                 <p className="section-copy max-w-[21rem]">
-                  Large systems, high-traffic product work, and platform ownership.
+                  Large systems, high-traffic product work, and platform
+                  ownership.
                 </p>
               </div>
             </div>
@@ -288,9 +325,7 @@ export default async function HomePage() {
               </div>
 
               <div>
-                <h2 className="section-heading max-w-[8ch]">
-                  How I build.
-                </h2>
+                <h2 className="section-heading max-w-[8ch]">How I build.</h2>
                 <div className="mt-10 grid gap-8 md:grid-cols-3">
                   {HOME_FOCUS_AREAS.map((area, index) => (
                     <article
@@ -326,7 +361,8 @@ export default async function HomePage() {
                   Where I&apos;ve applied it.
                 </h2>
                 <p className="section-copy mt-5 max-w-[24rem]">
-                  React monorepo complexity and high-traffic product delivery.
+                  Built inside complex React monorepos and high-traffic product
+                  teams.
                 </p>
 
                 <div className="mt-10 space-y-10">
@@ -345,7 +381,7 @@ export default async function HomePage() {
                             {role.title}
                           </p>
                         </div>
-                        <p className="eyebrow">{role.period}</p>
+                        <p className="eyebrow">{EXPERIENCE_PERIODS[index]}</p>
                       </div>
 
                       <ul className="mt-6 grid gap-3">
@@ -353,17 +389,17 @@ export default async function HomePage() {
                           .filter((_, pointIndex) =>
                             index === 0
                               ? pointIndex === 0 || pointIndex === 4
-                              : pointIndex === 0 || pointIndex === 2
+                              : pointIndex === 0 || pointIndex === 2,
                           )
                           .map((point) => (
-                          <li
-                            className="flex gap-3 text-sm leading-7 text-[hsl(var(--text-muted))]"
-                            key={point}
-                          >
-                            <span className="mt-[0.95rem] h-1.5 w-1.5 rounded-full bg-accent" />
-                            <span>{point}</span>
-                          </li>
-                        ))}
+                            <li
+                              className="flex gap-3 text-sm leading-7 text-[hsl(var(--text-muted))]"
+                              key={point}
+                            >
+                              <span className="mt-[0.95rem] h-1.5 w-1.5 rounded-full bg-accent" />
+                              <span>{point}</span>
+                            </li>
+                          ))}
                       </ul>
                     </article>
                   ))}
@@ -379,8 +415,8 @@ export default async function HomePage() {
           <p className="chapter-index">Next</p>
           <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end">
             <div>
-              <h2 className="section-heading max-w-[10ch]">
-                Open to senior frontend work on serious products.
+              <h2 className="section-heading max-w-[8ch]">
+                Open to serious frontend work.
               </h2>
               <p className="section-copy mt-5 max-w-[25rem]">
                 {AVAILABILITY_NOTE} Best fit: complex, user-facing software.

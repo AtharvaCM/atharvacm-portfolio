@@ -72,7 +72,7 @@ export const QUICK_SNAPSHOT_ITEMS = [
 ] as const;
 
 export const AVAILABILITY_NOTE =
-  "Open to senior frontend and frontend-focused full-stack roles.";
+  "Open to senior frontend and full-stack roles.";
 
 export const BEST_FIT_NOTE =
   "Best fit: teams building serious products where performance, maintainability, and delivery quality all matter.";
