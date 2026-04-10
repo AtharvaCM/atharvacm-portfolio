@@ -106,29 +106,66 @@ export const EXPERIENCE_SNAPSHOT = [
   },
 ] as const;
 
+export const RESUME_SUMMARY =
+  "Frontend-focused fullstack engineer with experience building scalable React applications, owning complex product workflows, and improving performance, reliability, and developer experience. Strong background in monorepo architectures, state management, and production-grade frontend systems.";
+
+export const RESUME_COMPETENCIES = [
+  {
+    label: "Frontend",
+    items: ["React", "Next.js", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind"],
+  },
+  {
+    label: "State Management",
+    items: ["Redux Toolkit", "RTK Query"],
+  },
+  {
+    label: "Architecture",
+    items: ["Monorepo (Nx)", "Scalable frontend systems", "Component design"],
+  },
+  {
+    label: "Performance",
+    items: ["Code splitting", "Lazy loading", "Bundle optimization"],
+  },
+  {
+    label: "Testing",
+    items: ["Playwright", "Jest", "E2E testing", "Unit testing"],
+  },
+  {
+    label: "Backend",
+    items: ["Node.js", "NestJS", "GraphQL", "REST APIs"],
+  },
+  {
+    label: "DevOps",
+    items: ["CI/CD", "Docker", "AWS", "Azure", "Git"],
+  },
+] as const;
+
 export const RESUME_EXPERIENCE = [
   {
     title: "Member of Technical Staff",
     company: "Sprih",
-    period: "Current",
+    period: "Nov 2025 - Present",
     points: [
-      "Own frontend architecture and delivery for Reports and Supply Chain modules in a React monorepo.",
-      "Built dashboard workflows for assignments, permissions, vendor analytics, and API-driven reporting flows.",
-      "Refactored dynamic forms using reusable hooks, Zod validation, and jsonLogic-based schema rules.",
-      "Introduced Playwright E2E coverage, structured logging, and cross-browser fixes to improve release confidence.",
-      "Reduced bundle size from roughly 7 MB to modular KB-level chunks through code splitting and dependency optimization.",
+      "Owned frontend architecture and delivery for Reports and Supply Chain modules in a React monorepo, handling complex workflows for assignments, permissions, and vendor analytics.",
+      "Refactored large-scale dynamic form and reporting systems, introducing reusable hooks and schema-driven validation (Zod, jsonLogic), reducing regression issues and improving maintainability.",
+      "Built and scaled API integrations using Redux Toolkit / RTK Query, enabling efficient handling of complex reporting and dashboard data flows.",
+      "Delivered key supply chain dashboard features, including vendor analysis and reporting insights, improving usability and data visibility.",
+      "Introduced Playwright E2E testing, stabilising critical flows and improving release confidence.",
+      "Reduced frontend bundle size from 7MB to modular chunks (KB-level) through code-splitting, lazy loading, and dependency optimisation.",
+      "Resolved cross-browser issues (Safari, CI environments) and improved observability using structured logging with Pino.",
     ],
   },
   {
     title: "Software Engineer",
     company: "Bluepineapple",
-    period: "Previous",
+    period: "Jan 2022 - Oct 2025",
     points: [
-      "Worked on a high-traffic Next.js platform backed by GraphQL APIs.",
-      "Shipped important product-facing features while improving frontend maintainability and release quality.",
-      "Improved backend response performance by 17% and reduced frontend overhead with lazy loading and dynamic imports.",
-      "Strengthened engineering standards with reusable components, linting, and testing.",
-      "Collaborated closely across Product, QA, and DevOps to keep delivery reliable.",
+      "Delivered features for a high-traffic Next.js application backed by GraphQL APIs (WordPress + Node.js).",
+      "Improved backend response performance using Clinic.js and k6, reducing average request time by 17%.",
+      "Implemented lazy loading and dynamic imports, improving page load performance and reducing bundle size.",
+      "Built key features such as Compare Bucket and optimised lead submission flows.",
+      "Improved engineering standards through reusable components, linting rules, and increased test coverage.",
+      "Collaborated across Product, QA, and DevOps teams to deliver production-ready releases.",
     ],
   },
 ] as const;

@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { BadgeLabel } from "@/components/badge-label";
 import { ProjectCoverFrame } from "@/components/project-cover-frame";
-import { PROJECT_CATEGORY_LABELS } from "@/lib/constants";
 import type { ProjectMeta } from "@/lib/types";
 
 type Props = {
@@ -22,9 +21,7 @@ export function ProjectCard({ project }: Props) {
         imageClassName="transition duration-500 group-hover:scale-[1.02]"
         sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
         src={project.coverImage}
-      >
-        <span className="meta-chip">{PROJECT_CATEGORY_LABELS[project.category]}</span>
-      </ProjectCoverFrame>
+      />
 
       <div className="mb-4 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.16em] text-text/52">
         <span>{project.year}</span>
