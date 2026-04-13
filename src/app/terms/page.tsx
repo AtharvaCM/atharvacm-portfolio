@@ -7,8 +7,9 @@ import { getMeaningfulEmail } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: `Terms | ${SITE_NAME}`,
-  description: "Terms and usage conditions for the Atharva Mahamuni portfolio website.",
-  path: "/terms"
+  description:
+    "Plain-language terms of use for the Atharva Mahamuni portfolio website.",
+  path: "/terms",
 });
 
 export default function TermsPage() {
@@ -18,30 +19,82 @@ export default function TermsPage() {
 
   return (
     <section className="shell py-16 md:py-20">
-      <h1 className="font-display text-5xl tracking-tight">Terms of Use</h1>
-      <div className="prose prose-neutral mt-8 max-w-3xl">
+      <p className="eyebrow">Terms</p>
+      <h1 className="mt-5 font-display text-[clamp(2.3rem,6vw,5rem)] tracking-tight">
+        Terms of Use
+      </h1>
+      <div className="mt-10 max-w-3xl space-y-10 text-sm leading-7 text-text/74 md:text-base md:leading-8">
         <p>
-          By accessing this website, you agree to use it for lawful purposes only. Content is provided for
-          informational purposes and may be updated without notice.
+          This website is a personal portfolio. By using it, you agree to use it
+          lawfully and respectfully.
         </p>
-        <h2>Intellectual property</h2>
-        <p>
-          Unless noted otherwise, all content and design assets are owned by the site owner and may not be reused
-          without permission.
-        </p>
-        <h2>External links</h2>
-        <p>
-          This website may link to third-party sites. The site owner is not responsible for external content or
-          privacy practices.
-        </p>
-        <h2>Contact</h2>
-        {contactEmail ? (
-          <p>For legal inquiries, contact: {contactEmail}.</p>
-        ) : (
-          <p>
-            For legal inquiries, use the <Link href="/contact">contact page</Link>.
+
+        <section className="border-t border-border/80 pt-7">
+          <h2 className="font-display text-2xl tracking-tight text-text">
+            Use of the site
+          </h2>
+          <p className="mt-3">
+            The content here is provided for general information about my work,
+            writing, and professional background. Do not use the site in a way
+            that disrupts it, abuses the contact form, or attempts unauthorized
+            access.
           </p>
-        )}
+        </section>
+
+        <section className="border-t border-border/80 pt-7">
+          <h2 className="font-display text-2xl tracking-tight text-text">
+            Intellectual property
+          </h2>
+          <p className="mt-3">
+            Unless stated otherwise, the writing, design, and site content are
+            mine. You may link to the site, but please do not copy or reuse the
+            content or design assets without permission.
+          </p>
+        </section>
+
+        <section className="border-t border-border/80 pt-7">
+          <h2 className="font-display text-2xl tracking-tight text-text">
+            External links
+          </h2>
+          <p className="mt-3">
+            This site may link to third-party websites, profiles, tools, or
+            project pages. I am not responsible for their content, availability,
+            or privacy practices.
+          </p>
+        </section>
+
+        <section className="border-t border-border/80 pt-7">
+          <h2 className="font-display text-2xl tracking-tight text-text">
+            Changes and accuracy
+          </h2>
+          <p className="mt-3">
+            I try to keep the site accurate, but content may change and may not
+            always be current, complete, or error-free.
+          </p>
+        </section>
+
+        <section className="border-t border-border/80 pt-7">
+          <h2 className="font-display text-2xl tracking-tight text-text">
+            Contact
+          </h2>
+          {contactEmail ? (
+            <p className="mt-3">
+              For questions about these terms, contact{" "}
+              <Link className="link-inline-accent" href={`mailto:${contactEmail}`}>
+                {contactEmail}
+              </Link>
+              .
+            </p>
+          ) : (
+            <p className="mt-3">
+              For questions about these terms, use the{" "}
+              <Link className="link-inline-accent" href="/contact">
+                contact page
+              </Link>
+              .
+            </p>
+          )}
+        </section>
       </div>
     </section>
   );

@@ -26,34 +26,33 @@ export function SiteNav() {
   }, [open]);
 
   return (
-    <header className="sticky top-4 z-50">
+    <header className="sticky top-0 z-50 border-b border-border/90 bg-[hsl(var(--bg)/0.86)] backdrop-blur-md">
       <div className="shell">
-        <div className="relative flex h-[4.9rem] items-center justify-between rounded-[1.35rem] border border-border/70 bg-[hsl(var(--surface)/0.88)] px-4 shadow-[0_18px_42px_-34px_hsl(var(--text)/0.18)] backdrop-blur-sm md:px-6">
-          <div className="subtle-rule pointer-events-none absolute inset-x-6 bottom-0" />
-
-          <Link
-            className="rounded-md focus-visible:ring-offset-0"
-            href="/"
-          >
-            <span className="block font-display text-[1.85rem] leading-none tracking-tight text-text transition duration-200 hover:text-accent md:text-[1.95rem]">
+        <div className="grid h-[5.25rem] grid-cols-[1fr_auto] items-center gap-6">
+          <Link className="min-w-0 rounded-md focus-visible:ring-offset-0" href="/">
+            <span className="block truncate text-[0.92rem] font-semibold uppercase tracking-[0.22em] text-text">
               {SITE_NAME}
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-1.5 md:flex" aria-label="Primary">
-            {NAV_ITEMS.map((item) => {
+          <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
+            {NAV_ITEMS.map((item, index) => {
               const active = pathname === item.href;
+
               return (
                 <Link
                   className={cn(
-                    "rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 focus-visible:ring-offset-2",
+                    "relative font-display text-[0.72rem] uppercase tracking-[0.2em] transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-0",
                     active
-                      ? "border-accent/35 bg-accent/10 text-accent"
-                      : "border-transparent text-text/68 hover:border-border/80 hover:bg-white hover:text-text"
+                      ? "text-accent"
+                      : "text-[hsl(var(--text-muted))] hover:text-text"
                   )}
-                  key={item.href}
                   href={item.href}
+                  key={item.href}
                 >
+                  <span className="mr-2 text-[0.62rem] text-text/35">
+                    0{index + 1}
+                  </span>
                   {item.label}
                 </Link>
               );
@@ -63,48 +62,57 @@ export function SiteNav() {
           <button
             aria-expanded={open}
             aria-label="Toggle navigation"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/80 bg-white/80 text-text md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-text/15 text-text md:hidden"
             onClick={() => setOpen((value) => !value)}
             type="button"
           >
-            <span className="sr-only">Menu</span>
-            <div className="space-y-1">
-              <span className={cn("block h-0.5 w-5 bg-current transition", open && "translate-y-1.5 rotate-45")} />
-              <span className={cn("block h-0.5 w-5 bg-current transition", open && "-translate-y-1 rotate-[-45deg]")} />
+            <div className="space-y-1.5">
+              <span
+                className={cn(
+                  "block h-px w-5 bg-current transition",
+                  open && "translate-y-[7px] rotate-45"
+                )}
+              />
+              <span
+                className={cn(
+                  "block h-px w-5 bg-current transition",
+                  open && "-translate-y-[1px] -rotate-45"
+                )}
+              />
             </div>
           </button>
         </div>
 
         <div
           className={cn(
-            "overflow-hidden transition-[max-height,opacity,transform,margin] duration-200 ease-out md:hidden",
-            open
-              ? "mt-3 max-h-[calc(100dvh-6.75rem)] opacity-100"
-              : "max-h-0 -translate-y-2 opacity-0 pointer-events-none"
+            "overflow-hidden transition-[max-height,opacity] duration-200 ease-out md:hidden",
+            open ? "max-h-[calc(100dvh-5.25rem)] opacity-100" : "max-h-0 opacity-0"
           )}
         >
-          <div className="max-h-[calc(100dvh-6.75rem)] overflow-y-auto overscroll-contain rounded-[1.35rem] border border-border/70 bg-[hsl(var(--surface)/0.94)] p-4 shadow-[0_18px_40px_-34px_hsl(var(--text)/0.16)]">
-            <nav className="flex flex-col gap-2" aria-label="Mobile Primary">
-              {NAV_ITEMS.map((item) => {
+          <nav className="border-t border-border/90 py-4" aria-label="Mobile Primary">
+            <div className="flex flex-col gap-3">
+              {NAV_ITEMS.map((item, index) => {
                 const active = pathname === item.href;
+
                 return (
                   <Link
                     className={cn(
-                      "block rounded-2xl border px-4 py-3 font-display text-3xl tracking-tight transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 focus-visible:ring-offset-2",
-                      active
-                        ? "border-accent/35 bg-accent/10 text-accent"
-                        : "border-border/70 bg-white/80 text-text hover:border-border hover:bg-white"
+                      "flex items-center justify-between py-2 text-xl font-semibold tracking-[-0.04em] transition duration-200",
+                      active ? "text-accent" : "text-text"
                     )}
                     href={item.href}
                     key={item.href}
                     onClick={() => setOpen(false)}
                   >
-                    {item.label}
+                    <span>{item.label}</span>
+                    <span className="font-display text-[0.72rem] uppercase tracking-[0.2em] text-text/45">
+                      0{index + 1}
+                    </span>
                   </Link>
                 );
               })}
-            </nav>
-          </div>
+            </div>
+          </nav>
         </div>
       </div>
     </header>

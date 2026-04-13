@@ -2,19 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
-import {
-  COMPANY_CONTEXTS,
-  CONNECT_TIMELINES,
-  OPPORTUNITY_TYPES,
-} from "@/lib/constants";
 import type { ContactResponse } from "@/lib/types";
 
 type ContactFormState = {
   name: string;
   email: string;
-  opportunityType: string;
-  companyContext: string;
-  connectTimeline: string;
   message: string;
   website: string;
 };
@@ -22,9 +14,6 @@ type ContactFormState = {
 const initialState: ContactFormState = {
   name: "",
   email: "",
-  opportunityType: OPPORTUNITY_TYPES[0] ?? "",
-  companyContext: COMPANY_CONTEXTS[0] ?? "",
-  connectTimeline: CONNECT_TIMELINES[0] ?? "",
   message: "",
   website: "",
 };
@@ -100,66 +89,6 @@ export function ContactForm() {
         </label>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        <label className="form-label">
-          <span>Opportunity type</span>
-          <div className="form-select-wrap mt-2">
-            <select
-              className="form-select"
-              onChange={(event) =>
-                setForm((state) => ({
-                  ...state,
-                  opportunityType: event.target.value,
-                }))
-              }
-              value={form.opportunityType}
-            >
-              {OPPORTUNITY_TYPES.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </select>
-          </div>
-        </label>
-        <label className="form-label">
-          <span>Company context</span>
-          <div className="form-select-wrap mt-2">
-            <select
-              className="form-select"
-              onChange={(event) =>
-                setForm((state) => ({
-                  ...state,
-                  companyContext: event.target.value,
-                }))
-              }
-              value={form.companyContext}
-            >
-              {COMPANY_CONTEXTS.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </select>
-          </div>
-        </label>
-        <label className="form-label">
-          <span>Timeline</span>
-          <div className="form-select-wrap mt-2">
-            <select
-              className="form-select"
-              onChange={(event) =>
-                setForm((state) => ({
-                  ...state,
-                  connectTimeline: event.target.value,
-                }))
-              }
-              value={form.connectTimeline}
-            >
-              {CONNECT_TIMELINES.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </select>
-          </div>
-        </label>
-      </div>
-
       <label className="form-label">
         <span>Message</span>
         <textarea
@@ -167,7 +96,7 @@ export function ContactForm() {
           onChange={(event) =>
             setForm((state) => ({ ...state, message: event.target.value }))
           }
-          placeholder="Share the role, team context, and the systems or product areas you need help owning."
+          placeholder="Tell me a little about why you’re reaching out, whether it’s a role, a project, a question, or just a hello."
           required
           value={form.message}
         />

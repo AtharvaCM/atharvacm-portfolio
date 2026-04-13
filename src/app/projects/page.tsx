@@ -82,7 +82,7 @@ export default async function ProjectsPage({
               className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.12em] ${
                 !params.category
                   ? "border-accent/35 bg-accent/10 text-accent"
-                  : "border-border/80 bg-white/80 text-text/72"
+                  : "border-text/14 bg-[hsl(var(--surface-soft))/0.48] text-text/72 hover:border-text/22 hover:text-text"
               }`}
               href={buildFilterLink(urlParams, "category")}
             >
@@ -93,7 +93,7 @@ export default async function ProjectsPage({
                 className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.12em] ${
                   params.category === category
                     ? "border-accent/35 bg-accent/10 text-accent"
-                    : "border-border/80 bg-white/80 text-text/72"
+                    : "border-text/14 bg-[hsl(var(--surface-soft))/0.48] text-text/72 hover:border-text/22 hover:text-text"
                 }`}
                 href={buildFilterLink(urlParams, "category", category)}
                 key={category}

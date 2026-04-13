@@ -1,23 +1,27 @@
+import Image from "next/image";
 import Link from "next/link";
-import { draftMode } from "next/headers";
-import { FiBookOpen, FiBriefcase, FiFolder, FiStar } from "react-icons/fi";
+import { createElement, type CSSProperties } from "react";
+import type { IconType } from "react-icons";
+import {
+  FiArrowUpRight,
+  FiGrid,
+  FiShield,
+  FiTrendingUp,
+  FiUpload,
+} from "react-icons/fi";
 
 import { AnimatedSection } from "@/components/animated-section";
-import { BadgeLabel } from "@/components/badge-label";
-import { Hero } from "@/components/hero";
-import { ProjectCoverFrame } from "@/components/project-cover-frame";
-import { TechnologiesSection } from "@/components/technologies-section";
-import { getAllBlogPosts, getAllProjects } from "@/lib/content";
 import { PROJECT_CATEGORY_LABELS, RESUME_URL } from "@/lib/constants";
+import { getAllProjects } from "@/lib/content";
 import {
   AVAILABILITY_NOTE,
-  BEST_FIT_NOTE,
+  HOME_FOCUS_AREAS,
   HOME_IMPACT_ITEMS,
-  QUICK_SNAPSHOT_ITEMS
+  PROFILE_NAME,
+  RESUME_EXPERIENCE,
 } from "@/lib/profile-content";
 import { HOME_DESCRIPTION, HOME_TITLE, buildMetadata } from "@/lib/seo";
-import type { BlogPostMeta, ProjectMeta } from "@/lib/types";
-import { formatDate } from "@/lib/utils";
+import type { ProjectMeta } from "@/lib/types";
 
 export const metadata = buildMetadata({
   title: HOME_TITLE,
@@ -25,430 +29,412 @@ export const metadata = buildMetadata({
   path: "/",
   keywords: [
     "Senior Frontend Engineer",
-    "Frontend Developer",
-    "Full-Stack Engineer",
-    "React Developer",
-    "Next.js Developer"
-  ]
+    "Frontend-Focused Full-Stack Engineer",
+    "React Architecture",
+    "Next.js Performance",
+    "Product Engineering",
+  ],
 });
 
-const HIRING_FIT_AREAS = [
-  "Senior Frontend",
-  "Frontend Platform",
-  "Product Engineering",
-  "Frontend-Focused Full-Stack"
+const IMPACT_LABELS = [
+  "Performance",
+  "Reliability",
+  "Architecture",
+  "Delivery",
 ] as const;
 
-function FeaturedProjectStory({ project }: { project: ProjectMeta }) {
-  const coverFit = project.slug === "vehicle-vault-maintenance-platform" ? "contain" : "cover";
+const IMPACT_ICONS: IconType[] = [FiTrendingUp, FiShield, FiGrid, FiUpload];
 
+const EXPERIENCE_PERIODS = [
+  "Current • 2025–Present",
+  "Previous • 2022–2025",
+] as const;
+
+function getHomepageProjects(projects: ProjectMeta[]) {
+  const selected: ProjectMeta[] = [];
+  const seen = new Set<string>();
+
+  for (const project of projects.filter((item) => item.featured)) {
+    selected.push(project);
+    seen.add(project.slug);
+  }
+
+  for (const project of projects) {
+    if (selected.length >= 3) {
+      break;
+    }
+
+    if (seen.has(project.slug)) {
+      continue;
+    }
+
+    if (project.liveUrl || project.repoUrl) {
+      selected.push(project);
+      seen.add(project.slug);
+    }
+  }
+
+  return selected.slice(0, 3);
+}
+
+function WorkRow({
+  project,
+  imageFirst,
+}: {
+  project: ProjectMeta;
+  imageFirst: boolean;
+}) {
   return (
-    <article className="panel group overflow-hidden p-4 md:p-5">
-      <div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch">
-        <ProjectCoverFrame
-          alt={project.title}
-          className="min-h-[18rem] lg:min-h-full"
-          fit={coverFit}
-          imageClassName="transition duration-500 group-hover:scale-[1.02]"
-          sizes="(min-width: 1280px) 42vw, (min-width: 1024px) 48vw, 100vw"
-          src={project.coverImage}
-        >
-          <span className="meta-chip">{PROJECT_CATEGORY_LABELS[project.category]}</span>
-        </ProjectCoverFrame>
-
-        <div className="flex flex-col">
-          <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-text/52">
-            <span className="meta-chip">{project.year}</span>
-            <span className="meta-chip">{project.role}</span>
+    <article className="border-t border-border/90 py-10 first:border-t-0 first:pt-0 md:py-16">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
+        <div className={imageFirst ? "" : "lg:order-2"}>
+          <div className="flex flex-wrap items-center gap-2.5 text-[hsl(var(--text-muted))]">
+            <p className="eyebrow">
+              {PROJECT_CATEGORY_LABELS[project.category]}
+            </p>
+            <span aria-hidden className="text-text/28">
+              •
+            </span>
+            <p className="eyebrow">{project.year}</p>
+            <span aria-hidden className="text-text/28">
+              •
+            </span>
+            <p className="eyebrow">{project.role}</p>
           </div>
-          <h3 className="mt-4 max-w-[16ch] font-display text-[clamp(2rem,3.6vw,3.35rem)] leading-[0.94] tracking-tight">
-            <Link
-              className="transition duration-300 hover:text-accent"
-              href={`/projects/${project.slug}`}
-            >
+
+          <h3 className="mt-4 max-w-[16ch] text-[clamp(1.75rem,3.15vw,3.45rem)] font-bold tracking-[-0.055em] text-text">
+            <Link className="link-display" href={`/projects/${project.slug}`}>
               {project.title}
             </Link>
           </h3>
-          <p className="mt-4 section-copy max-w-[36rem] md:text-base">
+
+          <p className="mt-5 max-w-[38rem] text-[0.98rem] leading-7 text-[hsl(var(--text-muted))]">
             {project.excerpt}
           </p>
 
-          <dl className="mt-6 grid gap-4">
-            <div className="rounded-[1.15rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.68)] p-4">
-              <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">
-                Scope
-              </dt>
-              <dd className="mt-2 text-sm leading-6 text-text/70">
+          <div className="mt-6 grid gap-5 md:grid-cols-2">
+            <div>
+              <p className="eyebrow">System</p>
+              <p className="mt-2 text-[0.95rem] leading-7 text-text">
                 {project.context}
-              </dd>
+              </p>
             </div>
-            <div className="rounded-[1.15rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.68)] p-4">
-              <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">
-                Impact
-              </dt>
-              <dd className="mt-2 text-sm leading-6 text-text/70">
+            <div>
+              <p className="eyebrow">Outcome</p>
+              <p className="mt-2 text-[0.95rem] leading-7 text-[hsl(var(--text-muted))]">
                 {project.impact}
-              </dd>
+              </p>
             </div>
-          </dl>
-
-          <div className="mt-6 rounded-[1.15rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.64)] p-4">
-            <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">
-              Highlights
-            </p>
-            <ul className="mt-3 space-y-2 text-sm leading-6 text-text/72">
-              {project.metricHighlights.slice(0, 3).map((item) => (
-                <li className="flex gap-3" key={item}>
-                  <span className="mt-[0.55rem] h-1.5 w-1.5 rounded-full bg-accent/70" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
           </div>
 
-          <ul className="mt-6 flex flex-wrap gap-2 text-[11px] text-text/70">
-            {project.techStack.slice(0, 5).map((tech) => (
-              <li className="tag-chip font-semibold tracking-[0.04em]" key={tech}>
-                <BadgeLabel label={tech} />
+          <ul className="mt-6 space-y-2.5 border-t border-border/80 pt-5">
+            {project.metricHighlights.slice(0, 2).map((item) => (
+              <li
+                className="flex gap-3 text-[0.95rem] leading-7 text-[hsl(var(--text-muted))]"
+                key={item}
+              >
+                <span className="mt-[0.95rem] h-1.5 w-1.5 rounded-full bg-accent" />
+                <span>{item}</span>
               </li>
             ))}
           </ul>
 
-          <Link className="link-action mt-8" href={`/projects/${project.slug}`}>
-            View project details
-          </Link>
+          <div className="mt-7 flex flex-wrap items-center gap-5">
+            <Link className="link-action" href={`/projects/${project.slug}`}>
+              View project details <span aria-hidden>-&gt;</span>
+            </Link>
+            {project.liveUrl ? (
+              <Link
+                className="link-inline"
+                href={project.liveUrl}
+                rel="noreferrer"
+                target="_blank"
+              >
+                Live site{" "}
+                <FiArrowUpRight aria-hidden className="ml-1 h-3.5 w-3.5" />
+              </Link>
+            ) : null}
+          </div>
+        </div>
+
+        <div className={imageFirst ? "" : "lg:order-1"}>
+          <div className="relative aspect-[5/4] overflow-hidden bg-[hsl(var(--surface-soft))]">
+            <Image
+              alt={project.title}
+              className="object-cover object-top transition duration-500 hover:scale-[1.015]"
+              fill
+              sizes="(min-width: 1024px) 42vw, 100vw"
+              src={project.coverImage}
+            />
+          </div>
         </div>
       </div>
     </article>
   );
 }
 
-function CompactProjectStory({ project }: { project: ProjectMeta }) {
-  return (
-    <article className="panel h-full p-5 md:p-6">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="meta-chip">{PROJECT_CATEGORY_LABELS[project.category]}</span>
-        <span className="text-[10px] uppercase tracking-[0.16em] text-text/52">
-          {project.year} · {project.role}
-        </span>
-      </div>
-
-      <h3 className="mt-4 max-w-[15ch] font-display text-[2rem] leading-[0.95] tracking-tight">
-        <Link
-          className="transition duration-300 hover:text-accent"
-          href={`/projects/${project.slug}`}
-        >
-          {project.title}
-        </Link>
-      </h3>
-
-      <p className="mt-4 text-sm leading-relaxed text-text/70">
-        {project.excerpt}
-      </p>
-
-      <p className="mt-4 border-t border-border/65 pt-4 text-sm leading-6 text-text/65">
-        {project.metricHighlights[0]}
-      </p>
-
-      <ul className="mt-5 flex flex-wrap gap-2 text-[11px] text-text/68">
-        {project.techStack.slice(0, 4).map((tech) => (
-          <li className="tag-chip" key={tech}>
-            <BadgeLabel label={tech} />
-          </li>
-        ))}
-      </ul>
-
-      <Link className="link-action mt-7" href={`/projects/${project.slug}`}>
-        View project details
-      </Link>
-    </article>
-  );
-}
-
-function FeaturedArticleCard({ post }: { post: BlogPostMeta }) {
-  return (
-    <article className="panel h-full p-6 md:p-8">
-      <div className="subtle-rule" />
-      <p className="mt-5 text-[10px] uppercase tracking-[0.16em] text-text/52">
-        {formatDate(post.publishedAt)} • {post.readingTime ?? 1} min read
-      </p>
-
-      <h3 className="mt-4 max-w-[16ch] font-display text-[clamp(2rem,3.8vw,3.45rem)] leading-[0.94] tracking-tight">
-        <Link
-          className="transition duration-300 hover:text-accent"
-          href={`/blog/${post.slug}`}
-        >
-          {post.title}
-        </Link>
-      </h3>
-
-      <p className="mt-4 section-copy max-w-[38rem] md:text-base">
-        {post.excerpt}
-      </p>
-
-      <ul className="mt-6 flex flex-wrap gap-2 text-[11px] text-text/68">
-        {post.tags.map((tag) => (
-          <li className="tag-chip" key={tag}>
-            <BadgeLabel label={tag} />
-          </li>
-        ))}
-      </ul>
-
-      <Link className="link-action mt-8" href={`/blog/${post.slug}`}>
-        Read article
-      </Link>
-    </article>
-  );
-}
-
-function CompactArticleCard({ post }: { post: BlogPostMeta }) {
-  return (
-    <article className="panel h-full p-5 md:p-6">
-      <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">
-        {formatDate(post.publishedAt)} • {post.readingTime ?? 1} min read
-      </p>
-      <h3 className="mt-4 font-display text-[2rem] leading-[0.95] tracking-tight">
-        <Link
-          className="transition duration-300 hover:text-accent"
-          href={`/blog/${post.slug}`}
-        >
-          {post.title}
-        </Link>
-      </h3>
-      <p className="mt-4 text-sm leading-relaxed text-text/70">{post.excerpt}</p>
-      <Link className="link-action mt-6" href={`/blog/${post.slug}`}>
-        Read article
-      </Link>
-    </article>
-  );
-}
-
 export default async function HomePage() {
-  const { isEnabled } = await draftMode();
-  const [projects, posts] = await Promise.all([
-    getAllProjects(),
-    getAllBlogPosts({ includeUnpublished: isEnabled })
-  ]);
+  const projects = await getAllProjects();
+  const homepageProjects = getHomepageProjects(projects);
   const resumeHref = RESUME_URL ?? "/resume";
   const resumeTarget = RESUME_URL ? "_blank" : undefined;
   const resumeRel = RESUME_URL ? "noreferrer" : undefined;
 
-  const featuredProjects = projects
-    .filter((project) => project.featured)
-    .slice(0, 3);
-  const latestPosts = posts.slice(0, 3);
-  const [leadProject, ...secondaryProjects] = featuredProjects;
-  const [leadPost, ...secondaryPosts] = latestPosts;
-
   return (
     <>
-      <Hero />
+      <section className="shell relative overflow-hidden pb-4 pt-6 md:pb-8 md:pt-8">
+        <div className="flex min-h-[calc(86svh-5.25rem)] items-start pt-8 md:min-h-[calc(88svh-5.25rem)] md:pt-10 lg:pt-12">
+          <div className="w-full max-w-[66rem]">
+            <p
+              className="intro-reveal text-[clamp(2.4rem,4vw,4.2rem)] font-semibold tracking-[-0.07em] text-text"
+              style={{ "--delay": "0.04s" } as CSSProperties}
+            >
+              {PROFILE_NAME}
+            </p>
+            <p
+              className="intro-reveal mt-5 chapter-index"
+              style={{ "--delay": "0.1s" } as CSSProperties}
+            >
+              Senior full-stack engineer
+            </p>
 
-      <section className="shell pb-16 md:pb-20">
-        <div className="panel grid gap-8 p-6 md:p-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-          <div>
-            <p className="eyebrow inline-flex items-center gap-2">
-              <FiStar aria-hidden className="h-3.5 w-3.5 text-accent/80" />
-              Quick Snapshot
-            </p>
-            <h2 className="mt-4 max-w-[14ch] font-display text-[clamp(2rem,4vw,3.2rem)] leading-[0.95] tracking-tight">
-              Senior frontend engineer for product teams that need scale.
-            </h2>
-            <p className="section-copy mt-4 max-w-[34rem]">
-              {AVAILABILITY_NOTE}
-            </p>
-            <p className="mt-3 max-w-[34rem] text-sm leading-7 text-text/66">
-              {BEST_FIT_NOTE}
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link className="btn-primary" href={resumeHref} rel={resumeRel} target={resumeTarget}>
-                Download Resume
-              </Link>
-              <Link className="btn-secondary" href="/contact">
-                Contact Me
-              </Link>
-            </div>
-          </div>
+            <h1
+              className="intro-reveal mt-6 text-[clamp(2.85rem,6.35vw,5.95rem)] font-bold tracking-[-0.09em] text-text"
+              style={
+                { "--delay": "0.18s", lineHeight: "0.88" } as CSSProperties
+              }
+            >
+              <span className="block">I build scalable,</span>
+              <span className="block md:whitespace-nowrap">
+                content-driven platforms.
+              </span>
+            </h1>
 
-          <div className="overflow-hidden rounded-[1.45rem] border border-border/65 bg-border/65 shadow-[0_22px_54px_-40px_hsl(var(--text)/0.16)]">
-            <div className="grid gap-px md:grid-cols-2 xl:grid-cols-3">
-              {QUICK_SNAPSHOT_ITEMS.map((item) => (
-                <article className="bg-[hsl(var(--surface)/0.96)] p-5 md:p-6" key={item}>
-                  <p className="text-sm leading-7 text-text/72">{item}</p>
-                </article>
-              ))}
+            <p
+              className="intro-reveal mt-6 max-w-[34rem] text-[0.98rem] leading-7 text-[hsl(var(--text-muted))] md:text-[1.03rem]"
+              style={{ "--delay": "0.26s" } as CSSProperties}
+            >
+              React, Next.js, and TypeScript for production product systems.
+            </p>
+
+            <div
+              className="intro-reveal mt-8 flex flex-wrap items-center gap-3"
+              style={{ "--delay": "0.34s" } as CSSProperties}
+            >
+              <Link className="btn-primary" href="#selected-work">
+                Selected work
+              </Link>
+              <Link
+                className="btn-secondary"
+                href={resumeHref}
+                rel={resumeRel}
+                target={resumeTarget}
+              >
+                Resume
+              </Link>
+              <Link className="link-inline" href="/contact">
+                Contact
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       <AnimatedSection>
-        <TechnologiesSection />
-      </AnimatedSection>
+        <section className="shell content-band content-auto">
+          <div className="section-frame-tight">
+            <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
+              <div className="lg:pt-1">
+                <p className="chapter-index">Proof</p>
+              </div>
 
-      {leadProject ? (
-        <AnimatedSection>
-          <section className="shell content-auto pb-16 md:pb-24" id="selected-work">
-            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
-                <p className="eyebrow inline-flex items-center gap-2">
-                  <FiFolder aria-hidden className="h-3.5 w-3.5 text-accent/80" />
-                  Projects
-                </p>
-                <h2 className="section-heading mt-4">Selected Work</h2>
-                <p className="section-copy mt-3 max-w-[38rem]">
-                  A few projects that show how I work: product-minded,
-                  frontend-first, and built for production.
-                </p>
+                <h2 className="section-heading max-w-[9ch]">
+                  What the work changed.
+                </h2>
+                <div className="mt-10 grid gap-x-8 gap-y-8 md:grid-cols-2">
+                  {HOME_IMPACT_ITEMS.map((item, index) => (
+                    <article
+                      className="border-t border-border/80 pt-5"
+                      key={item}
+                    >
+                      {(() => {
+                        const Icon = IMPACT_ICONS[index]!;
+
+                        return (
+                          <p className="eyebrow mt-3 inline-flex items-center gap-2">
+                            {createElement(Icon, {
+                              "aria-hidden": true,
+                              className: "h-3.5 w-3.5 text-text/55",
+                            })}
+                            <span>{IMPACT_LABELS[index]}</span>
+                          </p>
+                        );
+                      })()}
+                      <p className="chapter-index">0{index + 1}</p>
+                      <p className="mt-3 text-[1.05rem] leading-8 text-text">
+                        {item}
+                      </p>
+                    </article>
+                  ))}
+                </div>
               </div>
-              <Link className="btn-secondary hidden md:inline-flex" href="/projects">
-                View all projects
-              </Link>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-[1.18fr_0.82fr]">
-              <FeaturedProjectStory project={leadProject} />
-
-              <div className="grid gap-6">
-                {secondaryProjects.map((project) => (
-                  <CompactProjectStory key={project.slug} project={project} />
-                ))}
-              </div>
-            </div>
-          </section>
-        </AnimatedSection>
-      ) : null}
-
-      <AnimatedSection>
-        <section className="shell content-auto pb-16 md:pb-24">
-            <div className="mb-8">
-              <p className="eyebrow inline-flex items-center gap-2">
-                <FiStar aria-hidden className="h-3.5 w-3.5 text-accent/80" />
-                Engineering Impact
-              </p>
-              <h2 className="section-heading mt-4">What I&apos;ve improved</h2>
-          </div>
-
-          <div className="overflow-hidden rounded-[1.45rem] border border-border/65 bg-border/65 shadow-[0_22px_54px_-40px_hsl(var(--text)/0.16)]">
-            <div className="grid gap-px md:grid-cols-2 xl:grid-cols-5">
-            {HOME_IMPACT_ITEMS.map((item) => (
-              <article
-                className="bg-[hsl(var(--surface)/0.96)] p-5 md:p-6"
-                key={item}
-              >
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text/50">
-                  Improvement
-                </p>
-                <p className="mt-3 text-sm leading-7 text-text/72">{item}</p>
-              </article>
-            ))}
             </div>
           </div>
         </section>
       </AnimatedSection>
 
       <AnimatedSection>
-        <section className="shell content-auto pb-16 md:pb-24">
-            <div className="panel grid gap-8 p-8 md:p-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
-            <div>
-              <p className="eyebrow inline-flex items-center gap-2">
-                <FiBriefcase aria-hidden className="h-3.5 w-3.5 text-accent/80" />
-                About
-              </p>
-              <h2 className="section-heading mt-4">Product-aware, and built for production.</h2>
+        <section className="shell content-band content-auto" id="selected-work">
+          <div className="section-frame">
+            <div className="mb-10 grid gap-6 lg:mb-14 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
+              <div className="lg:pt-1">
+                <p className="chapter-index">Selected work</p>
+              </div>
+
+              <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(16rem,0.95fr)] lg:items-end">
+                <h2 className="section-heading max-w-[9ch]">
+                  Where it shows up.
+                </h2>
+                <p className="section-copy max-w-[21rem]">
+                  Large systems, high-traffic product work, and platform
+                  ownership.
+                </p>
+              </div>
             </div>
-            <div className="flex h-full flex-col justify-end">
-              <p className="section-copy max-w-[42rem] md:text-base">
-                I work on frontend systems that need to hold up under real
-                product pressure. That usually means improving
-                maintainability, handling complexity without losing clarity,
-                and shipping features that stay reliable as products and teams
-                grow.
-              </p>
-              <Link className="btn-secondary mt-6" href="/about">
-                Read more
-              </Link>
+
+            <div className="space-y-0">
+              {homepageProjects.map((project, index) => (
+                <WorkRow
+                  imageFirst={index % 2 === 0}
+                  key={project.slug}
+                  project={project}
+                />
+              ))}
             </div>
           </div>
         </section>
       </AnimatedSection>
 
-      {leadPost ? (
-        <AnimatedSection>
-          <section className="shell content-auto pb-16 md:pb-24">
-            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <AnimatedSection>
+        <section className="shell content-band content-auto">
+          <div className="section-frame">
+            <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
+              <div className="lg:pt-1">
+                <p className="chapter-index">Approach</p>
+              </div>
+
               <div>
-                <p className="eyebrow inline-flex items-center gap-2">
-                  <FiBookOpen aria-hidden className="h-3.5 w-3.5 text-accent/80" />
-                  Writing
-                </p>
-                <h2 className="section-heading mt-4">Writing</h2>
-                <p className="section-copy mt-3 max-w-[38rem]">
-                  Notes on frontend systems, performance, debugging, and
-                  production engineering.
-                </p>
-              </div>
-              <Link className="btn-secondary hidden md:inline-flex" href="/blog">
-                Read notes
-              </Link>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-[1.04fr_0.96fr]">
-              <FeaturedArticleCard post={leadPost} />
-
-              <div className="grid gap-4">
-                {secondaryPosts.map((post) => (
-                  <CompactArticleCard key={post.slug} post={post} />
-                ))}
+                <h2 className="section-heading max-w-[8ch]">How I build.</h2>
+                <div className="mt-10 grid gap-8 md:grid-cols-3">
+                  {HOME_FOCUS_AREAS.map((area, index) => (
+                    <article
+                      className="border-t border-border/80 pt-5"
+                      key={area.title}
+                    >
+                      <p className="chapter-index">0{index + 1}</p>
+                      <h3 className="mt-4 max-w-[14ch] text-[1.6rem] font-bold tracking-[-0.05em] text-text">
+                        {area.title}
+                      </h3>
+                      <p className="mt-4 text-sm leading-7 text-[hsl(var(--text-muted))]">
+                        {area.copy}
+                      </p>
+                    </article>
+                  ))}
+                </div>
               </div>
             </div>
-          </section>
-        </AnimatedSection>
-      ) : null}
+          </div>
+        </section>
+      </AnimatedSection>
 
-      <section className="shell content-auto pb-20 pt-2 md:pb-24">
-        <div className="panel overflow-hidden p-8 md:p-10">
-          <div className="grid gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-end">
+      <AnimatedSection>
+        <section className="shell content-band content-auto">
+          <div className="section-frame">
+            <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
+              <div className="lg:pt-1">
+                <p className="chapter-index">Experience</p>
+              </div>
+
+              <div>
+                <h2 className="section-heading max-w-[9ch]">
+                  Where I&apos;ve applied it.
+                </h2>
+                <p className="section-copy mt-5 max-w-[24rem]">
+                  Built inside complex React monorepos and high-traffic product
+                  teams.
+                </p>
+
+                <div className="mt-10 space-y-10">
+                  {RESUME_EXPERIENCE.map((role, index) => (
+                    <article
+                      className="border-t border-border/80 pt-6"
+                      key={`${role.company}-${role.title}`}
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-4">
+                        <div>
+                          <p className="chapter-index">0{index + 1}</p>
+                          <h3 className="mt-3 text-[clamp(1.7rem,2.4vw,2.4rem)] font-bold tracking-[-0.05em] text-text">
+                            {role.company}
+                          </h3>
+                          <p className="mt-2 text-sm uppercase tracking-[0.18em] text-[hsl(var(--text-muted))]">
+                            {role.title}
+                          </p>
+                        </div>
+                        <p className="eyebrow">{EXPERIENCE_PERIODS[index]}</p>
+                      </div>
+
+                      <ul className="mt-6 grid gap-3">
+                        {role.points
+                          .filter((_, pointIndex) =>
+                            index === 0
+                              ? pointIndex === 0 || pointIndex === 4
+                              : pointIndex === 0 || pointIndex === 2,
+                          )
+                          .map((point) => (
+                            <li
+                              className="flex gap-3 text-sm leading-7 text-[hsl(var(--text-muted))]"
+                              key={point}
+                            >
+                              <span className="mt-[0.95rem] h-1.5 w-1.5 rounded-full bg-accent" />
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                      </ul>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </AnimatedSection>
+
+      <section className="shell content-band content-auto">
+        <div className="section-frame">
+          <p className="chapter-index">Next</p>
+          <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end">
             <div>
-              <p className="eyebrow inline-flex items-center gap-2">
-                <FiBriefcase aria-hidden className="h-3.5 w-3.5 text-accent/80" />
-                Hiring
-              </p>
-              <h2 className="section-heading mt-3 max-w-3xl">
-                Open to senior frontend and full-stack roles.
+              <h2 className="section-heading max-w-[18ch]">
+                Looking for the next serious product to help build.
               </h2>
-              <p className="section-copy mt-5 max-w-[36rem]">
-                If you&apos;re building a serious product and need someone who
-                can own frontend systems, improve delivery quality, and work
-                comfortably across product and engineering constraints,
-                let&apos;s talk.
-              </p>
-              <p className="mt-4 text-sm leading-7 text-text/66">
+              <p className="section-copy mt-5 max-w-[50rem]">
                 {AVAILABILITY_NOTE}
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link className="btn-primary" href="/contact">
-                  Contact me
-                </Link>
-                <Link className="btn-secondary" href={resumeHref} rel={resumeRel} target={resumeTarget}>
-                  Download Resume
-                </Link>
-              </div>
             </div>
 
-            <div className="rounded-[1.2rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.66)] p-5 md:p-6">
-              <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">Best fit</p>
-              <p className="mt-4 text-sm leading-7 text-text/70">
-                Teams building complex web products where frontend quality,
-                performance, and clean engineering all matter.
-              </p>
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {HIRING_FIT_AREAS.map((item) => (
-                  <li className="tag-chip" key={item}>
-                    <BadgeLabel label={item} />
-                  </li>
-                ))}
-              </ul>
+            <div className="flex flex-wrap items-center gap-3 lg:justify-end">
+              <Link className="btn-primary" href="/contact">
+                Contact
+              </Link>
+              <Link
+                className="btn-secondary"
+                href={resumeHref}
+                rel={resumeRel}
+                target={resumeTarget}
+              >
+                Download resume
+              </Link>
             </div>
           </div>
         </div>

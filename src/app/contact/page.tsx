@@ -9,14 +9,14 @@ import { getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
 export const metadata: Metadata = buildMetadata({
   title: `Contact | ${SITE_NAME}`,
   description:
-    "Contact Atharva Mahamuni regarding senior frontend, product engineering, and frontend-focused full-stack roles.",
+    "Contact Atharva Mahamuni about senior frontend and full-stack roles with teams that care about product quality and ownership.",
   path: "/contact",
   keywords: [
     "Senior Frontend Engineer",
     "Full-Stack Engineer",
     "Contact",
-    "React Developer"
-  ]
+    "React Developer",
+  ],
 });
 
 export default function ContactPage() {
@@ -33,58 +33,68 @@ export default function ContactPage() {
     <section className="shell py-16 md:py-20">
       <p className="eyebrow">Contact</p>
       <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.3rem,6vw,5rem)] tracking-tight">
-        Open to senior frontend and full-stack roles.
+        If you&apos;d like to talk, I&apos;d be glad to hear from you.
       </h1>
       <p className="section-copy mt-4 max-w-[46rem]">
-        If you&apos;re hiring for a senior frontend, product engineering, or
-        full-stack role and want someone who can own meaningful parts of the
-        system, I&apos;d be happy to talk.
+        I&apos;m open to senior frontend and full-stack roles, but also happy to
+        hear from people building interesting products, exploring ideas, or just
+        wanting to connect.
       </p>
       <p className="mt-3 max-w-2xl text-sm leading-7 text-text/60">
-        Best fit: teams that care about quality, delivery, performance, and
-        clean engineering.
+        The easiest way to reach me is on LinkedIn. You can also start with my
+        resume or email.
       </p>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-[2fr_1fr]">
         <ContactForm />
         <aside className="panel p-6 md:p-8">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">Profile</p>
-          <h2 className="mt-3 font-display text-[2.2rem] tracking-tight">Resume and links</h2>
+          <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">
+            Contact
+          </p>
+          <h2 className="mt-3 font-display text-[2.2rem] tracking-tight">
+            Other ways to reach me
+          </h2>
           <p className="mt-4 text-sm leading-7 text-text/72">
-            Prefer async first? Start with the resume, then reach out with the role, team context, and what you need
-            owned.
+            Based in India. Open to roles, collaborations, and thoughtful
+            conversations around products, systems, and ideas.
           </p>
           <div className="subtle-rule mt-6" />
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 space-y-4 text-sm leading-7">
             {resumeUrl ? (
-              <Link className="btn-secondary" href={resumeUrl} rel="noreferrer" target="_blank">
-                Download Resume
-              </Link>
+              <p>
+                <span className="eyebrow block">Resume</span>
+                <Link
+                  className="link-inline-accent mt-2"
+                  href={resumeUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Download PDF resume
+                </Link>
+              </p>
             ) : null}
             {linkedInUrl ? (
-              <Link className="btn-secondary" href={linkedInUrl} rel="noreferrer" target="_blank">
-                LinkedIn
-              </Link>
+              <p>
+                <span className="eyebrow block">LinkedIn</span>
+                <Link
+                  className="link-inline-accent mt-2"
+                  href={linkedInUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  linkedin.com/in/atharvacm
+                </Link>
+              </p>
+            ) : null}
+            {contactHref && contactEmail ? (
+              <p>
+                <span className="eyebrow block">Email</span>
+                <Link className="link-inline-accent mt-2" href={contactHref}>
+                  {contactEmail}
+                </Link>
+              </p>
             ) : null}
           </div>
-          {contactHref && contactEmail ? (
-            <div className="mt-6 rounded-[1rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.62)] p-4">
-              <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">
-                Prefer email?
-              </p>
-              <Link className="link-inline-accent mt-3" href={contactHref}>
-                {contactEmail}
-              </Link>
-            </div>
-          ) : null}
-          <p className="mt-6 text-sm leading-7 text-text/72">
-            Location: India (IST) · Open to remote, hybrid, and strong engineering teams with meaningful product scope.
-          </p>
-          {contactHref && contactEmail ? (
-            <Link className="btn-primary mt-5" href={contactHref}>
-              Email me
-            </Link>
-          ) : null}
         </aside>
       </div>
     </section>

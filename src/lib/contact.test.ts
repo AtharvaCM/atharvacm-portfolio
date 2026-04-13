@@ -3,9 +3,6 @@ import { __resetRateLimitStoreForTests, handleContactSubmission } from "@/lib/co
 const validInput = {
   name: "Ada Lovelace",
   email: "ada@example.com",
-  opportunityType: "Senior frontend engineer role",
-  companyContext: "Growth stage (50-500)",
-  connectTimeline: "This month",
   message: "I am reaching out about a senior frontend role and wanted to discuss team fit.",
   website: ""
 };
