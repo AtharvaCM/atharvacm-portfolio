@@ -47,9 +47,6 @@ export type BlogPost = BlogPostMeta & {
 export type ContactFormInput = {
   name: string;
   email: string;
-  opportunityType: string;
-  companyContext: string;
-  connectTimeline: string;
   message: string;
   website?: string;
 };

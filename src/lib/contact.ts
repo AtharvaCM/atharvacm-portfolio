@@ -11,9 +11,6 @@ const RATE_LIMIT_MAX_REQUESTS = 5;
 export const contactFormSchema = z.object({
   name: z.string().min(2).max(80),
   email: z.string().email(),
-  opportunityType: z.string().min(2).max(100),
-  companyContext: z.string().min(2).max(100),
-  connectTimeline: z.string().min(2).max(80),
   message: z.string().min(20).max(2500),
   website: z.string().max(200).optional()
 });
@@ -43,14 +40,11 @@ export function isRateLimited(identifier: string, now = Date.now()) {
 
 function formatContactEmail(input: ContactFormInput) {
   return {
-    subject: `New Portfolio Contact - ${input.opportunityType}`,
+    subject: `New Portfolio Contact - ${input.name}`,
     html: `
       <h2>New Portfolio Contact</h2>
       <p><strong>Name:</strong> ${input.name}</p>
       <p><strong>Email:</strong> ${input.email}</p>
-      <p><strong>Opportunity Type:</strong> ${input.opportunityType}</p>
-      <p><strong>Company Context:</strong> ${input.companyContext}</p>
-      <p><strong>Connect Timeline:</strong> ${input.connectTimeline}</p>
       <p><strong>Message:</strong></p>
       <p>${input.message.replaceAll("\n", "<br/>")}</p>
     `
