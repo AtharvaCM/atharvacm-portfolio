@@ -3,6 +3,7 @@ import { Manrope, Space_Grotesk } from "next/font/google";
 
 import { ClientOverlays } from "@/components/client-overlays";
 import { DraftModeBanner } from "@/components/draft-mode-banner";
+import { NavigationProgress } from "@/components/navigation-progress";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { StructuredData } from "@/components/structured-data";
@@ -54,6 +55,7 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <StructuredData data={getSiteStructuredData()} />
+        <NavigationProgress />
         <DraftModeBanner />
         <SiteNav />
         <main>{children}</main>
