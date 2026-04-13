@@ -26,6 +26,7 @@ pnpm-debug.log*
 
 # testing
 /coverage
+/.playwright-cli/
 *.tsbuildinfo
 
 # Local Netlify folder
