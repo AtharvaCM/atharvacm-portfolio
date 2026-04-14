@@ -21,15 +21,15 @@ export const metadata: Metadata = buildMetadata({
 const CARE_POINTS = [
   {
     title: "Clarity",
-    copy: "I like work that is easy to understand and honest about its tradeoffs.",
+    copy: "I like work that is easy to understand, honest about its tradeoffs, and simple enough to build on.",
   },
   {
     title: "Durability",
-    copy: "I like decisions that still make sense after the first version ships.",
+    copy: "I care about things that still make sense after the first version ships.",
   },
   {
     title: "Ownership",
-    copy: "I do my best work when I can care about the product, not just the task.",
+    copy: "I do my best work when I can care about the product, not just the task in front of me.",
   },
   {
     title: "Curiosity",
@@ -38,6 +38,36 @@ const CARE_POINTS = [
   {
     title: "Taste",
     copy: "I care when things feel considered, useful, and well made.",
+  },
+] as const;
+
+const STORY_POINTS = [
+  "Started with a straightforward interest in building things for the web, then got pulled deeper into the systems behind them.",
+  "The more real product work I did, the more I cared about structure, maintainability, and decisions that only show up once complexity arrives.",
+  "Over time, I moved from just shipping features to thinking more about architecture, performance, and how products hold up after release.",
+  "That is still the part of engineering I enjoy most: building things that stay useful, clear, and dependable in the real world.",
+] as const;
+
+const TINKERING_POINTS = [
+  {
+    title: "Self-hosted tools and Linux setups",
+    copy: "I like understanding the systems I use, not just consuming them.",
+    image: "/images/about/self-hosted-tools.svg",
+  },
+  {
+    title: "Side projects",
+    copy: "Small experiments are usually where I learn fastest.",
+    image: "/images/about/side-projects.svg",
+  },
+  {
+    title: "Books, music, and films",
+    copy: "A lot of good ideas come from outside software.",
+    image: "/images/about/books-music-films.svg",
+  },
+  {
+    title: "Cooking, badminton, and long rides",
+    copy: "Some of the best resets are offline.",
+    image: "/images/about/offline-resets.svg",
   },
 ] as const;
 
@@ -70,6 +100,28 @@ export default function AboutPage() {
         </div>
       </div>
 
+      <section className="mt-16 grid gap-10 border-t border-border/80 pt-10 lg:grid-cols-[0.72fr_1fr] lg:gap-16">
+        <div>
+          <h2 className="section-heading">How I got here</h2>
+          <p className="section-copy mt-4 text-sm md:text-base">
+            A short version of how I grew into the kind of engineer I am now.
+          </p>
+        </div>
+        <ol className="space-y-6">
+          {STORY_POINTS.map((item, index) => (
+            <li
+              className="grid gap-4 border-t border-border/70 pt-5 first:border-t-0 first:pt-0 sm:grid-cols-[3rem_1fr]"
+              key={item}
+            >
+              <span className="font-mono text-xs uppercase tracking-[0.18em] text-accent/80">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <p className="text-[1.03rem] leading-8 text-text/76">{item}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <section className="mt-16 border-t border-border/80 pt-10">
         <h2 className="section-heading">What matters to me</h2>
 
@@ -90,14 +142,35 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mt-16 grid gap-10 border-t border-border/80 pt-10 lg:grid-cols-[0.72fr_1fr] lg:gap-16">
-        <h2 className="section-heading">Outside of work</h2>
-        <p className="max-w-[47rem] text-[1.03rem] leading-8 text-text/76">
-          Outside work, I&apos;m often around side projects and systems too:
-          self-hosted tools, Linux setups, and ideas I want to explore properly.
-          The rest is books, music, cooking, long rides, badminton, and whatever
-          I&apos;m currently watching or reading.
-        </p>
+      <section className="mt-16 border-t border-border/80 pt-10">
+        <div className="max-w-[42rem]">
+          <h2 className="section-heading">What I&apos;m usually tinkering with</h2>
+          <p className="section-copy mt-4 text-sm md:text-base">
+            A few things that keep showing up outside the day job.
+          </p>
+        </div>
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          {TINKERING_POINTS.map((item) => (
+            <article
+              className="overflow-hidden rounded-[1.4rem] border border-border/70 bg-[hsl(var(--surface)/0.72)]"
+              key={item.title}
+            >
+              <div
+                aria-hidden="true"
+                className="min-h-44 border-b border-border/65 bg-cover bg-center opacity-90"
+                style={{ backgroundImage: `url(${item.image})` }}
+              />
+              <div className="p-5 md:p-6">
+                <h3 className="text-base font-semibold tracking-[-0.02em] text-text">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-text/72">
+                  {item.copy}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="mt-16 border-t border-border/80 pt-10">

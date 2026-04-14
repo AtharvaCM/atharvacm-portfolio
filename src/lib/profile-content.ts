@@ -186,4 +186,4 @@ export const RESUME_SKILLS = [
 ] as const;
 
 export const FOOTER_BIO =
-  "Senior software engineer focused on frontend systems, maintainable product delivery, and scalable web applications.";
+  "I build durable frontend and full-stack systems for products that need to keep working as they grow.";

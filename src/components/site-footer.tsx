@@ -15,7 +15,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-border/90 py-10 md:py-14">
       <div className="shell">
-        <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+        <div className="grid gap-10 md:grid-cols-[1.3fr_0.7fr_0.9fr]">
           <div>
             <p className="text-[0.9rem] font-semibold uppercase tracking-[0.22em] text-text">
               {SITE_NAME}
@@ -39,7 +39,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="eyebrow">Elsewhere</p>
+            <p className="eyebrow">Connect</p>
             <ul className="mt-4 space-y-2">
               {SOCIAL_LINKS.map((item) => (
                 <li key={item.href}>
@@ -64,7 +64,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-border/80 pt-5 text-[0.72rem] uppercase tracking-[0.18em] text-text/42 md:flex-row md:items-center md:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-border/80 pt-5 text-[0.72rem] uppercase tracking-[0.18em] text-text/42 md:flex-row md:items-center md:justify-between">
           <p>Built with Next.js, TypeScript, and production-first instincts.</p>
           <p>
             <Link className="link-inline" href="/privacy">
