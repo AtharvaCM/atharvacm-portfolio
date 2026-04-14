@@ -587,7 +587,18 @@ function buildValidationIssues(file: string, source: string): BlogValidationEntr
 }
 
 export async function validateBlogFiles(targetSlug?: string) {
-  const files = (await fs.readdir(BLOG_CONTENT_DIR)).filter((entry) => entry.endsWith(".mdx"));
+  let files: string[];
+
+  try {
+    files = (await fs.readdir(BLOG_CONTENT_DIR)).filter((entry) => entry.endsWith(".mdx"));
+  } catch (error) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") {
+      files = [];
+    } else {
+      throw error;
+    }
+  }
+
   const targetFiles = targetSlug ? files.filter((file) => file === `${targetSlug}.mdx`) : files;
   const entries = await Promise.all(
     targetFiles.map(async (file) => {

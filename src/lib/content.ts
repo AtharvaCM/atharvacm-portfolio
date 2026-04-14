@@ -62,7 +62,18 @@ function calculateReadingTime(content: string) {
 }
 
 async function getFileList(directory: string) {
-  const entries = await fs.readdir(directory);
+  let entries: string[];
+
+  try {
+    entries = await fs.readdir(directory);
+  } catch (error) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") {
+      return [];
+    }
+
+    throw error;
+  }
+
   return entries.filter((entry) => entry.endsWith(".mdx"));
 }
 
