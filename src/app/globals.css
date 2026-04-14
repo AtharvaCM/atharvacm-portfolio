@@ -252,14 +252,6 @@ a {
   }
 
   .section-reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition:
-      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .section-reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
@@ -357,6 +349,29 @@ a {
   }
 }
 
+@keyframes section-rise {
+  from {
+    opacity: 0.001;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .section-reveal {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: section-rise;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-range: entry 0% cover 26%;
+    animation-timeline: view();
+  }
+}
+
 @media (max-width: 767px) {
   body::before {
     background-size: 2.2rem 2.2rem;
@@ -379,7 +394,6 @@ a {
   }
 
   .section-reveal,
-  .section-reveal.is-visible,
   .intro-reveal {
     opacity: 1;
     transform: none;

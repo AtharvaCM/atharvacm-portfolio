@@ -56,11 +56,14 @@ Copy `.env.example` to `.env.local` and update values.
 
 ## Blog workflow
 
-- Blog posts live in `src/content/blog/*.mdx`.
-- Set `draft: true` to keep a post hidden from the public site.
-- Preview unpublished posts by visiting `/api/draft?secret=<BLOG_PREVIEW_SECRET>&slug=/blog/<slug>`.
-- Exit preview mode at `/api/draft/disable`.
-- Future-dated posts are treated as scheduled and remain hidden until their `publishedAt` date.
-- Publish from the terminal with `npm run blog:publish -- <slug>`.
-- Add `--branch=publish/<slug> --commit --pr` to create a branch, commit just that post, and open a PR through `gh`.
-- Start the MCP server with `npm run mcp:blog` to use `create_draft`, `publish_post`, `outline_post`, `suggest_metadata`, `review_post`, `link_suggestions`, and `rewrite_post_section` from an MCP client.
+Blog posts are local MDX files in `src/content/blog`. Drafts, scheduled posts, validation, preview mode,
+RSS, and MCP-assisted authoring are documented in [docs/blogging-system.md](docs/blogging-system.md).
+
+Common commands:
+
+```bash
+npm run blog:new -- "Post title"
+npm run blog:validate
+npm run blog:publish -- <slug>
+npm run mcp:blog
+```

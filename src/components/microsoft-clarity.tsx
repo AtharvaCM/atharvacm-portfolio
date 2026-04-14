@@ -43,7 +43,7 @@ export function MicrosoftClarity({ projectId }: Props) {
     }
   }, [consent, hasClarity, projectId]);
 
-  if (!projectId || (consent !== "accepted" && !hasClarity)) {
+  if (!projectId || consent !== "accepted") {
     return null;
   }
 
