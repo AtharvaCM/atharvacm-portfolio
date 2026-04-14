@@ -76,7 +76,7 @@ export async function sendContactEmail(input: ContactFormInput) {
   const from = process.env.CONTACT_FROM_EMAIL ?? DEFAULT_CONTACT_FROM_EMAIL;
 
   if (!apiKey || !to) {
-    return { id: randomUUID(), simulated: true };
+    throw new Error("Contact email delivery is not configured.");
   }
 
   const resend = new Resend(apiKey);

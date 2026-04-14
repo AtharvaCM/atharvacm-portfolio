@@ -1,4 +1,4 @@
-import { __resetRateLimitStoreForTests, handleContactSubmission } from "@/lib/contact";
+import { __resetRateLimitStoreForTests, handleContactSubmission, sendContactEmail } from "@/lib/contact";
 
 const validInput = {
   name: "Ada Lovelace",
@@ -69,5 +69,23 @@ describe("handleContactSubmission", () => {
       ok: false,
       error: "Failed to send your message. Please try again."
     });
+  });
+
+  it("does not silently simulate delivery when email config is missing", async () => {
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const contactToEmail = process.env.CONTACT_TO_EMAIL;
+
+    delete process.env.RESEND_API_KEY;
+    delete process.env.CONTACT_TO_EMAIL;
+
+    await expect(sendContactEmail(validInput)).rejects.toThrow("Contact email delivery is not configured.");
+
+    if (resendApiKey) {
+      process.env.RESEND_API_KEY = resendApiKey;
+    }
+
+    if (contactToEmail) {
+      process.env.CONTACT_TO_EMAIL = contactToEmail;
+    }
   });
 });
