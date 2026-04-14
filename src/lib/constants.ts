@@ -2,8 +2,7 @@ import { getMeaningfulExternalUrl } from "./utils";
 import { PROFILE_NAME } from "./profile-content";
 
 export const SITE_NAME = PROFILE_NAME;
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://atharvacm-portfolio.netlify.app";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://atharvacm.dev";
 export const RESUME_URL = getMeaningfulExternalUrl(process.env.NEXT_PUBLIC_RESUME_URL);
 export const LINKEDIN_URL = getMeaningfulExternalUrl(process.env.NEXT_PUBLIC_LINKEDIN_URL);
 export const GITHUB_URL = getMeaningfulExternalUrl(process.env.NEXT_PUBLIC_GITHUB_URL);

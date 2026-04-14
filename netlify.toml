@@ -4,7 +4,9 @@
   publish = ".next"
 
 [build.environment]
-  NEXT_PUBLIC_SITE_URL = "https://atharvacm-portfolio.netlify.app"
+  NEXT_PUBLIC_SITE_URL = "https://atharvacm.dev"
+  BLOG_PREVIEW_BASE_URL = "https://atharvacm.dev"
+  NEXT_PUBLIC_CONTACT_EMAIL = "hello@atharvacm.dev"
 
 [context.production.environment]
   NEXT_PUBLIC_CLARITY_ID = "vzl3sv6czd"

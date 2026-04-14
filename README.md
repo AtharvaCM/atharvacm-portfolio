@@ -54,6 +54,15 @@ Copy `.env.example` to `.env.local` and update values.
 - `CONTACT_TO_EMAIL`
 - `CONTACT_FROM_EMAIL`
 
+Contact email setup:
+
+- Public email shown on the site: `hello@atharvacm.dev`
+- Inbound email: Cloudflare Email Routing should forward `hello@atharvacm.dev` to the real inbox
+- Contact form sender: Resend should send from a verified `middle-earth.in` address, configured with `CONTACT_FROM_EMAIL`
+- Contact form replies: `replyTo` is set to the visitor-submitted email address
+
+See [docs/contact-email-routing.md](docs/contact-email-routing.md) for the production setup.
+
 ## Blog workflow
 
 Blog posts are local MDX files in `src/content/blog`. Drafts, scheduled posts, validation, preview mode,

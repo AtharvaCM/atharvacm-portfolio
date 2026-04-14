@@ -7,6 +7,7 @@ import type { ContactFormInput, ContactResponse } from "@/lib/types";
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
+export const DEFAULT_CONTACT_FROM_EMAIL = "Portfolio <hello@middle-earth.in>";
 
 export const contactFormSchema = z.object({
   name: z.string().min(2).max(80),
@@ -54,7 +55,7 @@ function formatContactEmail(input: ContactFormInput) {
 export async function sendContactEmail(input: ContactFormInput) {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL;
-  const from = process.env.CONTACT_FROM_EMAIL ?? "Portfolio <onboarding@resend.dev>";
+  const from = process.env.CONTACT_FROM_EMAIL ?? DEFAULT_CONTACT_FROM_EMAIL;
 
   if (!apiKey || !to) {
     return { id: randomUUID(), simulated: true };
