@@ -27,25 +27,6 @@ export const PROJECT_CATEGORY_LABELS = {
   other: "Other"
 } as const;
 
-export const OPPORTUNITY_TYPES = [
-  "Senior frontend engineer role",
-  "Frontend-focused full-stack role",
-  "Platform or frontend architecture role",
-  "Product engineering role",
-  "Contract or consulting inquiry",
-  "General outreach"
-] as const;
-
-export const COMPANY_CONTEXTS = [
-  "Startup (0-50)",
-  "Growth stage (50-500)",
-  "Enterprise (500+)",
-  "Agency/consultancy",
-  "Founder or direct outreach"
-] as const;
-
-export const CONNECT_TIMELINES = ["ASAP", "This month", "Next quarter", "Future pipeline", "Flexible"] as const;
-
 export const BLOG_PAGE_SIZE = 6;
 
 export const SOCIAL_LINKS = [

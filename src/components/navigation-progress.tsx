@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 const START_DELAY_MS = 120;
 const FINISH_DELAY_MS = 260;
@@ -36,8 +36,8 @@ function isInternalNavigation(anchor: HTMLAnchorElement) {
 
 export function NavigationProgress() {
   const pathname = usePathname();
-  const [isVisible, setIsVisible] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const progressElementRef = useRef<HTMLDivElement | null>(null);
+  const progressValueRef = useRef(0);
   const startTimerRef = useRef<number | null>(null);
   const finishTimerRef = useRef<number | null>(null);
   const safetyTimerRef = useRef<number | null>(null);
@@ -49,6 +49,20 @@ export function NavigationProgress() {
   const clearTimer = useCallback((timer: number | null) => {
     if (timer) {
       window.clearTimeout(timer);
+    }
+  }, []);
+
+  const setProgress = useCallback((value: number) => {
+    progressValueRef.current = value;
+
+    if (progressElementRef.current) {
+      progressElementRef.current.style.transform = `scaleX(${value / 100})`;
+    }
+  }, []);
+
+  const setVisible = useCallback((visible: boolean) => {
+    if (progressElementRef.current) {
+      progressElementRef.current.dataset.visible = String(visible);
     }
   }, []);
 
@@ -69,9 +83,9 @@ export function NavigationProgress() {
     safetyTimerRef.current = null;
     isLoadingRef.current = false;
     hasShownRef.current = false;
-    setIsVisible(false);
+    setVisible(false);
     setProgress(0);
-  }, [clearTimer, stopTrickle]);
+  }, [clearTimer, setProgress, setVisible, stopTrickle]);
 
   const finish = useCallback(() => {
     clearTimer(startTimerRef.current);
@@ -93,13 +107,13 @@ export function NavigationProgress() {
 
     setProgress(100);
     finishTimerRef.current = window.setTimeout(() => {
-      setIsVisible(false);
+      setVisible(false);
       window.setTimeout(() => {
         setProgress(0);
         hasShownRef.current = false;
       }, 180);
     }, FINISH_DELAY_MS);
-  }, [clearTimer, reset, stopTrickle]);
+  }, [clearTimer, reset, setProgress, setVisible, stopTrickle]);
 
   const start = useCallback(() => {
     if (isLoadingRef.current) {
@@ -112,22 +126,20 @@ export function NavigationProgress() {
 
     startTimerRef.current = window.setTimeout(() => {
       hasShownRef.current = true;
-      setIsVisible(true);
+      setVisible(true);
       setProgress(18);
 
       trickleTimerRef.current = window.setInterval(() => {
-        setProgress((current) => {
-          if (current >= 88) {
-            return current;
-          }
+        const current = progressValueRef.current;
 
-          return current + Math.max(1, (88 - current) * 0.12);
-        });
+        if (current < 88) {
+          setProgress(current + Math.max(1, (88 - current) * 0.12));
+        }
       }, 360);
     }, START_DELAY_MS);
 
     safetyTimerRef.current = window.setTimeout(finish, SAFETY_TIMEOUT_MS);
-  }, [clearTimer, finish]);
+  }, [clearTimer, finish, setProgress, setVisible]);
 
   useEffect(() => {
     function onDocumentClick(event: MouseEvent) {
@@ -181,8 +193,9 @@ export function NavigationProgress() {
     <div
       aria-hidden
       className="navigation-progress"
-      data-visible={isVisible}
-      style={{ transform: `scaleX(${progress / 100})` }}
+      data-visible="false"
+      ref={progressElementRef}
+      style={{ transform: "scaleX(0)" }}
     />
   );
 }
