@@ -50,6 +50,7 @@ export default async function BlogPage({
   const tags = getAllTags(allPosts);
   const filtered = filterPostsByTag(allPosts, params.tag);
   const pagination = paginatePosts(filtered, Number(params.page ?? "1"));
+  const hasPosts = allPosts.length > 0;
 
   return (
     <section className="shell py-16 md:py-20">
@@ -58,75 +59,99 @@ export default async function BlogPage({
           <p className="eyebrow">Blog</p>
           <h1 className="mt-5 font-display text-[clamp(2.5rem,6vw,5rem)] tracking-tight">Insights and notes</h1>
           <p className="mt-4 max-w-2xl text-text/70">
-            Notes on frontend architecture, performance, testing, and the engineering decisions behind maintainable
-            product systems.
+            Writing about engineering decisions, product systems, performance, and the practical tradeoffs behind
+            real-world software.
           </p>
           {isEnabled ? (
             <p className="mt-3 text-sm text-accent">Preview mode includes drafts and scheduled posts.</p>
           ) : null}
         </div>
-        <Link className="btn-secondary" href="/rss.xml">
-          Subscribe via RSS
-        </Link>
+        {hasPosts ? (
+          <Link className="btn-secondary" href="/rss.xml">
+            Subscribe via RSS
+          </Link>
+        ) : null}
       </div>
 
-      <AnimatedSection>
-        <div className="mt-10 panel p-5 md:p-6">
-          <div className="flex flex-wrap gap-2">
-            <Link
-              className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.12em] ${
-                !params.tag ? "border-accent bg-accent text-white" : "border-border"
-              }`}
-              href={buildTagHref()}
-            >
-              All
-            </Link>
-            {tags.map((tag) => (
+      {hasPosts ? (
+        <>
+          <AnimatedSection>
+            <div className="mt-10 panel p-5 md:p-6">
+              <div className="flex flex-wrap gap-2">
+                <Link
+                  className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.12em] ${
+                    !params.tag ? "border-accent bg-accent text-white" : "border-border"
+                  }`}
+                  href={buildTagHref()}
+                >
+                  All
+                </Link>
+                {tags.map((tag) => (
+                  <Link
+                    className={`rounded-full border px-4 py-2 text-xs tracking-[0.04em] ${
+                      params.tag === tag ? "border-accent bg-accent text-white" : "border-border"
+                    }`}
+                    href={buildTagHref(tag)}
+                    key={tag}
+                  >
+                    <BadgeLabel label={tag} />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection>
+            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {pagination.posts.map((post) => (
+                <BlogCard key={post.slug} post={post} />
+              ))}
+            </div>
+          </AnimatedSection>
+
+          <div className="mt-10 flex items-center justify-between text-sm">
+            <p className="text-text/65">
+              Showing {pagination.posts.length} of {filtered.length} posts ({BLOG_PAGE_SIZE} per page)
+            </p>
+            <div className="flex gap-2">
               <Link
-                className={`rounded-full border px-4 py-2 text-xs tracking-[0.04em] ${
-                  params.tag === tag ? "border-accent bg-accent text-white" : "border-border"
-                }`}
-                href={buildTagHref(tag)}
-                key={tag}
+                aria-disabled={pagination.currentPage <= 1}
+                className={`btn-secondary px-4 py-2 text-xs ${pagination.currentPage <= 1 ? "pointer-events-none opacity-45" : ""}`}
+                href={buildPageHref(params.tag, pagination.currentPage - 1)}
               >
-                <BadgeLabel label={tag} />
+                Previous
               </Link>
-            ))}
+              <Link
+                aria-disabled={pagination.currentPage >= pagination.totalPages}
+                className={`btn-secondary px-4 py-2 text-xs ${
+                  pagination.currentPage >= pagination.totalPages ? "pointer-events-none opacity-45" : ""
+                }`}
+                href={buildPageHref(params.tag, pagination.currentPage + 1)}
+              >
+                Next
+              </Link>
+            </div>
           </div>
-        </div>
-      </AnimatedSection>
-
-      <AnimatedSection>
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {pagination.posts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
-          ))}
-        </div>
-      </AnimatedSection>
-
-      <div className="mt-10 flex items-center justify-between text-sm">
-        <p className="text-text/65">
-          Showing {pagination.posts.length} of {filtered.length} posts ({BLOG_PAGE_SIZE} per page)
-        </p>
-        <div className="flex gap-2">
-          <Link
-            aria-disabled={pagination.currentPage <= 1}
-            className={`btn-secondary px-4 py-2 text-xs ${pagination.currentPage <= 1 ? "pointer-events-none opacity-45" : ""}`}
-            href={buildPageHref(params.tag, pagination.currentPage - 1)}
-          >
-            Previous
-          </Link>
-          <Link
-            aria-disabled={pagination.currentPage >= pagination.totalPages}
-            className={`btn-secondary px-4 py-2 text-xs ${
-              pagination.currentPage >= pagination.totalPages ? "pointer-events-none opacity-45" : ""
-            }`}
-            href={buildPageHref(params.tag, pagination.currentPage + 1)}
-          >
-            Next
-          </Link>
-        </div>
-      </div>
+        </>
+      ) : (
+        <AnimatedSection>
+          <div className="mt-14 max-w-2xl border-t border-border pt-8">
+            <p className="eyebrow">Coming soon</p>
+            <h2 className="mt-4 font-display text-[clamp(2rem,5vw,4rem)] tracking-tight">
+              The blog is on the way.
+            </h2>
+            <p className="mt-5 text-text/70">
+              I’m still putting the first few posts together. For now, the projects page is the best place to see how I
+              think through product and engineering work.
+            </p>
+            <div className="mt-8">
+              <Link className="btn-primary" href="/projects">
+                View projects
+              </Link>
+            </div>
+          </div>
+        </AnimatedSection>
+      )}
     </section>
   );
 }
