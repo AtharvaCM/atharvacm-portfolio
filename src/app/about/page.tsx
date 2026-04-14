@@ -52,22 +52,22 @@ const TINKERING_POINTS = [
   {
     title: "Self-hosted tools and Linux setups",
     copy: "I like understanding the systems I use, not just consuming them.",
-    image: "/images/about/self-hosted-tools.svg",
+    image: "/images/about/raspberry-pi-nas-self-hosted.jpg",
   },
   {
     title: "Side projects",
     copy: "Small experiments are usually where I learn fastest.",
-    image: "/images/about/side-projects.svg",
+    image: "/images/about/my-workstation-side-projects.jpg",
   },
   {
-    title: "Books, music, and films",
+    title: "Music, books, and films",
     copy: "A lot of good ideas come from outside software.",
-    image: "/images/about/books-music-films.svg",
+    image: "/images/about/drum-setup.jpg",
   },
   {
-    title: "Cooking, badminton, and long rides",
+    title: "Long drives",
     copy: "Some of the best resets are offline.",
-    image: "/images/about/offline-resets.svg",
+    image: "/images/about/long-drive-me-with-virtus-gt.jpg",
   },
 ] as const;
 
@@ -81,15 +81,17 @@ export default function AboutPage() {
             I like building things that stay useful over time.
           </h1>
           <p className="section-copy mt-5 max-w-[46rem] text-base md:text-lg">
-            I&apos;m a senior full-stack engineer who cares about thoughtful work,
-            clear systems, and products that hold up over time.
+            I&apos;m a senior full-stack engineer who cares about thoughtful
+            work, clear systems, and products that hold up over time.
           </p>
         </div>
         <div
-          aria-label="Placeholder portrait for Atharva Mahamuni"
+          aria-label="Portrait of Atharva Mahamuni"
           className="min-h-72 overflow-hidden rounded-[1.7rem] border border-border/70 bg-cover bg-center opacity-95 shadow-[0_24px_80px_hsl(var(--ink)/0.28)] lg:min-h-[24rem]"
           role="img"
-          style={{ backgroundImage: "url(/images/about/atharva-portrait-placeholder.svg)" }}
+          style={{
+            backgroundImage: "url(/images/about/atharva-portrait.jpg)",
+          }}
         />
       </div>
 
@@ -144,9 +146,7 @@ export default function AboutPage() {
               <h3 className="text-base font-semibold tracking-[-0.02em] text-text">
                 {item.title}
               </h3>
-              <p className="mt-3 text-sm leading-7 text-text/72">
-                {item.copy}
-              </p>
+              <p className="mt-3 text-sm leading-7 text-text/72">{item.copy}</p>
             </article>
           ))}
         </div>
@@ -154,7 +154,9 @@ export default function AboutPage() {
 
       <section className="mt-16 border-t border-border/80 pt-10">
         <div className="max-w-[42rem]">
-          <h2 className="section-heading">What I&apos;m usually tinkering with</h2>
+          <h2 className="section-heading">
+            What I&apos;m usually tinkering with
+          </h2>
           <p className="section-copy mt-4 text-sm md:text-base">
             A few things that keep showing up outside the day job.
           </p>
@@ -167,7 +169,7 @@ export default function AboutPage() {
             >
               <div
                 aria-hidden="true"
-                className="min-h-44 border-b border-border/65 bg-cover bg-center opacity-90"
+                className="aspect-[4/3] border-b border-border/65 bg-[hsl(var(--ink)/0.55)] bg-contain bg-center bg-no-repeat opacity-95 md:aspect-[5/4]"
                 style={{ backgroundImage: `url(${item.image})` }}
               />
               <div className="p-5 md:p-6">
