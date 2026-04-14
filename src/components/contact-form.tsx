@@ -93,6 +93,8 @@ export function ContactForm() {
         <span>Message</span>
         <textarea
           className="form-textarea mt-2"
+          maxLength={2500}
+          minLength={20}
           onChange={(event) =>
             setForm((state) => ({ ...state, message: event.target.value }))
           }

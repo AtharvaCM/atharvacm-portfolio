@@ -26,6 +26,17 @@ describe("handleContactSubmission", () => {
     expect(response.ok).toBe(false);
   });
 
+  it("returns a specific message for short messages", async () => {
+    const response = await handleContactSubmission({ ...validInput, message: "Short" }, "127.0.0.1", async () => ({
+      id: "123"
+    }));
+
+    expect(response).toEqual({
+      ok: false,
+      error: "Please enter a message with at least 20 characters."
+    });
+  });
+
   it("accepts honeypot silently", async () => {
     const response = await handleContactSubmission(
       { ...validInput, website: "https://spam.example" },

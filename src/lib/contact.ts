@@ -16,6 +16,24 @@ export const contactFormSchema = z.object({
   website: z.string().max(200).optional()
 });
 
+function getContactValidationMessage(error: z.ZodError<ContactFormInput>) {
+  const fields = error.flatten().fieldErrors;
+
+  if (fields.name?.length) {
+    return "Please enter your name.";
+  }
+
+  if (fields.email?.length) {
+    return "Please enter a valid email address.";
+  }
+
+  if (fields.message?.length) {
+    return "Please enter a message with at least 20 characters.";
+  }
+
+  return "Invalid form data. Please review your inputs.";
+}
+
 export function getRateLimitIdentifier(ip: string | null) {
   return ip ?? "anonymous";
 }
@@ -91,7 +109,7 @@ export async function handleContactSubmission(
   const parsed = contactFormSchema.safeParse(payload);
 
   if (!parsed.success) {
-    return { ok: false, error: "Invalid form data. Please review your inputs." };
+    return { ok: false, error: getContactValidationMessage(parsed.error) };
   }
 
   if (parsed.data.website && parsed.data.website.trim().length > 0) {
