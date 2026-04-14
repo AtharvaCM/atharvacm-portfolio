@@ -35,8 +35,8 @@ export function SiteNav() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
-            {NAV_ITEMS.map((item, index) => {
+          <nav className="hidden items-center gap-5 md:flex" aria-label="Primary">
+            {NAV_ITEMS.map((item) => {
               const active = pathname === item.href;
 
               return (
@@ -50,9 +50,6 @@ export function SiteNav() {
                   href={item.href}
                   key={item.href}
                 >
-                  <span className="mr-2 text-[0.62rem] text-text/35">
-                    0{index + 1}
-                  </span>
                   {item.label}
                 </Link>
               );
@@ -91,7 +88,7 @@ export function SiteNav() {
         >
           <nav className="border-t border-border/90 py-4" aria-label="Mobile Primary">
             <div className="flex flex-col gap-3">
-              {NAV_ITEMS.map((item, index) => {
+              {NAV_ITEMS.map((item) => {
                 const active = pathname === item.href;
 
                 return (
@@ -105,9 +102,6 @@ export function SiteNav() {
                     onClick={() => setOpen(false)}
                   >
                     <span>{item.label}</span>
-                    <span className="font-display text-[0.72rem] uppercase tracking-[0.2em] text-text/45">
-                      0{index + 1}
-                    </span>
                   </Link>
                 );
               })}

@@ -74,14 +74,24 @@ const TINKERING_POINTS = [
 export default function AboutPage() {
   return (
     <section className="shell py-16 md:py-20">
-      <p className="eyebrow">About</p>
-      <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.3rem,6vw,5rem)] tracking-tight">
-        I like building things that stay useful over time.
-      </h1>
-      <p className="section-copy mt-5 max-w-[46rem] text-base md:text-lg">
-        I&apos;m a senior full-stack engineer who cares about thoughtful work,
-        clear systems, and products that hold up over time.
-      </p>
+      <div className="grid gap-10 lg:grid-cols-[1fr_0.36fr] lg:items-end lg:gap-16">
+        <div>
+          <p className="eyebrow">About</p>
+          <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.3rem,6vw,5rem)] tracking-tight">
+            I like building things that stay useful over time.
+          </h1>
+          <p className="section-copy mt-5 max-w-[46rem] text-base md:text-lg">
+            I&apos;m a senior full-stack engineer who cares about thoughtful work,
+            clear systems, and products that hold up over time.
+          </p>
+        </div>
+        <div
+          aria-label="Placeholder portrait for Atharva Mahamuni"
+          className="min-h-72 overflow-hidden rounded-[1.7rem] border border-border/70 bg-cover bg-center opacity-95 shadow-[0_24px_80px_hsl(var(--ink)/0.28)] lg:min-h-[24rem]"
+          role="img"
+          style={{ backgroundImage: "url(/images/about/atharva-portrait-placeholder.svg)" }}
+        />
+      </div>
 
       <div className="mt-14 grid gap-10 border-t border-border/80 pt-10 lg:grid-cols-[0.76fr_1fr] lg:gap-16">
         <p className="eyebrow">A little context</p>
