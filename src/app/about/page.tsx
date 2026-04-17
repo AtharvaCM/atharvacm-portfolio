@@ -60,8 +60,8 @@ const TINKERING_POINTS = [
     image: "/images/about/my-workstation-side-projects.jpg",
   },
   {
-    title: "Music, books, and films",
-    copy: "A lot of good ideas come from outside software.",
+    title: "Music and rhythm",
+    copy: "Playing drums is one of the better ways I get out of my head.",
     image: "/images/about/drum-setup.jpg",
   },
   {
@@ -169,9 +169,18 @@ export default function AboutPage() {
             >
               <div
                 aria-hidden="true"
-                className="aspect-[4/3] border-b border-border/65 bg-[hsl(var(--ink)/0.55)] bg-contain bg-center bg-no-repeat opacity-95 md:aspect-[5/4]"
-                style={{ backgroundImage: `url(${item.image})` }}
-              />
+                className="relative aspect-[4/3] overflow-hidden border-b border-border/65 bg-[hsl(var(--ink)/0.55)] md:aspect-[5/4]"
+              >
+                <div
+                  className="absolute -inset-5 scale-110 bg-cover bg-center opacity-65 blur-xl"
+                  style={{ backgroundImage: `url(${item.image})` }}
+                />
+                <div className="absolute inset-0 bg-[hsl(var(--ink)/0.2)]" />
+                <div
+                  className="absolute inset-0 bg-contain bg-center bg-no-repeat"
+                  style={{ backgroundImage: `url(${item.image})` }}
+                />
+              </div>
               <div className="p-5 md:p-6">
                 <h3 className="text-base font-semibold tracking-[-0.02em] text-text">
                   {item.title}
