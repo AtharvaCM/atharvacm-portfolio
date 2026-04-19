@@ -13,7 +13,7 @@ export function SiteFooter() {
   );
 
   return (
-    <footer className="border-t border-border/90 py-10 md:py-14">
+    <footer className="border-t border-border/90 py-12 md:py-14">
       <div className="shell">
         <div className="grid gap-9 md:grid-cols-[1.3fr_0.7fr_0.9fr] md:gap-10">
           <div className="border-t border-border/65 pt-6 first:border-t-0 first:pt-0 md:border-t-0 md:pt-0">
@@ -27,7 +27,7 @@ export function SiteFooter() {
 
           <div className="border-t border-border/65 pt-6 md:border-t-0 md:pt-0">
             <p className="eyebrow">Navigate</p>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-2.5 md:space-y-2">
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
                   <Link className="link-inline" href={item.href}>
@@ -40,7 +40,7 @@ export function SiteFooter() {
 
           <div className="border-t border-border/65 pt-6 md:border-t-0 md:pt-0">
             <p className="eyebrow">Connect</p>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-2.5 md:space-y-2">
               {SOCIAL_LINKS.map((item) => (
                 <li key={item.href}>
                   <Link
@@ -64,7 +64,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 border-t border-border/80 pt-5 text-[0.68rem] uppercase leading-6 tracking-[0.16em] text-text/48 md:mt-12 md:flex-row md:items-center md:justify-between md:text-[0.72rem] md:leading-normal md:tracking-[0.18em] md:text-text/42">
+        <div className="mt-11 flex flex-col gap-5 border-t border-border/80 pt-6 text-[0.68rem] uppercase leading-6 tracking-[0.16em] text-text/48 md:mt-12 md:flex-row md:items-center md:justify-between md:gap-4 md:pt-5 md:text-[0.72rem] md:leading-normal md:tracking-[0.18em] md:text-text/42">
           <p>Built with Next.js, TypeScript, and production-first instincts.</p>
           <p>
             <Link className="link-inline" href="/privacy">

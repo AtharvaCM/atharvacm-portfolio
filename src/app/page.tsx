@@ -86,7 +86,7 @@ function WorkRow({
   imageFirst: boolean;
 }) {
   return (
-    <article className="border-t border-border/90 py-10 first:border-t-0 first:pt-0 md:py-16">
+    <article className="border-t border-border/90 py-11 first:border-t-0 first:pt-0 md:py-16">
       <div className="grid gap-8 md:gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
         <div className={imageFirst ? "" : "lg:order-2"}>
           <div className="flex flex-wrap items-center gap-2.5 text-[hsl(var(--text-muted))]">
@@ -97,19 +97,19 @@ function WorkRow({
               •
             </span>
             <p className="eyebrow">{project.year}</p>
-            <span aria-hidden className="text-text/28">
+            <span aria-hidden className="hidden text-text/28 sm:block">
               •
             </span>
             <p className="eyebrow hidden sm:block">{project.role}</p>
           </div>
 
-          <h3 className="mt-4 max-w-[16ch] text-[clamp(1.65rem,10vw,2.55rem)] font-bold leading-[0.98] tracking-[-0.055em] text-text md:text-[clamp(1.75rem,3.15vw,3.45rem)] md:leading-none">
+          <h3 className="mt-4 max-w-[15ch] text-[clamp(1.6rem,9.4vw,2.4rem)] font-bold leading-[1.01] tracking-[-0.055em] text-text md:max-w-[16ch] md:text-[clamp(1.75rem,3.15vw,3.45rem)] md:leading-none">
             <Link className="link-display" href={`/projects/${project.slug}`}>
               {project.title}
             </Link>
           </h3>
 
-          <p className="mt-5 max-w-[38rem] text-[1rem] leading-7 text-text/78 md:text-[0.98rem] md:text-[hsl(var(--text-muted))]">
+          <p className="mt-4 max-w-[38rem] text-[0.96rem] leading-7 text-text/78 md:mt-5 md:text-[0.98rem] md:text-[hsl(var(--text-muted))]">
             {project.excerpt}
           </p>
 
@@ -128,11 +128,11 @@ function WorkRow({
             </div>
           </div>
 
-          <ul className="mt-6 space-y-2.5 border-t border-border/80 pt-5">
+          <ul className="mt-5 space-y-2.5 border-t border-border/80 pt-4 md:mt-6 md:pt-5">
             {project.metricHighlights.slice(0, 2).map((item, metricIndex) => (
               <li
                 className={cn(
-                  "gap-3 text-[0.95rem] leading-7 text-text/78 md:flex md:text-[hsl(var(--text-muted))]",
+                  "gap-3 text-[0.92rem] leading-7 text-text/76 md:flex md:text-[0.95rem] md:text-[hsl(var(--text-muted))]",
                   metricIndex === 0 ? "flex" : "hidden"
                 )}
                 key={item}
@@ -149,7 +149,7 @@ function WorkRow({
             </Link>
             {project.liveUrl ? (
               <Link
-                className="link-inline"
+                className="link-inline hidden sm:inline-flex"
                 href={project.liveUrl}
                 rel="noreferrer"
                 target="_blank"
@@ -162,7 +162,7 @@ function WorkRow({
         </div>
 
         <div className={imageFirst ? "" : "lg:order-1"}>
-          <div className="relative aspect-[4/3] overflow-hidden bg-[hsl(var(--surface-soft))] md:aspect-[5/4]">
+          <div className="relative aspect-[1.18/1] overflow-hidden bg-[hsl(var(--surface-soft))] md:aspect-[5/4]">
             <Image
               alt={project.title}
               className="object-cover object-top transition duration-500 hover:scale-[1.015]"
@@ -203,10 +203,8 @@ export default async function HomePage() {
             </p>
 
             <h1
-              className="intro-reveal mt-7 text-[clamp(2.45rem,14vw,4.1rem)] font-bold tracking-[-0.09em] text-text md:mt-6 md:text-[clamp(2.85rem,6.35vw,5.95rem)]"
-              style={
-                { "--delay": "0.18s", lineHeight: "0.88" } as CSSProperties
-              }
+              className="intro-reveal mt-7 text-[clamp(2.35rem,13vw,3.85rem)] font-bold leading-[0.92] tracking-[-0.09em] text-text md:mt-6 md:text-[clamp(2.85rem,6.35vw,5.95rem)] md:leading-[0.88]"
+              style={{ "--delay": "0.18s" } as CSSProperties}
             >
               <span className="block">I build scalable,</span>
               <span className="block sm:whitespace-nowrap">
@@ -215,7 +213,7 @@ export default async function HomePage() {
             </h1>
 
             <p
-              className="intro-reveal mt-7 max-w-[34rem] text-[1rem] leading-8 text-[hsl(var(--text-muted))] md:mt-6 md:text-[1.03rem] md:leading-7"
+              className="intro-reveal mt-6 max-w-[30rem] text-[0.98rem] leading-7 text-[hsl(var(--text-muted))] md:mt-6 md:max-w-[34rem] md:text-[1.03rem] md:leading-7"
               style={{ "--delay": "0.26s" } as CSSProperties}
             >
               React, Next.js, and TypeScript for production product systems.
@@ -333,17 +331,17 @@ export default async function HomePage() {
 
               <div>
                 <h2 className="section-heading max-w-[8ch]">How I build.</h2>
-                <div className="mt-9 grid gap-8 md:mt-10 md:grid-cols-3">
+                <div className="mt-10 grid gap-9 md:mt-10 md:grid-cols-3">
                   {HOME_FOCUS_AREAS.map((area, index) => (
                     <article
-                      className="border-t border-border/80 pt-5"
+                      className="border-t border-border/80 pt-6 md:pt-5"
                       key={area.title}
                     >
                       <p className="chapter-index">0{index + 1}</p>
-                      <h3 className="mt-4 max-w-[14ch] text-[1.6rem] font-bold tracking-[-0.05em] text-text">
+                      <h3 className="mt-4 max-w-[15ch] text-[1.55rem] font-bold leading-tight tracking-[-0.05em] text-text md:max-w-[14ch] md:text-[1.6rem]">
                         {area.title}
                       </h3>
-                      <p className="mt-4 text-sm leading-7 text-[hsl(var(--text-muted))]">
+                      <p className="mt-3 text-[0.92rem] leading-7 text-text/74 md:mt-4 md:text-sm md:text-[hsl(var(--text-muted))]">
                         {area.copy}
                       </p>
                     </article>
@@ -372,26 +370,26 @@ export default async function HomePage() {
                   teams.
                 </p>
 
-                <div className="mt-9 space-y-10 md:mt-10">
+                <div className="mt-10 space-y-11 md:mt-10 md:space-y-10">
                   {RESUME_EXPERIENCE.map((role, index) => (
                     <article
-                      className="border-t border-border/80 pt-6"
+                      className="border-t border-border/80 pt-7 md:pt-6"
                       key={`${role.company}-${role.title}`}
                     >
-                      <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div className="grid gap-4 sm:flex sm:flex-wrap sm:items-start sm:justify-between">
                         <div>
                           <p className="chapter-index">0{index + 1}</p>
-                          <h3 className="mt-3 text-[clamp(1.7rem,2.4vw,2.4rem)] font-bold tracking-[-0.05em] text-text">
+                          <h3 className="mt-3 text-[clamp(1.7rem,9vw,2.2rem)] font-bold leading-none tracking-[-0.05em] text-text md:text-[clamp(1.7rem,2.4vw,2.4rem)]">
                             {role.company}
                           </h3>
-                          <p className="mt-2 text-sm uppercase tracking-[0.18em] text-[hsl(var(--text-muted))]">
+                          <p className="mt-3 text-[0.72rem] uppercase leading-5 tracking-[0.18em] text-text/64 md:mt-2 md:text-sm md:text-[hsl(var(--text-muted))]">
                             {role.title}
                           </p>
                         </div>
                         <p className="eyebrow">{EXPERIENCE_PERIODS[index]}</p>
                       </div>
 
-                      <ul className="mt-6 grid gap-3">
+                      <ul className="mt-6 grid gap-4 md:gap-3">
                         {role.points
                           .filter((_, pointIndex) =>
                             index === 0
@@ -400,7 +398,7 @@ export default async function HomePage() {
                           )
                           .map((point) => (
                             <li
-                              className="flex gap-3 text-sm leading-7 text-[hsl(var(--text-muted))]"
+                              className="flex gap-3 text-[0.92rem] leading-7 text-text/74 md:text-sm md:text-[hsl(var(--text-muted))]"
                               key={point}
                             >
                               <span className="mt-[0.95rem] h-1.5 w-1.5 rounded-full bg-accent" />
