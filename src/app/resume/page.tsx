@@ -16,7 +16,7 @@ import {
   RESUME_SUMMARY,
 } from "@/lib/profile-content";
 import { buildMetadata } from "@/lib/seo";
-import { getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
+import { cn, getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: `Resume | ${SITE_NAME}`,
@@ -49,19 +49,21 @@ export default async function ResumePage() {
   const featuredProjects = getResumeProjects(projects);
 
   return (
-    <section className="shell py-12 md:py-20">
-      <div className="grid gap-8 md:gap-10 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-14">
+    <section className="shell py-14 md:py-20">
+      <div className="grid gap-11 md:gap-10 xl:grid-cols-[minmax(0,1fr)_18rem] xl:gap-16">
         <div>
           <p className="eyebrow">Resume</p>
-          <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.3rem,6vw,5rem)] tracking-tight">
+          <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.45rem,12vw,5rem)] leading-[0.94] tracking-tight md:leading-none">
             Experience and technical profile.
           </h1>
-          <p className="section-copy mt-5 max-w-[48rem]">{RESUME_SUMMARY}</p>
+          <p className="section-copy mt-7 max-w-[44rem] md:mt-6">
+            {RESUME_SUMMARY}
+          </p>
 
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-8">
+          <div className="mt-9 grid gap-3 sm:flex sm:flex-wrap md:mt-8">
             {resumeUrl ? (
               <Link
-                className="btn-primary"
+                className="btn-primary sm:w-auto"
                 href={resumeUrl}
                 rel="noreferrer"
                 target="_blank"
@@ -69,17 +71,15 @@ export default async function ResumePage() {
                 Download PDF resume
               </Link>
             ) : null}
-            <Link className="btn-secondary" href="/contact">
+            <Link className="btn-secondary sm:w-auto" href="/contact">
               Contact
             </Link>
           </div>
         </div>
 
-        <aside className="panel p-5 md:p-7">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">
-            Contact
-          </p>
-          <div className="mt-5 space-y-4 text-sm leading-7 text-text/72">
+        <aside className="border-t border-border/80 pt-7 xl:mt-2 xl:pt-6">
+          <p className="eyebrow">Contact</p>
+          <div className="mt-5 grid gap-4 text-sm leading-7 text-text/72 sm:grid-cols-3 xl:grid-cols-1 xl:gap-5">
             {contactHref && contactEmail ? (
               <div>
                 <p className="eyebrow">Email</p>
@@ -118,12 +118,12 @@ export default async function ResumePage() {
         </aside>
       </div>
 
-      <section className="mt-12 md:mt-14">
+      <section className="mt-16 border-t border-border/90 pt-9 md:mt-18 md:pt-12">
         <h2 className="section-heading">Core competencies</h2>
-        <div className="mt-6 grid gap-px overflow-hidden rounded-[1.2rem] border border-border/65 bg-border/65 md:mt-7 md:grid-cols-2 md:rounded-[1.4rem] xl:grid-cols-3">
+        <div className="mt-8 grid gap-7 md:mt-9 md:grid-cols-2 xl:grid-cols-3">
           {RESUME_COMPETENCIES.map((group) => (
             <article
-              className="bg-[hsl(var(--surface)/0.96)] p-5 md:p-6"
+              className="border-t border-border/80 pt-5 md:pt-6"
               key={group.label}
             >
               <p className="eyebrow">{group.label}</p>
@@ -135,28 +135,38 @@ export default async function ResumePage() {
         </div>
       </section>
 
-      <section className="mt-12 md:mt-14">
+      <section className="mt-16 border-t border-border/90 pt-9 md:mt-18 md:pt-12">
         <h2 className="section-heading">Experience</h2>
-        <div className="mt-7 space-y-6">
-          {RESUME_EXPERIENCE.map((role) => (
+        <div className="mt-9 space-y-10 md:mt-10 md:space-y-12">
+          {RESUME_EXPERIENCE.map((role, index) => (
             <article
-              className="panel p-5 md:p-7"
+              className="border-t border-border/80 pt-7 md:pt-8"
               key={`${role.company}-${role.title}`}
             >
-              <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_12rem] md:items-start">
                 <div>
-                  <h3 className="font-display text-[clamp(1.9rem,3vw,2.6rem)] tracking-tight text-text">
+                  <p className="chapter-index">0{index + 1}</p>
+                  <h3 className="mt-3 font-display text-[clamp(1.85rem,10vw,2.6rem)] leading-[0.98] tracking-tight text-text md:leading-none">
                     {role.title}
                   </h3>
-                  <p className="mt-2">
-                    <span className="meta-chip">{role.company}</span>
+                  <p className="mt-3 text-sm font-medium uppercase tracking-[0.16em] text-text/70">
+                    {role.company}
                   </p>
                 </div>
-                <p className="eyebrow md:pt-2">{role.period}</p>
+                <p className="eyebrow md:pt-7 md:text-right">{role.period}</p>
               </div>
-              <ul className="mt-5 list-disc space-y-2.5 pl-5 text-sm leading-7 text-text/78 md:mt-6 md:text-[0.98rem] md:text-text/74">
-                {role.points.map((point) => (
-                  <li key={point}>{point}</li>
+              <ul className="mt-7 grid gap-4 text-[0.93rem] leading-7 text-text/76 md:mt-8 md:grid-cols-2 md:gap-x-8 md:gap-y-4 md:text-[0.98rem] md:text-text/74">
+                {role.points.map((point, pointIndex) => (
+                  <li
+                    className={cn(
+                      "gap-3 md:flex",
+                      pointIndex < 4 ? "flex" : "hidden",
+                    )}
+                    key={point}
+                  >
+                    <span className="mt-[0.85rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    <span>{point}</span>
+                  </li>
                 ))}
               </ul>
             </article>
@@ -164,18 +174,18 @@ export default async function ResumePage() {
         </div>
       </section>
 
-      <section className="mt-12 md:mt-14">
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-14">
+      <section className="mt-16 border-t border-border/90 pt-9 md:mt-18 md:pt-12">
+        <div className="grid gap-12 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-16">
           <div>
             <h2 className="section-heading">Selected projects</h2>
-            <div className="mt-7 space-y-5">
+            <div className="mt-8 space-y-7 md:space-y-6">
               {featuredProjects.map((project) => (
                 <article
-                  className="border-t border-border/75 pt-5"
+                  className="border-t border-border/75 pt-6 md:pt-6"
                   key={project.slug}
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <h3 className="text-[clamp(1.45rem,2vw,2rem)] font-semibold tracking-[-0.04em] text-text">
+                  <div className="grid gap-3 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
+                    <h3 className="max-w-[20ch] text-[clamp(1.45rem,8vw,2rem)] font-semibold leading-tight tracking-[-0.04em] text-text md:leading-none">
                       <Link
                         className="link-display text-[inherit]"
                         href={`/projects/${project.slug}`}
@@ -194,7 +204,7 @@ export default async function ResumePage() {
                       </Link>
                     ) : null}
                   </div>
-                  <p className="mt-3 max-w-[44rem] text-sm leading-7 text-text/72">
+                  <p className="mt-4 max-w-[42rem] text-sm leading-7 text-text/72">
                     {project.excerpt}
                   </p>
                 </article>
@@ -204,9 +214,12 @@ export default async function ResumePage() {
 
           <div>
             <h2 className="section-heading">Core stack</h2>
-            <ul className="mt-7 flex flex-wrap gap-2">
-              {RESUME_SKILLS.map((skill) => (
-                <li className="tag-chip" key={skill}>
+            <ul className="mt-8 flex flex-wrap gap-2">
+              {RESUME_SKILLS.map((skill, index) => (
+                <li
+                  className={cn("tag-chip", index >= 8 && "hidden sm:inline-flex")}
+                  key={skill}
+                >
                   <BadgeLabel label={skill} />
                 </li>
               ))}
