@@ -11,6 +11,7 @@ import {
 } from "react-icons/fi";
 
 import { AnimatedSection } from "@/components/animated-section";
+import { TrackedLink } from "@/components/tracked-link";
 import { PROJECT_CATEGORY_LABELS, RESUME_URL } from "@/lib/constants";
 import { getAllProjects } from "@/lib/content";
 import {
@@ -104,9 +105,18 @@ function WorkRow({
           </div>
 
           <h3 className="mt-4 max-w-[15ch] text-[clamp(1.6rem,9.4vw,2.4rem)] font-bold leading-[1.01] tracking-[-0.055em] text-text md:max-w-[16ch] md:text-[clamp(1.75rem,3.15vw,3.45rem)] md:leading-none">
-            <Link className="link-display" href={`/projects/${project.slug}`}>
+            <TrackedLink
+              className="link-display"
+              href={`/projects/${project.slug}`}
+              trackingEvent="project_open"
+              trackingPayload={{
+                location: "home_selected_work",
+                project_name: project.title,
+                project_slug: project.slug,
+              }}
+            >
               {project.title}
-            </Link>
+            </TrackedLink>
           </h3>
 
           <p className="mt-4 max-w-[38rem] text-[0.96rem] leading-7 text-text/78 md:mt-5 md:text-[0.98rem] md:text-[hsl(var(--text-muted))]">
@@ -144,19 +154,34 @@ function WorkRow({
           </ul>
 
           <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5">
-            <Link className="link-action" href={`/projects/${project.slug}`}>
+            <TrackedLink
+              className="link-action"
+              href={`/projects/${project.slug}`}
+              trackingEvent="project_open"
+              trackingPayload={{
+                location: "home_selected_work",
+                project_name: project.title,
+                project_slug: project.slug,
+              }}
+            >
               View project details <span aria-hidden>-&gt;</span>
-            </Link>
+            </TrackedLink>
             {project.liveUrl ? (
-              <Link
+              <TrackedLink
                 className="link-inline hidden sm:inline-flex"
                 href={project.liveUrl}
                 rel="noreferrer"
                 target="_blank"
+                trackingEvent="project_live_site_click"
+                trackingPayload={{
+                  link_url: project.liveUrl,
+                  project_name: project.title,
+                  project_slug: project.slug,
+                }}
               >
                 Live site{" "}
                 <FiArrowUpRight aria-hidden className="ml-1 h-3.5 w-3.5" />
-              </Link>
+              </TrackedLink>
             ) : null}
           </div>
         </div>
@@ -227,15 +252,17 @@ export default async function HomePage() {
               <Link className="btn-primary sm:w-auto" href="#selected-work">
                 Selected work
               </Link>
-              <Link
+              <TrackedLink
                 className="btn-secondary sm:w-auto"
                 download={resumeDownload}
                 href={resumeHref}
                 rel={resumeRel}
                 target={resumeTarget}
+                trackingEvent="resume_click"
+                trackingPayload={{ location: "home_hero" }}
               >
                 Resume
-              </Link>
+              </TrackedLink>
               <Link
                 className="link-inline justify-center py-2 sm:justify-start sm:py-0"
                 href="/contact"
@@ -434,15 +461,17 @@ export default async function HomePage() {
               <Link className="btn-primary sm:w-auto" href="/contact">
                 Contact
               </Link>
-              <Link
+              <TrackedLink
                 className="btn-secondary sm:w-auto"
                 download={resumeDownload}
                 href={resumeHref}
                 rel={resumeRel}
                 target={resumeTarget}
+                trackingEvent="resume_click"
+                trackingPayload={{ location: "home_final_cta" }}
               >
                 Download resume
-              </Link>
+              </TrackedLink>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatedSection } from "@/components/animated-section";
 import { BadgeLabel } from "@/components/badge-label";
 import { BlogCard } from "@/components/blog-card";
+import { TrackedLink } from "@/components/tracked-link";
 import { BLOG_PAGE_SIZE, SITE_NAME } from "@/lib/constants";
 import { filterPostsByTag, getAllBlogPosts, getAllTags, paginatePosts } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
@@ -67,9 +68,14 @@ export default async function BlogPage({
           ) : null}
         </div>
         {hasPosts ? (
-          <Link className="btn-secondary" href="/rss.xml">
+          <TrackedLink
+            className="btn-secondary"
+            href="/rss.xml"
+            trackingEvent="rss_click"
+            trackingPayload={{ link_url: "/rss.xml", location: "blog_page" }}
+          >
             Subscribe via RSS
-          </Link>
+          </TrackedLink>
         ) : null}
       </div>
 

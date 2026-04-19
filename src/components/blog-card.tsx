@@ -1,14 +1,14 @@
-import Link from "next/link";
-
 import { BadgeLabel } from "@/components/badge-label";
+import { TrackedLink } from "@/components/tracked-link";
 import type { BlogPostMeta } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 
 type Props = {
+  location?: string;
   post: BlogPostMeta;
 };
 
-export function BlogCard({ post }: Props) {
+export function BlogCard({ location = "blog_page", post }: Props) {
   const statusLabel = post.draft ? "Draft" : undefined;
 
   return (
@@ -26,9 +26,14 @@ export function BlogCard({ post }: Props) {
       </div>
 
       <h3 className="mt-4 max-w-[15ch] font-display text-[1.75rem] leading-[0.98] tracking-tight md:text-[1.95rem] md:leading-[0.95]">
-        <Link className="link-display text-[inherit]" href={`/blog/${post.slug}`}>
+        <TrackedLink
+          className="link-display text-[inherit]"
+          href={`/blog/${post.slug}`}
+          trackingEvent="blog_post_open"
+          trackingPayload={{ location, post_slug: post.slug }}
+        >
           {post.title}
-        </Link>
+        </TrackedLink>
       </h3>
 
       <p className="mt-4 text-sm leading-7 text-text/76 md:text-text/70">{post.excerpt}</p>
@@ -41,9 +46,14 @@ export function BlogCard({ post }: Props) {
         ))}
       </ul>
 
-      <Link className="link-action mt-auto pt-7" href={`/blog/${post.slug}`}>
+      <TrackedLink
+        className="link-action mt-auto pt-7"
+        href={`/blog/${post.slug}`}
+        trackingEvent="blog_post_open"
+        trackingPayload={{ location, post_slug: post.slug }}
+      >
         Read article <span aria-hidden>-&gt;</span>
-      </Link>
+      </TrackedLink>
     </article>
   );
 }

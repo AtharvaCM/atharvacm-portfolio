@@ -104,7 +104,7 @@ export default async function BlogDetailPage({ params }: Props) {
         ) : (
           <div className="grid gap-6 md:grid-cols-3">
             {related.map((item) => (
-              <BlogCard key={item.slug} post={item} />
+              <BlogCard key={item.slug} location="blog_related" post={item} />
             ))}
           </div>
         )}

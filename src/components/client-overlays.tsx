@@ -7,11 +7,6 @@ const CookieBanner = dynamic(
   { ssr: false }
 );
 
-const GoogleAnalytics = dynamic(
-  () => import("@/components/google-analytics").then((mod) => mod.GoogleAnalytics),
-  { ssr: false }
-);
-
 const GoogleTagManager = dynamic(
   () =>
     import("@/components/google-tag-manager").then(
@@ -26,16 +21,14 @@ const MicrosoftClarity = dynamic(
 );
 
 type Props = {
-  gaId: string;
   gtmId: string;
   clarityId: string;
 };
 
-export function ClientOverlays({ gaId, gtmId, clarityId }: Props) {
+export function ClientOverlays({ gtmId, clarityId }: Props) {
   return (
     <>
       <CookieBanner />
-      <GoogleAnalytics gaId={gaId} />
       <GoogleTagManager gtmId={gtmId} />
       <MicrosoftClarity projectId={clarityId} />
     </>

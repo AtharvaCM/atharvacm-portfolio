@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 
+import { trackEvent } from "@/lib/gtm-events";
 import type { ContactResponse } from "@/lib/types";
 
 type ContactFormState = {
@@ -49,6 +50,7 @@ export function ContactForm() {
 
       setStatus("success");
       setMessage("Message sent. I will get back to you shortly.");
+      trackEvent("contact_form_submit", { location: "contact_page" });
       setForm(initialState);
     } catch {
       setStatus("error");

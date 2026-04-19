@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { MdxRenderer } from "@/components/mdx-renderer";
 import { ProjectCoverFrame } from "@/components/project-cover-frame";
 import { StructuredData } from "@/components/structured-data";
+import { TrackedLink } from "@/components/tracked-link";
 import {
   PROJECT_CATEGORY_LABELS,
   SITE_NAME
@@ -58,6 +59,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   const navLayoutClass = previous && next ? "md:grid-cols-2" : "md:grid-cols-1";
   const liveUrl = getMeaningfulExternalUrl(project.liveUrl);
   const repoUrl = getMeaningfulExternalUrl(project.repoUrl);
+  const repoIsGithub = repoUrl?.includes("github.com") ?? false;
   const coverFit = project.slug === "vehicle-vault-maintenance-platform" ? "contain" : "cover";
 
   return (
@@ -143,14 +145,36 @@ export default async function ProjectDetailPage({ params }: Props) {
         </ul>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           {liveUrl ? (
-            <Link className="btn-primary" href={liveUrl} rel="noreferrer" target="_blank">
+            <TrackedLink
+              className="btn-primary"
+              href={liveUrl}
+              rel="noreferrer"
+              target="_blank"
+              trackingEvent="project_live_site_click"
+              trackingPayload={{
+                link_url: liveUrl,
+                project_name: project.title,
+                project_slug: project.slug,
+              }}
+            >
               Visit live
-            </Link>
+            </TrackedLink>
           ) : null}
           {repoUrl ? (
-            <Link className="btn-secondary" href={repoUrl} rel="noreferrer" target="_blank">
+            <TrackedLink
+              className="btn-secondary"
+              href={repoUrl}
+              rel="noreferrer"
+              target="_blank"
+              trackingEvent={repoIsGithub ? "github_click" : undefined}
+              trackingPayload={
+                repoIsGithub
+                  ? { link_url: repoUrl, location: "project_detail" }
+                  : undefined
+              }
+            >
               View repo
-            </Link>
+            </TrackedLink>
           ) : null}
           <Link className="btn-secondary" href="/about">
             About how I work

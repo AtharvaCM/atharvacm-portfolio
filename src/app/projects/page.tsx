@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { AnimatedSection } from "@/components/animated-section";
 import { ProjectCard } from "@/components/project-card";
+import { TrackedLink } from "@/components/tracked-link";
 import { PROJECT_CATEGORY_LABELS, SITE_NAME } from "@/lib/constants";
 import { filterProjects, getAllProjects } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
@@ -79,9 +79,14 @@ export default async function ProjectsPage({
         Production systems, product surfaces, and independent builds where
         architecture, performance, and delivery quality mattered.
       </p>
-      <Link className="link-action mt-7" href="/resume">
+      <TrackedLink
+        className="link-action mt-7"
+        href="/resume"
+        trackingEvent="resume_click"
+        trackingPayload={{ location: "projects_page" }}
+      >
         View resume <span aria-hidden>-&gt;</span>
-      </Link>
+      </TrackedLink>
 
       <AnimatedSection>
         <div className="mt-12 space-y-8 border-t border-border/90 pt-7 md:mt-14 md:space-y-9 md:pt-8">
@@ -89,20 +94,30 @@ export default async function ProjectsPage({
             <span className="basis-full text-[10px] font-semibold uppercase tracking-[0.18em] text-text/52 sm:basis-auto">
               Filter
             </span>
-            <Link
+            <TrackedLink
               className={filterLinkClass(!params.category)}
               href={buildFilterLink(urlParams, "category")}
+              trackingEvent="project_filter_select"
+              trackingPayload={{
+                filter_value: "all",
+                location: "projects_page",
+              }}
             >
               All projects
-            </Link>
+            </TrackedLink>
             {categoryOptions.map((category) => (
-              <Link
+              <TrackedLink
                 className={filterLinkClass(params.category === category)}
                 href={buildFilterLink(urlParams, "category", category)}
                 key={category}
+                trackingEvent="project_filter_select"
+                trackingPayload={{
+                  filter_value: category,
+                  location: "projects_page",
+                }}
               >
                 {PROJECT_CATEGORY_LABELS[category]}
-              </Link>
+              </TrackedLink>
             ))}
           </div>
 
@@ -122,6 +137,7 @@ export default async function ProjectsPage({
                     }
                     featured={featured}
                     key={project.slug}
+                    location="projects_page"
                     project={project}
                     summary={PROJECT_LISTING_COPY[project.slug]}
                   />

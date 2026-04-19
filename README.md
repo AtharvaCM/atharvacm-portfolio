@@ -10,7 +10,7 @@ A premium, Awwwards-inspired personal portfolio built with Next.js App Router, T
 - Category/tech filters for projects
 - Tag filtering + pagination + RSS for blog
 - Opportunity-focused contact form API with Zod validation, honeypot, basic rate limiting, and Resend integration
-- Cookie consent banner with consent-aware GA4, Google Tag Manager, and Microsoft Clarity loading
+- Cookie consent banner with consent-aware Google Tag Manager and Microsoft Clarity loading
 - SEO routes: `sitemap.xml`, `robots.txt`, `rss.xml`
 - CI workflow for lint/typecheck/test/build
 
@@ -41,7 +41,6 @@ Open http://localhost:3000.
 Copy `.env.example` to `.env.local` and update values.
 
 - `NEXT_PUBLIC_SITE_URL`
-- `NEXT_PUBLIC_GA_ID`
 - `NEXT_PUBLIC_GTM_ID`
 - `NEXT_PUBLIC_CLARITY_ID`
 - `NEXT_PUBLIC_RESUME_URL`
@@ -66,11 +65,18 @@ See [docs/contact-email-routing.md](docs/contact-email-routing.md) for the produ
 
 Analytics setup:
 
-- GA4 uses `NEXT_PUBLIC_GA_ID`
-- Google Tag Manager uses `NEXT_PUBLIC_GTM_ID`
+- Google Tag Manager uses `NEXT_PUBLIC_GTM_ID` and is the single entry point for GA4
 - Microsoft Clarity uses `NEXT_PUBLIC_CLARITY_ID`
 - Analytics loaders live in `src/components/client-overlays.tsx` and only mount after analytics consent is accepted
-- If GA4 is configured inside GTM, leave `NEXT_PUBLIC_GA_ID` empty to avoid duplicate pageviews
+- Do not initialize GA4 directly in app code while GTM owns the GA4 base tag, or pageviews/events can duplicate
+
+Custom GTM events:
+
+- Event helper: `src/lib/gtm-events.ts`
+- Tracked link wrapper: `src/components/tracked-link.tsx`
+- Events emitted by the app: `resume_click`, `contact_form_submit`, `contact_email_click`, `linkedin_click`, `github_click`, `project_open`, `project_live_site_click`, `project_filter_select`, `blog_post_open`, `rss_click`
+- Custom events are pushed only after analytics consent is accepted
+- Custom analytics events are emitted through `dataLayer` for GTM to route into GA4
 
 ## Blog workflow
 

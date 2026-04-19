@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { TrackedLink } from "@/components/tracked-link";
 import { SITE_NAME } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import { getMeaningfulEmail } from "@/lib/utils";
@@ -80,9 +81,17 @@ export default function TermsPage() {
           {contactEmail ? (
             <p className="mt-3">
               For questions about these terms, contact{" "}
-              <Link className="link-inline-accent" href={`mailto:${contactEmail}`}>
+              <TrackedLink
+                className="link-inline-accent"
+                href={`mailto:${contactEmail}`}
+                trackingEvent="contact_email_click"
+                trackingPayload={{
+                  link_url: `mailto:${contactEmail}`,
+                  location: "terms_page",
+                }}
+              >
                 {contactEmail}
-              </Link>
+              </TrackedLink>
               .
             </p>
           ) : (

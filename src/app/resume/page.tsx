@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { BadgeLabel } from "@/components/badge-label";
+import { TrackedLink } from "@/components/tracked-link";
 import {
   GITHUB_URL,
   LINKEDIN_URL,
@@ -62,15 +63,17 @@ export default async function ResumePage() {
           </p>
 
           <div className="mt-9 grid gap-3 sm:flex sm:flex-wrap md:mt-8">
-            <Link
+            <TrackedLink
               className="btn-primary sm:w-auto"
               download={resumeDownload}
               href={resumeUrl}
               rel={resumeDownload ? undefined : "noreferrer"}
               target={resumeDownload ? undefined : "_blank"}
+              trackingEvent="resume_click"
+              trackingPayload={{ location: "resume_page" }}
             >
               Download resume
-            </Link>
+            </TrackedLink>
             <Link className="btn-secondary sm:w-auto" href="/contact">
               Contact
             </Link>
@@ -83,35 +86,53 @@ export default async function ResumePage() {
             {contactHref && contactEmail ? (
               <div>
                 <p className="eyebrow">Email</p>
-                <Link className="link-inline-accent mt-2" href={contactHref}>
+                <TrackedLink
+                  className="link-inline-accent mt-2"
+                  href={contactHref}
+                  trackingEvent="contact_email_click"
+                  trackingPayload={{
+                    link_url: contactHref,
+                    location: "resume_page",
+                  }}
+                >
                   {contactEmail}
-                </Link>
+                </TrackedLink>
               </div>
             ) : null}
             {linkedInUrl ? (
               <div>
                 <p className="eyebrow">LinkedIn</p>
-                <Link
+                <TrackedLink
                   className="link-inline-accent mt-2"
                   href={linkedInUrl}
                   rel="noreferrer"
                   target="_blank"
+                  trackingEvent="linkedin_click"
+                  trackingPayload={{
+                    link_url: linkedInUrl,
+                    location: "resume_page",
+                  }}
                 >
                   linkedin.com/in/atharvacm
-                </Link>
+                </TrackedLink>
               </div>
             ) : null}
             {githubUrl ? (
               <div>
                 <p className="eyebrow">GitHub</p>
-                <Link
+                <TrackedLink
                   className="link-inline-accent mt-2"
                   href={githubUrl}
                   rel="noreferrer"
                   target="_blank"
+                  trackingEvent="github_click"
+                  trackingPayload={{
+                    link_url: githubUrl,
+                    location: "resume_page",
+                  }}
                 >
                   github.com/AtharvaCM
-                </Link>
+                </TrackedLink>
               </div>
             ) : null}
           </div>
@@ -186,22 +207,34 @@ export default async function ResumePage() {
                 >
                   <div className="grid gap-3 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
                     <h3 className="max-w-[20ch] text-[clamp(1.45rem,8vw,2rem)] font-semibold leading-tight tracking-[-0.04em] text-text md:leading-none">
-                      <Link
+                      <TrackedLink
                         className="link-display text-[inherit]"
                         href={`/projects/${project.slug}`}
+                        trackingEvent="project_open"
+                        trackingPayload={{
+                          location: "resume_page",
+                          project_name: project.title,
+                          project_slug: project.slug,
+                        }}
                       >
                         {project.title}
-                      </Link>
+                      </TrackedLink>
                     </h3>
                     {project.liveUrl ? (
-                      <Link
+                      <TrackedLink
                         className="link-inline-accent"
                         href={project.liveUrl}
                         rel="noreferrer"
                         target="_blank"
+                        trackingEvent="project_live_site_click"
+                        trackingPayload={{
+                          link_url: project.liveUrl,
+                          project_name: project.title,
+                          project_slug: project.slug,
+                        }}
                       >
                         Live site
-                      </Link>
+                      </TrackedLink>
                     ) : null}
                   </div>
                   <p className="mt-4 max-w-[42rem] text-sm leading-7 text-text/72">

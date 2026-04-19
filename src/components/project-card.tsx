@@ -1,13 +1,13 @@
-import Link from "next/link";
-
 import { BadgeLabel } from "@/components/badge-label";
 import { ProjectCoverFrame } from "@/components/project-cover-frame";
+import { TrackedLink } from "@/components/tracked-link";
 import type { ProjectMeta } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
   featured?: boolean;
+  location?: string;
   project: ProjectMeta;
   summary?: string;
 };
@@ -15,6 +15,7 @@ type Props = {
 export function ProjectCard({
   className,
   featured = false,
+  location = "projects_page",
   project,
   summary,
 }: Props) {
@@ -55,12 +56,18 @@ export function ProjectCard({
           featured && "md:max-w-[17ch] md:text-[2.35rem]",
         )}
       >
-        <Link
+        <TrackedLink
           className="link-display text-[inherit]"
           href={`/projects/${project.slug}`}
+          trackingEvent="project_open"
+          trackingPayload={{
+            location,
+            project_slug: project.slug,
+            project_name: project.title,
+          }}
         >
           {project.title}
-        </Link>
+        </TrackedLink>
       </h3>
 
       <p className="mt-4 text-sm leading-7 text-text/76 md:text-text/70">
@@ -79,9 +86,18 @@ export function ProjectCard({
         ))}
       </ul>
 
-      <Link className="link-action mt-7" href={`/projects/${project.slug}`}>
+      <TrackedLink
+        className="link-action mt-7"
+        href={`/projects/${project.slug}`}
+        trackingEvent="project_open"
+        trackingPayload={{
+          location,
+          project_slug: project.slug,
+          project_name: project.title,
+        }}
+      >
         View project details <span aria-hidden>-&gt;</span>
-      </Link>
+      </TrackedLink>
     </article>
   );
 }

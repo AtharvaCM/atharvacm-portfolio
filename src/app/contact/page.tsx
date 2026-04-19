@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { ContactForm } from "@/components/contact-form";
+import { TrackedLink } from "@/components/tracked-link";
 import { LINKEDIN_URL, RESUME_URL, SITE_NAME } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import { getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
@@ -67,36 +67,51 @@ export default function ContactPage() {
             {resumeUrl ? (
               <p>
                 <span className="eyebrow block">Resume</span>
-                <Link
+                <TrackedLink
                   className="link-inline-accent mt-2"
                   download={resumeDownload}
                   href={resumeUrl}
                   rel={resumeDownload ? undefined : "noreferrer"}
                   target={resumeDownload ? undefined : "_blank"}
+                  trackingEvent="resume_click"
+                  trackingPayload={{ location: "contact_page" }}
                 >
                   Download PDF resume
-                </Link>
+                </TrackedLink>
               </p>
             ) : null}
             {linkedInUrl ? (
               <p>
                 <span className="eyebrow block">LinkedIn</span>
-                <Link
+                <TrackedLink
                   className="link-inline-accent mt-2"
                   href={linkedInUrl}
                   rel="noreferrer"
                   target="_blank"
+                  trackingEvent="linkedin_click"
+                  trackingPayload={{
+                    link_url: linkedInUrl,
+                    location: "contact_page",
+                  }}
                 >
                   linkedin.com/in/atharvacm
-                </Link>
+                </TrackedLink>
               </p>
             ) : null}
             {contactHref && contactEmail ? (
               <p>
                 <span className="eyebrow block">Email</span>
-                <Link className="link-inline-accent mt-2" href={contactHref}>
+                <TrackedLink
+                  className="link-inline-accent mt-2"
+                  href={contactHref}
+                  trackingEvent="contact_email_click"
+                  trackingPayload={{
+                    link_url: contactHref,
+                    location: "contact_page",
+                  }}
+                >
                   {contactEmail}
-                </Link>
+                </TrackedLink>
               </p>
             ) : null}
           </div>

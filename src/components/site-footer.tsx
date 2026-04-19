@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TrackedLink } from "@/components/tracked-link";
 import { NAV_ITEMS, SITE_NAME, SOCIAL_LINKS } from "@/lib/constants";
 import { FOOTER_BIO } from "@/lib/profile-content";
 import { getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
@@ -11,6 +12,18 @@ export function SiteFooter() {
   const contactHref = getMailtoHref(
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
   );
+
+  function getSocialTrackingEvent(label: string) {
+    if (label === "GitHub") {
+      return "github_click";
+    }
+
+    if (label === "LinkedIn") {
+      return "linkedin_click";
+    }
+
+    return undefined;
+  }
 
   return (
     <footer className="border-t border-border/90 py-11 md:py-14">
@@ -30,9 +43,20 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-2.5 md:space-y-2">
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
-                  <Link className="link-inline" href={item.href}>
+                  <TrackedLink
+                    className="link-inline"
+                    href={item.href}
+                    trackingEvent={
+                      item.href === "/resume" ? "resume_click" : undefined
+                    }
+                    trackingPayload={
+                      item.href === "/resume"
+                        ? { location: "footer" }
+                        : undefined
+                    }
+                  >
                     {item.label}
-                  </Link>
+                  </TrackedLink>
                 </li>
               ))}
             </ul>
@@ -43,21 +67,35 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-2.5 md:space-y-2">
               {SOCIAL_LINKS.map((item) => (
                 <li key={item.href}>
-                  <Link
+                  <TrackedLink
                     className="link-inline"
                     href={item.href}
                     rel="noreferrer"
                     target="_blank"
+                    trackingEvent={getSocialTrackingEvent(item.label)}
+                    trackingPayload={
+                      getSocialTrackingEvent(item.label)
+                        ? { link_url: item.href, location: "footer" }
+                        : undefined
+                    }
                   >
                     {item.label}
-                  </Link>
+                  </TrackedLink>
                 </li>
               ))}
               {contactEmail && contactHref ? (
                 <li>
-                  <Link className="link-inline" href={contactHref}>
+                  <TrackedLink
+                    className="link-inline"
+                    href={contactHref}
+                    trackingEvent="contact_email_click"
+                    trackingPayload={{
+                      link_url: contactHref,
+                      location: "footer",
+                    }}
+                  >
                     {contactEmail}
-                  </Link>
+                  </TrackedLink>
                 </li>
               ) : null}
             </ul>

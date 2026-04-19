@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { TrackedLink } from "@/components/tracked-link";
 import { NAV_ITEMS, SITE_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -40,7 +41,7 @@ export function SiteNav() {
               const active = pathname === item.href;
 
               return (
-                <Link
+                <TrackedLink
                   className={cn(
                     "relative font-display text-[0.72rem] uppercase tracking-[0.2em] transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-0",
                     active
@@ -49,9 +50,17 @@ export function SiteNav() {
                   )}
                   href={item.href}
                   key={item.href}
+                  trackingEvent={
+                    item.href === "/resume" ? "resume_click" : undefined
+                  }
+                  trackingPayload={
+                    item.href === "/resume"
+                      ? { location: "header_nav" }
+                      : undefined
+                  }
                 >
                   {item.label}
-                </Link>
+                </TrackedLink>
               );
             })}
           </nav>
@@ -102,7 +111,7 @@ export function SiteNav() {
                 const active = pathname === item.href;
 
                 return (
-                  <Link
+                  <TrackedLink
                     className={cn(
                       "flex items-center justify-between border-b border-border/45 py-3.5 text-lg font-semibold tracking-[-0.035em] transition duration-200 last:border-b-0",
                       active ? "text-accent" : "text-text"
@@ -110,9 +119,17 @@ export function SiteNav() {
                     href={item.href}
                     key={item.href}
                     onClick={() => setOpen(false)}
+                    trackingEvent={
+                      item.href === "/resume" ? "resume_click" : undefined
+                    }
+                    trackingPayload={
+                      item.href === "/resume"
+                        ? { location: "mobile_nav" }
+                        : undefined
+                    }
                   >
                     <span>{item.label}</span>
-                  </Link>
+                  </TrackedLink>
                 );
               })}
             </div>
