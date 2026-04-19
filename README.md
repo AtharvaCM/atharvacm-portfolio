@@ -66,9 +66,10 @@ See [docs/contact-email-routing.md](docs/contact-email-routing.md) for the produ
 Analytics setup:
 
 - Google Tag Manager uses `NEXT_PUBLIC_GTM_ID` and is the single entry point for GA4
-- Microsoft Clarity uses `NEXT_PUBLIC_CLARITY_ID`
+- Microsoft Clarity uses `NEXT_PUBLIC_CLARITY_ID` and is intentionally loaded directly by the app, not through GTM
 - Analytics loaders live in `src/components/client-overlays.tsx` and only mount after analytics consent is accepted
 - Do not initialize GA4 directly in app code while GTM owns the GA4 base tag, or pageviews/events can duplicate
+- Do not add a Clarity tag in GTM unless the direct app integration is removed first, or Clarity can load twice
 
 Custom GTM events:
 

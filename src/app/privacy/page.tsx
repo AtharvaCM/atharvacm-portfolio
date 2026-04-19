@@ -57,10 +57,11 @@ export default function PrivacyPage() {
             Analytics and cookies
           </h2>
           <p className="mt-3">
-            The site can use Google Analytics, Google Tag Manager, and
-            Microsoft Clarity when the relevant environment IDs are configured.
-            These analytics tools are loaded only after analytics consent is
-            accepted. Your consent choice is stored in localStorage as{" "}
+            The site can use Google Tag Manager for GA4/event tracking and
+            Microsoft Clarity for product analytics when the relevant
+            environment IDs are configured. These analytics tools are loaded
+            only after analytics consent is accepted. Your consent choice is
+            stored in localStorage as{" "}
             <code>portfolio-cookie-consent</code>.
           </p>
         </section>
