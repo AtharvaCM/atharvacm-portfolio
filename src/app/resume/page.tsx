@@ -49,8 +49,8 @@ export default async function ResumePage() {
   const featuredProjects = getResumeProjects(projects);
 
   return (
-    <section className="shell py-16 md:py-20">
-      <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-14">
+    <section className="shell py-12 md:py-20">
+      <div className="grid gap-8 md:gap-10 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-14">
         <div>
           <p className="eyebrow">Resume</p>
           <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.3rem,6vw,5rem)] tracking-tight">
@@ -58,7 +58,7 @@ export default async function ResumePage() {
           </h1>
           <p className="section-copy mt-5 max-w-[48rem]">{RESUME_SUMMARY}</p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-8">
             {resumeUrl ? (
               <Link
                 className="btn-primary"
@@ -75,7 +75,7 @@ export default async function ResumePage() {
           </div>
         </div>
 
-        <aside className="panel p-6 md:p-7">
+        <aside className="panel p-5 md:p-7">
           <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">
             Contact
           </p>
@@ -118,9 +118,9 @@ export default async function ResumePage() {
         </aside>
       </div>
 
-      <section className="mt-14">
+      <section className="mt-12 md:mt-14">
         <h2 className="section-heading">Core competencies</h2>
-        <div className="mt-7 grid gap-px overflow-hidden rounded-[1.4rem] border border-border/65 bg-border/65 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-6 grid gap-px overflow-hidden rounded-[1.2rem] border border-border/65 bg-border/65 md:mt-7 md:grid-cols-2 md:rounded-[1.4rem] xl:grid-cols-3">
           {RESUME_COMPETENCIES.map((group) => (
             <article
               className="bg-[hsl(var(--surface)/0.96)] p-5 md:p-6"
@@ -135,12 +135,12 @@ export default async function ResumePage() {
         </div>
       </section>
 
-      <section className="mt-14">
+      <section className="mt-12 md:mt-14">
         <h2 className="section-heading">Experience</h2>
         <div className="mt-7 space-y-6">
           {RESUME_EXPERIENCE.map((role) => (
             <article
-              className="panel p-6 md:p-7"
+              className="panel p-5 md:p-7"
               key={`${role.company}-${role.title}`}
             >
               <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -154,7 +154,7 @@ export default async function ResumePage() {
                 </div>
                 <p className="eyebrow md:pt-2">{role.period}</p>
               </div>
-              <ul className="mt-6 list-disc space-y-2.5 pl-5 text-sm leading-7 text-text/74 md:text-[0.98rem]">
+              <ul className="mt-5 list-disc space-y-2.5 pl-5 text-sm leading-7 text-text/78 md:mt-6 md:text-[0.98rem] md:text-text/74">
                 {role.points.map((point) => (
                   <li key={point}>{point}</li>
                 ))}
@@ -164,7 +164,7 @@ export default async function ResumePage() {
         </div>
       </section>
 
-      <section className="mt-14">
+      <section className="mt-12 md:mt-14">
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-14">
           <div>
             <h2 className="section-heading">Selected projects</h2>

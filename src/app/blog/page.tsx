@@ -53,12 +53,12 @@ export default async function BlogPage({
   const hasPosts = allPosts.length > 0;
 
   return (
-    <section className="shell py-16 md:py-20">
+    <section className="shell py-12 md:py-20">
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="eyebrow">Blog</p>
-          <h1 className="mt-5 font-display text-[clamp(2.5rem,6vw,5rem)] tracking-tight">Insights and notes</h1>
-          <p className="mt-4 max-w-2xl text-text/70">
+          <h1 className="mt-5 font-display text-[clamp(2.25rem,12vw,5rem)] leading-none tracking-tight">Insights and notes</h1>
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-text/74 md:text-base">
             Writing about engineering decisions, product systems, performance, and the practical tradeoffs behind
             real-world software.
           </p>
@@ -76,7 +76,7 @@ export default async function BlogPage({
       {hasPosts ? (
         <>
           <AnimatedSection>
-            <div className="mt-10 panel p-5 md:p-6">
+            <div className="mt-8 panel p-4 md:mt-10 md:p-6">
               <div className="flex flex-wrap gap-2">
                 <Link
                   className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.12em] ${
@@ -102,14 +102,14 @@ export default async function BlogPage({
           </AnimatedSection>
 
           <AnimatedSection>
-            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-8 grid gap-5 md:mt-10 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
               {pagination.posts.map((post) => (
                 <BlogCard key={post.slug} post={post} />
               ))}
             </div>
           </AnimatedSection>
 
-          <div className="mt-10 flex items-center justify-between text-sm">
+          <div className="mt-8 flex flex-col gap-4 text-sm sm:flex-row sm:items-center sm:justify-between md:mt-10">
             <p className="text-text/65">
               Showing {pagination.posts.length} of {filtered.length} posts ({BLOG_PAGE_SIZE} per page)
             </p>
@@ -135,12 +135,12 @@ export default async function BlogPage({
         </>
       ) : (
         <AnimatedSection>
-          <div className="mt-14 max-w-2xl border-t border-border pt-8">
+          <div className="mt-10 max-w-2xl border-t border-border pt-7 md:mt-14 md:pt-8">
             <p className="eyebrow">Coming soon</p>
             <h2 className="mt-4 font-display text-[clamp(2rem,5vw,4rem)] tracking-tight">
               The blog is on the way.
             </h2>
-            <p className="mt-5 text-text/70">
+            <p className="mt-5 text-sm leading-7 text-text/74 md:text-base">
               I’m still putting the first few posts together. For now, the projects page is the best place to see how I
               think through product and engineering work.
             </p>

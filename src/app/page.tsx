@@ -22,6 +22,7 @@ import {
 } from "@/lib/profile-content";
 import { HOME_DESCRIPTION, HOME_TITLE, buildMetadata } from "@/lib/seo";
 import type { ProjectMeta } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
   title: HOME_TITLE,
@@ -86,7 +87,7 @@ function WorkRow({
 }) {
   return (
     <article className="border-t border-border/90 py-10 first:border-t-0 first:pt-0 md:py-16">
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
+      <div className="grid gap-8 md:gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
         <div className={imageFirst ? "" : "lg:order-2"}>
           <div className="flex flex-wrap items-center gap-2.5 text-[hsl(var(--text-muted))]">
             <p className="eyebrow">
@@ -99,20 +100,20 @@ function WorkRow({
             <span aria-hidden className="text-text/28">
               •
             </span>
-            <p className="eyebrow">{project.role}</p>
+            <p className="eyebrow hidden sm:block">{project.role}</p>
           </div>
 
-          <h3 className="mt-4 max-w-[16ch] text-[clamp(1.75rem,3.15vw,3.45rem)] font-bold tracking-[-0.055em] text-text">
+          <h3 className="mt-4 max-w-[16ch] text-[clamp(1.65rem,10vw,2.55rem)] font-bold leading-[0.98] tracking-[-0.055em] text-text md:text-[clamp(1.75rem,3.15vw,3.45rem)] md:leading-none">
             <Link className="link-display" href={`/projects/${project.slug}`}>
               {project.title}
             </Link>
           </h3>
 
-          <p className="mt-5 max-w-[38rem] text-[0.98rem] leading-7 text-[hsl(var(--text-muted))]">
+          <p className="mt-5 max-w-[38rem] text-[1rem] leading-7 text-text/78 md:text-[0.98rem] md:text-[hsl(var(--text-muted))]">
             {project.excerpt}
           </p>
 
-          <div className="mt-6 grid gap-5 md:grid-cols-2">
+          <div className="mt-6 hidden gap-5 md:grid md:grid-cols-2">
             <div>
               <p className="eyebrow">System</p>
               <p className="mt-2 text-[0.95rem] leading-7 text-text">
@@ -128,9 +129,12 @@ function WorkRow({
           </div>
 
           <ul className="mt-6 space-y-2.5 border-t border-border/80 pt-5">
-            {project.metricHighlights.slice(0, 2).map((item) => (
+            {project.metricHighlights.slice(0, 2).map((item, metricIndex) => (
               <li
-                className="flex gap-3 text-[0.95rem] leading-7 text-[hsl(var(--text-muted))]"
+                className={cn(
+                  "gap-3 text-[0.95rem] leading-7 text-text/78 md:flex md:text-[hsl(var(--text-muted))]",
+                  metricIndex === 0 ? "flex" : "hidden"
+                )}
                 key={item}
               >
                 <span className="mt-[0.95rem] h-1.5 w-1.5 rounded-full bg-accent" />
@@ -139,7 +143,7 @@ function WorkRow({
             ))}
           </ul>
 
-          <div className="mt-7 flex flex-wrap items-center gap-5">
+          <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5">
             <Link className="link-action" href={`/projects/${project.slug}`}>
               View project details <span aria-hidden>-&gt;</span>
             </Link>
@@ -158,7 +162,7 @@ function WorkRow({
         </div>
 
         <div className={imageFirst ? "" : "lg:order-1"}>
-          <div className="relative aspect-[5/4] overflow-hidden bg-[hsl(var(--surface-soft))]">
+          <div className="relative aspect-[4/3] overflow-hidden bg-[hsl(var(--surface-soft))] md:aspect-[5/4]">
             <Image
               alt={project.title}
               className="object-cover object-top transition duration-500 hover:scale-[1.015]"
@@ -182,57 +186,60 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="shell relative overflow-hidden pb-4 pt-6 md:pb-8 md:pt-8">
-        <div className="flex min-h-[calc(86svh-5.25rem)] items-start pt-8 md:min-h-[calc(88svh-5.25rem)] md:pt-10 lg:pt-12">
+      <section className="shell relative overflow-hidden pb-4 pt-7 md:pb-8 md:pt-8">
+        <div className="flex min-h-[calc(82svh-4rem)] items-start pt-8 md:min-h-[calc(88svh-5.25rem)] md:pt-10 lg:pt-12">
           <div className="w-full max-w-[66rem]">
             <p
-              className="intro-reveal text-[clamp(2.4rem,4vw,4.2rem)] font-semibold tracking-[-0.07em] text-text"
+              className="intro-reveal text-[clamp(2.15rem,14vw,3.3rem)] font-semibold tracking-[-0.07em] text-text md:text-[clamp(2.4rem,4vw,4.2rem)]"
               style={{ "--delay": "0.04s" } as CSSProperties}
             >
               {PROFILE_NAME}
             </p>
             <p
-              className="intro-reveal mt-5 chapter-index"
+              className="intro-reveal mt-6 chapter-index md:mt-5"
               style={{ "--delay": "0.1s" } as CSSProperties}
             >
               Senior full-stack engineer
             </p>
 
             <h1
-              className="intro-reveal mt-6 text-[clamp(2.85rem,6.35vw,5.95rem)] font-bold tracking-[-0.09em] text-text"
+              className="intro-reveal mt-7 text-[clamp(2.45rem,14vw,4.1rem)] font-bold tracking-[-0.09em] text-text md:mt-6 md:text-[clamp(2.85rem,6.35vw,5.95rem)]"
               style={
                 { "--delay": "0.18s", lineHeight: "0.88" } as CSSProperties
               }
             >
               <span className="block">I build scalable,</span>
-              <span className="block md:whitespace-nowrap">
+              <span className="block sm:whitespace-nowrap">
                 content-driven platforms.
               </span>
             </h1>
 
             <p
-              className="intro-reveal mt-6 max-w-[34rem] text-[0.98rem] leading-7 text-[hsl(var(--text-muted))] md:text-[1.03rem]"
+              className="intro-reveal mt-7 max-w-[34rem] text-[1rem] leading-8 text-[hsl(var(--text-muted))] md:mt-6 md:text-[1.03rem] md:leading-7"
               style={{ "--delay": "0.26s" } as CSSProperties}
             >
               React, Next.js, and TypeScript for production product systems.
             </p>
 
             <div
-              className="intro-reveal mt-8 flex flex-wrap items-center gap-3"
+              className="intro-reveal mt-8 grid gap-3 sm:flex sm:flex-wrap sm:items-center md:mt-8"
               style={{ "--delay": "0.34s" } as CSSProperties}
             >
-              <Link className="btn-primary" href="#selected-work">
+              <Link className="btn-primary sm:w-auto" href="#selected-work">
                 Selected work
               </Link>
               <Link
-                className="btn-secondary"
+                className="btn-secondary sm:w-auto"
                 href={resumeHref}
                 rel={resumeRel}
                 target={resumeTarget}
               >
                 Resume
               </Link>
-              <Link className="link-inline" href="/contact">
+              <Link
+                className="link-inline justify-center py-2 sm:justify-start sm:py-0"
+                href="/contact"
+              >
                 Contact
               </Link>
             </div>
@@ -243,7 +250,7 @@ export default async function HomePage() {
       <AnimatedSection>
         <section className="shell content-band content-auto">
           <div className="section-frame-tight">
-            <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
+            <div className="grid gap-7 md:gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
                 <p className="chapter-index">Proof</p>
               </div>
@@ -252,10 +259,10 @@ export default async function HomePage() {
                 <h2 className="section-heading max-w-[9ch]">
                   What the work changed.
                 </h2>
-                <div className="mt-10 grid gap-x-8 gap-y-8 md:grid-cols-2">
+                <div className="mt-9 grid gap-x-8 gap-y-8 md:mt-10 md:grid-cols-2">
                   {HOME_IMPACT_ITEMS.map((item, index) => (
                     <article
-                      className="border-t border-border/80 pt-5"
+                      className="border-t border-border/80 pt-4 md:pt-5"
                       key={item}
                     >
                       {(() => {
@@ -287,7 +294,7 @@ export default async function HomePage() {
       <AnimatedSection>
         <section className="shell content-band content-auto" id="selected-work">
           <div className="section-frame">
-            <div className="mb-10 grid gap-6 lg:mb-14 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
+            <div className="mb-10 grid gap-7 lg:mb-14 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
                 <p className="chapter-index">Selected work</p>
               </div>
@@ -319,14 +326,14 @@ export default async function HomePage() {
       <AnimatedSection>
         <section className="shell content-band content-auto">
           <div className="section-frame">
-            <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
+            <div className="grid gap-7 md:gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
                 <p className="chapter-index">Approach</p>
               </div>
 
               <div>
                 <h2 className="section-heading max-w-[8ch]">How I build.</h2>
-                <div className="mt-10 grid gap-8 md:grid-cols-3">
+                <div className="mt-9 grid gap-8 md:mt-10 md:grid-cols-3">
                   {HOME_FOCUS_AREAS.map((area, index) => (
                     <article
                       className="border-t border-border/80 pt-5"
@@ -351,7 +358,7 @@ export default async function HomePage() {
       <AnimatedSection>
         <section className="shell content-band content-auto">
           <div className="section-frame">
-            <div className="grid gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
+            <div className="grid gap-7 md:gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
                 <p className="chapter-index">Experience</p>
               </div>
@@ -365,7 +372,7 @@ export default async function HomePage() {
                   teams.
                 </p>
 
-                <div className="mt-10 space-y-10">
+                <div className="mt-9 space-y-10 md:mt-10">
                   {RESUME_EXPERIENCE.map((role, index) => (
                     <article
                       className="border-t border-border/80 pt-6"
@@ -413,7 +420,7 @@ export default async function HomePage() {
       <section className="shell content-band content-auto">
         <div className="section-frame">
           <p className="chapter-index">Next</p>
-          <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end">
+          <div className="mt-6 grid gap-7 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end">
             <div>
               <h2 className="section-heading max-w-[18ch]">
                 Looking for the next serious product to help build.
@@ -423,12 +430,12 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 lg:justify-end">
-              <Link className="btn-primary" href="/contact">
+            <div className="grid gap-3 sm:flex sm:flex-wrap sm:items-center lg:justify-end">
+              <Link className="btn-primary sm:w-auto" href="/contact">
                 Contact
               </Link>
               <Link
-                className="btn-secondary"
+                className="btn-secondary sm:w-auto"
                 href={resumeHref}
                 rel={resumeRel}
                 target={resumeTarget}

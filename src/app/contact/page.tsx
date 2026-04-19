@@ -30,7 +30,7 @@ export default function ContactPage() {
   );
 
   return (
-    <section className="shell py-16 md:py-20">
+    <section className="shell py-12 md:py-20">
       <p className="eyebrow">Contact</p>
       <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.3rem,6vw,5rem)] tracking-tight">
         If you&apos;d like to talk, I&apos;d be glad to hear from you.
@@ -45,13 +45,13 @@ export default function ContactPage() {
         resume or email.
       </p>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-[2fr_1fr]">
+      <div className="mt-8 grid gap-5 md:mt-10 md:gap-6 lg:grid-cols-[2fr_1fr]">
         <ContactForm />
-        <aside className="panel p-6 md:p-8">
+        <aside className="panel p-5 md:p-8">
           <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">
             Contact
           </p>
-          <h2 className="mt-3 font-display text-[2.2rem] tracking-tight">
+          <h2 className="mt-3 font-display text-[1.9rem] leading-none tracking-tight md:text-[2.2rem]">
             Other ways to reach me
           </h2>
           <p className="mt-4 text-sm leading-7 text-text/72">

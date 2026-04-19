@@ -58,7 +58,7 @@ export function ContactForm() {
 
   return (
     <form
-      className="panel relative overflow-hidden space-y-6 p-6 md:p-8"
+      className="panel relative space-y-5 overflow-hidden p-5 md:space-y-6 md:p-8"
       onSubmit={onSubmit}
     >
       <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-accent/10 blur-lg" />
@@ -115,7 +115,7 @@ export function ContactForm() {
         value={form.website}
       />
 
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
         <button
           className="btn-primary disabled:pointer-events-none disabled:opacity-55"
           disabled={status === "loading"}

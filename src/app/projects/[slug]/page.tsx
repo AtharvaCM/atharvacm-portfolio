@@ -61,13 +61,13 @@ export default async function ProjectDetailPage({ params }: Props) {
   const coverFit = project.slug === "vehicle-vault-maintenance-platform" ? "contain" : "cover";
 
   return (
-    <article className="shell py-16 md:py-20">
+    <article className="shell py-12 md:py-20">
       <StructuredData data={getProjectStructuredData(project)} />
       <p className="eyebrow">{PROJECT_CATEGORY_LABELS[project.category]} Project</p>
-      <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.4rem,6vw,5rem)] tracking-tight">{project.title}</h1>
+      <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.15rem,12vw,5rem)] leading-[0.96] tracking-tight md:leading-none">{project.title}</h1>
       <p className="section-copy mt-6 max-w-[46rem] md:text-base">{project.excerpt}</p>
 
-      <div className="panel mt-8 overflow-hidden p-3">
+      <div className="panel mt-7 overflow-hidden p-2 md:mt-8 md:p-3">
         <ProjectCoverFrame
           alt={project.title}
           fit={coverFit}
@@ -78,51 +78,51 @@ export default async function ProjectDetailPage({ params }: Props) {
         />
       </div>
 
-      <div className="mt-8 overflow-hidden rounded-[1.45rem] border border-border/65 bg-border/65 shadow-[0_22px_54px_-40px_hsl(var(--text)/0.16)]">
-        <dl className="grid gap-px text-sm text-text/72 sm:grid-cols-2 md:grid-cols-4">
-          <div className="bg-[hsl(var(--surface)/0.96)] p-5">
-            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">Year</dt>
+      <div className="mt-7 overflow-hidden rounded-[1.2rem] border border-border/65 bg-border/65 shadow-[0_22px_54px_-40px_hsl(var(--text)/0.16)] md:mt-8 md:rounded-[1.45rem]">
+        <dl className="grid gap-px text-sm text-text/82 sm:grid-cols-2 md:grid-cols-4">
+          <div className="bg-[hsl(var(--surface)/0.96)] p-4 md:p-5">
+            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/62">Year</dt>
             <dd className="mt-2">{project.year}</dd>
           </div>
-          <div className="bg-[hsl(var(--surface)/0.96)] p-5">
-            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">Role</dt>
+          <div className="bg-[hsl(var(--surface)/0.96)] p-4 md:p-5">
+            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/62">Role</dt>
             <dd className="mt-2">{project.role}</dd>
           </div>
-          <div className="bg-[hsl(var(--surface)/0.96)] p-5">
-            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">Focus</dt>
+          <div className="bg-[hsl(var(--surface)/0.96)] p-4 md:p-5">
+            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/62">Focus</dt>
             <dd className="mt-2">{project.services.join(", ")}</dd>
           </div>
-          <div className="bg-[hsl(var(--surface)/0.96)] p-5">
-            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">Tech</dt>
+          <div className="bg-[hsl(var(--surface)/0.96)] p-4 md:p-5">
+            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/62">Tech</dt>
             <dd className="mt-2">{project.techStack.join(", ")}</dd>
           </div>
         </dl>
       </div>
 
-      <section className="panel mt-10 p-6 md:p-7">
-        <h2 className="text-[10px] uppercase tracking-[0.16em] text-text/52">Project overview</h2>
-        <dl className="mt-5 grid gap-5 md:grid-cols-2">
+      <section className="panel mt-8 p-5 md:mt-10 md:p-7">
+        <h2 className="text-[10px] uppercase tracking-[0.16em] text-text/64">Project overview</h2>
+        <dl className="mt-5 grid gap-6 md:grid-cols-2 md:gap-5">
           <div>
-            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">Scope</dt>
-            <dd className="mt-2 text-sm leading-7 text-text/74">{project.context}</dd>
+            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/62">Scope</dt>
+            <dd className="mt-2 text-sm leading-7 text-text/82">{project.context}</dd>
           </div>
           <div>
-            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">Problem</dt>
-            <dd className="mt-2 text-sm leading-7 text-text/74">{project.problem}</dd>
+            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/62">Problem</dt>
+            <dd className="mt-2 text-sm leading-7 text-text/82">{project.problem}</dd>
           </div>
           <div>
-            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">What I did</dt>
-            <dd className="mt-2 text-sm leading-7 text-text/74">{project.contribution}</dd>
+            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/62">What I did</dt>
+            <dd className="mt-2 text-sm leading-7 text-text/82">{project.contribution}</dd>
           </div>
           <div>
-            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/52">Impact</dt>
-            <dd className="mt-2 text-sm leading-7 text-text/74">{project.impact}</dd>
+            <dt className="text-[10px] uppercase tracking-[0.16em] text-text/62">Impact</dt>
+            <dd className="mt-2 text-sm leading-7 text-text/82">{project.impact}</dd>
           </div>
         </dl>
 
-        <div className="mt-6 rounded-[1.2rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.68)] p-5">
-          <h3 className="text-[10px] uppercase tracking-[0.16em] text-text/52">Key outcomes</h3>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-text/74">
+        <div className="mt-6 rounded-[1.05rem] border border-border/65 bg-[hsl(var(--surface-soft)/0.68)] p-4 md:rounded-[1.2rem] md:p-5">
+          <h3 className="text-[10px] uppercase tracking-[0.16em] text-text/62">Key outcomes</h3>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-text/82">
             {project.metricHighlights.map((metric) => (
               <li key={metric}>{metric}</li>
             ))}
@@ -130,18 +130,18 @@ export default async function ProjectDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <div className="prose prose-neutral mt-12 max-w-none prose-a:text-accent prose-headings:font-display prose-headings:tracking-tight">
+      <div className="prose prose-invert mt-10 max-w-none prose-a:text-accent prose-blockquote:border-accent/45 prose-blockquote:text-text/76 prose-code:text-text prose-headings:font-display prose-headings:tracking-tight prose-headings:text-text prose-hr:border-border/80 prose-li:leading-7 prose-li:text-text/80 prose-p:leading-7 prose-p:text-text/82 prose-headings:leading-tight prose-h2:text-[1.9rem] md:mt-12 md:prose-li:leading-8 md:prose-p:leading-8 md:prose-h2:text-[2.35rem] prose-strong:text-text">
         <MdxRenderer source={project.content} />
       </div>
 
-      <div className="panel mt-10 p-6">
-        <h2 className="text-[10px] uppercase tracking-[0.16em] text-text/52">Outcomes</h2>
-        <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-text/75">
+      <div className="panel mt-8 p-5 md:mt-10 md:p-6">
+        <h2 className="text-[10px] uppercase tracking-[0.16em] text-text/64">Outcomes</h2>
+        <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-text/82">
           {project.outcomes.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           {liveUrl ? (
             <Link className="btn-primary" href={liveUrl} rel="noreferrer" target="_blank">
               Visit live
@@ -162,10 +162,10 @@ export default async function ProjectDetailPage({ params }: Props) {
       </div>
 
       {showNavigation ? (
-        <nav className={`mt-10 grid gap-4 ${navLayoutClass}`} aria-label="Project navigation">
+        <nav className={`mt-8 grid gap-4 md:mt-10 ${navLayoutClass}`} aria-label="Project navigation">
           {previous ? (
             <div className="panel p-5">
-              <p className="text-xs uppercase tracking-[0.14em] text-text/55">Previous</p>
+              <p className="text-xs uppercase tracking-[0.14em] text-text/62">Previous</p>
               <Link className="link-display mt-2 text-2xl" href={`/projects/${previous.slug}`}>
                 {previous.title}
               </Link>
@@ -174,7 +174,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
           {next ? (
             <div className="panel p-5">
-              <p className="text-xs uppercase tracking-[0.14em] text-text/55">Next</p>
+              <p className="text-xs uppercase tracking-[0.14em] text-text/62">Next</p>
               <Link className="link-display mt-2 text-2xl" href={`/projects/${next.slug}`}>
                 {next.title}
               </Link>

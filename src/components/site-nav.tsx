@@ -28,9 +28,9 @@ export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/90 bg-[hsl(var(--bg)/0.86)] backdrop-blur-md">
       <div className="shell">
-        <div className="grid h-[5.25rem] grid-cols-[1fr_auto] items-center gap-6">
+        <div className="grid h-16 grid-cols-[1fr_auto] items-center gap-4 md:h-[5.25rem] md:gap-6">
           <Link className="min-w-0 rounded-md focus-visible:ring-offset-0" href="/">
-            <span className="block truncate text-[0.92rem] font-semibold uppercase tracking-[0.22em] text-text">
+            <span className="block truncate text-[0.76rem] font-semibold uppercase tracking-[0.2em] text-text md:text-[0.92rem] md:tracking-[0.22em]">
               {SITE_NAME}
             </span>
           </Link>
@@ -83,18 +83,18 @@ export function SiteNav() {
         <div
           className={cn(
             "overflow-hidden transition-[max-height,opacity] duration-200 ease-out md:hidden",
-            open ? "max-h-[calc(100dvh-5.25rem)] opacity-100" : "max-h-0 opacity-0"
+            open ? "max-h-[calc(100dvh-4rem)] opacity-100 md:max-h-[calc(100dvh-5.25rem)]" : "max-h-0 opacity-0"
           )}
         >
-          <nav className="border-t border-border/90 py-4" aria-label="Mobile Primary">
-            <div className="flex flex-col gap-3">
+          <nav className="border-t border-border/90 py-3" aria-label="Mobile Primary">
+            <div className="flex flex-col gap-1">
               {NAV_ITEMS.map((item) => {
                 const active = pathname === item.href;
 
                 return (
                   <Link
                     className={cn(
-                      "flex items-center justify-between py-2 text-xl font-semibold tracking-[-0.04em] transition duration-200",
+                      "flex items-center justify-between border-b border-border/55 py-3 text-lg font-semibold tracking-[-0.035em] transition duration-200 last:border-b-0",
                       active ? "text-accent" : "text-text"
                     )}
                     href={item.href}

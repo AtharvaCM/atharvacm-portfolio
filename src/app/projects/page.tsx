@@ -51,7 +51,7 @@ export default async function ProjectsPage({
   }
 
   return (
-    <section className="shell py-16 md:py-20">
+    <section className="shell py-12 md:py-20">
       <p className="eyebrow">Projects</p>
       <h1 className="font-display text-[clamp(2.6rem,6vw,5rem)] tracking-tight">
         Projects
@@ -60,7 +60,7 @@ export default async function ProjectsPage({
         A selection of work across product engineering, frontend architecture,
         performance optimization, and full-stack application development.
       </p>
-      <div className="mt-7 flex flex-wrap gap-3">
+      <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Link className="btn-primary" href="/contact">
           Contact me
         </Link>
@@ -73,13 +73,13 @@ export default async function ProjectsPage({
       </div>
 
       <AnimatedSection>
-        <div className="mt-12 space-y-8">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-text/52">
+        <div className="mt-10 space-y-7 md:mt-12 md:space-y-8">
+          <div className="flex flex-wrap items-center gap-2.5 md:gap-3">
+            <span className="basis-full text-[10px] font-semibold uppercase tracking-[0.16em] text-text/52 sm:basis-auto">
               Browse by
             </span>
             <Link
-              className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.12em] ${
+              className={`rounded-full border px-3.5 py-2 text-[0.68rem] uppercase tracking-[0.12em] md:px-4 md:text-xs ${
                 !params.category
                   ? "border-accent/35 bg-accent/10 text-accent"
                   : "border-text/14 bg-[hsl(var(--surface-soft))/0.48] text-text/72 hover:border-text/22 hover:text-text"
@@ -90,7 +90,7 @@ export default async function ProjectsPage({
             </Link>
             {categoryOptions.map((category) => (
               <Link
-                className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.12em] ${
+                className={`rounded-full border px-3.5 py-2 text-[0.68rem] uppercase tracking-[0.12em] md:px-4 md:text-xs ${
                   params.category === category
                     ? "border-accent/35 bg-accent/10 text-accent"
                     : "border-text/14 bg-[hsl(var(--surface-soft))/0.48] text-text/72 hover:border-text/22 hover:text-text"
@@ -108,7 +108,7 @@ export default async function ProjectsPage({
               No projects match the active filters.
             </p>
           ) : (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
               {filtered.map((project) => (
                 <ProjectCard key={project.slug} project={project} />
               ))}

@@ -73,8 +73,8 @@ const TINKERING_POINTS = [
 
 export default function AboutPage() {
   return (
-    <section className="shell py-16 md:py-20">
-      <div className="grid gap-10 lg:grid-cols-[1fr_0.36fr] lg:items-end lg:gap-16">
+    <section className="shell py-12 md:py-20">
+      <div className="grid gap-8 lg:grid-cols-[1fr_0.36fr] lg:items-end lg:gap-16">
         <div>
           <p className="eyebrow">About</p>
           <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.3rem,6vw,5rem)] tracking-tight">
@@ -87,7 +87,7 @@ export default function AboutPage() {
         </div>
         <div
           aria-label="Portrait of Atharva Mahamuni"
-          className="min-h-72 overflow-hidden rounded-[1.7rem] border border-border/70 bg-cover bg-center opacity-95 shadow-[0_24px_80px_hsl(var(--ink)/0.28)] lg:min-h-[24rem]"
+          className="min-h-80 overflow-hidden rounded-[1.45rem] border border-border/70 bg-cover bg-center opacity-95 shadow-[0_24px_80px_hsl(var(--ink)/0.28)] md:rounded-[1.7rem] lg:min-h-[24rem]"
           role="img"
           style={{
             backgroundImage: "url(/images/about/atharva-portrait.jpg)",
@@ -95,9 +95,9 @@ export default function AboutPage() {
         />
       </div>
 
-      <div className="mt-14 grid gap-10 border-t border-border/80 pt-10 lg:grid-cols-[0.76fr_1fr] lg:gap-16">
+      <div className="mt-10 grid gap-6 border-t border-border/80 pt-8 md:mt-14 md:gap-10 md:pt-10 lg:grid-cols-[0.76fr_1fr] lg:gap-16">
         <p className="eyebrow">A little context</p>
-        <div className="max-w-[47rem] space-y-5 text-[1.03rem] leading-8 text-text/76">
+        <div className="max-w-[47rem] space-y-4 text-[0.98rem] leading-7 text-text/76 md:space-y-5 md:text-[1.03rem] md:leading-8">
           <p>
             I&apos;m based in Pune, and most of my work has involved building
             products that need to work through real complexity, not just look
@@ -112,7 +112,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <section className="mt-16 grid gap-10 border-t border-border/80 pt-10 lg:grid-cols-[0.72fr_1fr] lg:gap-16">
+      <section className="mt-12 grid gap-8 border-t border-border/80 pt-8 md:mt-16 md:gap-10 md:pt-10 lg:grid-cols-[0.72fr_1fr] lg:gap-16">
         <div>
           <h2 className="section-heading">How I got here</h2>
           <p className="section-copy mt-4 text-sm md:text-base">
@@ -128,16 +128,16 @@ export default function AboutPage() {
               <span className="font-mono text-xs uppercase tracking-[0.18em] text-accent/80">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <p className="text-[1.03rem] leading-8 text-text/76">{item}</p>
+              <p className="text-[0.98rem] leading-7 text-text/76 md:text-[1.03rem] md:leading-8">{item}</p>
             </li>
           ))}
         </ol>
       </section>
 
-      <section className="mt-16 border-t border-border/80 pt-10">
+      <section className="mt-12 border-t border-border/80 pt-8 md:mt-16 md:pt-10">
         <h2 className="section-heading">What matters to me</h2>
 
-        <div className="mt-8 grid gap-px overflow-hidden rounded-[1.45rem] border border-border/65 bg-border/65 md:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-7 grid gap-px overflow-hidden rounded-[1.2rem] border border-border/65 bg-border/65 md:mt-8 md:grid-cols-2 md:rounded-[1.45rem] xl:grid-cols-5">
           {CARE_POINTS.map((item) => (
             <article
               className="bg-[hsl(var(--surface)/0.96)] p-5 md:p-6"
@@ -152,7 +152,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mt-16 border-t border-border/80 pt-10">
+      <section className="mt-12 border-t border-border/80 pt-8 md:mt-16 md:pt-10">
         <div className="max-w-[42rem]">
           <h2 className="section-heading">
             What I&apos;m usually tinkering with
@@ -161,10 +161,10 @@ export default function AboutPage() {
             A few things that keep showing up outside the day job.
           </p>
         </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
+        <div className="mt-7 grid gap-5 md:mt-8 md:grid-cols-2 md:gap-6">
           {TINKERING_POINTS.map((item) => (
             <article
-              className="overflow-hidden rounded-[1.4rem] border border-border/70 bg-[hsl(var(--surface)/0.72)]"
+              className="overflow-hidden rounded-[1.2rem] border border-border/70 bg-[hsl(var(--surface)/0.72)] md:rounded-[1.4rem]"
               key={item.title}
             >
               <div
@@ -194,7 +194,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mt-16 border-t border-border/80 pt-10">
+      <section className="mt-12 border-t border-border/80 pt-8 md:mt-16 md:pt-10">
         <h2 className="section-heading max-w-4xl">
           If you think we&apos;d work well together, I&apos;d be glad to talk.
         </h2>

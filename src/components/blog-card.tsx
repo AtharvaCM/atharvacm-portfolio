@@ -12,7 +12,7 @@ export function BlogCard({ post }: Props) {
   const statusLabel = post.draft ? "Draft" : undefined;
 
   return (
-    <article className="panel flex h-full flex-col p-5 transition duration-200 hover:border-border/90 hover:shadow-[0_24px_48px_-38px_hsl(var(--text)/0.16)] md:p-6">
+    <article className="panel flex h-full flex-col p-4 transition duration-200 hover:border-border/90 hover:shadow-[0_24px_48px_-38px_hsl(var(--text)/0.16)] md:p-6">
       <div className="subtle-rule" />
       <div className="mt-5 flex flex-wrap items-center gap-2">
         <p className="text-[10px] uppercase tracking-[0.16em] text-text/52">
@@ -25,13 +25,13 @@ export function BlogCard({ post }: Props) {
         ) : null}
       </div>
 
-      <h3 className="mt-4 max-w-[15ch] font-display text-[1.95rem] leading-[0.95] tracking-tight">
+      <h3 className="mt-4 max-w-[15ch] font-display text-[1.75rem] leading-[0.98] tracking-tight md:text-[1.95rem] md:leading-[0.95]">
         <Link className="link-display text-[inherit]" href={`/blog/${post.slug}`}>
           {post.title}
         </Link>
       </h3>
 
-      <p className="mt-4 text-sm leading-7 text-text/70">{post.excerpt}</p>
+      <p className="mt-4 text-sm leading-7 text-text/76 md:text-text/70">{post.excerpt}</p>
 
       <ul className="mt-5 flex flex-wrap gap-2 text-[11px] text-text/68">
         {post.tags.map((tag) => (
