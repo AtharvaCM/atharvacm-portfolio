@@ -6,6 +6,7 @@ import { ProjectCard } from "@/components/project-card";
 import { PROJECT_CATEGORY_LABELS, SITE_NAME } from "@/lib/constants";
 import { filterProjects, getAllProjects } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: `Projects | ${SITE_NAME}`,
@@ -33,6 +34,24 @@ function buildFilterLink(params: URLSearchParams, key: string, value?: string) {
   return query ? `/projects?${query}` : "/projects";
 }
 
+function filterLinkClass(active: boolean) {
+  return cn(
+    "rounded-full border px-3.5 py-2 text-[0.68rem] uppercase tracking-[0.12em] transition duration-200 md:px-4 md:text-xs",
+    active
+      ? "border-accent/35 bg-accent/10 text-accent"
+      : "border-text/14 bg-transparent text-text/64 hover:border-text/28 hover:bg-text/[0.03] hover:text-text"
+  );
+}
+
+const PROJECT_LISTING_COPY: Record<string, string> = {
+  "cash-cove-finance-cockpit":
+    "A personal finance workspace with import flows, automation hooks, offline queueing, and reporting.",
+  "vehicle-vault-maintenance-platform":
+    "A full-stack vehicle maintenance product with ownership workflows, reminders, attachments, and delivery coverage.",
+  "eauction-platform":
+    "A real-time auction build covering live bidding, auth, backend services, and containerized deployment.",
+};
+
 export default async function ProjectsPage({
   searchParams,
 }: {
@@ -51,50 +70,34 @@ export default async function ProjectsPage({
   }
 
   return (
-    <section className="shell py-12 md:py-20">
+    <section className="shell py-14 md:py-20">
       <p className="eyebrow">Projects</p>
-      <h1 className="font-display text-[clamp(2.6rem,6vw,5rem)] tracking-tight">
-        Projects
+      <h1 className="mt-4 max-w-[10ch] font-display text-[clamp(2.8rem,12vw,5rem)] leading-[0.92] tracking-tight md:leading-none">
+        Selected work
       </h1>
-      <p className="section-copy max-w-[42rem]">
-        A selection of work across product engineering, frontend architecture,
-        performance optimization, and full-stack application development.
+      <p className="section-copy mt-6 max-w-[39rem]">
+        Production systems, product surfaces, and independent builds where
+        architecture, performance, and delivery quality mattered.
       </p>
-      <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        <Link className="btn-primary" href="/contact">
-          Contact me
-        </Link>
-        <Link className="btn-secondary" href="/about">
-          About how I work
-        </Link>
-        <Link className="btn-secondary" href="/resume">
-          View resume
-        </Link>
-      </div>
+      <Link className="link-action mt-7" href="/resume">
+        View resume <span aria-hidden>-&gt;</span>
+      </Link>
 
       <AnimatedSection>
-        <div className="mt-10 space-y-7 md:mt-12 md:space-y-8">
+        <div className="mt-12 space-y-8 border-t border-border/90 pt-7 md:mt-14 md:space-y-9 md:pt-8">
           <div className="flex flex-wrap items-center gap-2.5 md:gap-3">
-            <span className="basis-full text-[10px] font-semibold uppercase tracking-[0.16em] text-text/52 sm:basis-auto">
-              Browse by
+            <span className="basis-full text-[10px] font-semibold uppercase tracking-[0.18em] text-text/52 sm:basis-auto">
+              Filter
             </span>
             <Link
-              className={`rounded-full border px-3.5 py-2 text-[0.68rem] uppercase tracking-[0.12em] md:px-4 md:text-xs ${
-                !params.category
-                  ? "border-accent/35 bg-accent/10 text-accent"
-                  : "border-text/14 bg-[hsl(var(--surface-soft))/0.48] text-text/72 hover:border-text/22 hover:text-text"
-              }`}
+              className={filterLinkClass(!params.category)}
               href={buildFilterLink(urlParams, "category")}
             >
               All projects
             </Link>
             {categoryOptions.map((category) => (
               <Link
-                className={`rounded-full border px-3.5 py-2 text-[0.68rem] uppercase tracking-[0.12em] md:px-4 md:text-xs ${
-                  params.category === category
-                    ? "border-accent/35 bg-accent/10 text-accent"
-                    : "border-text/14 bg-[hsl(var(--surface-soft))/0.48] text-text/72 hover:border-text/22 hover:text-text"
-                }`}
+                className={filterLinkClass(params.category === category)}
                 href={buildFilterLink(urlParams, "category", category)}
                 key={category}
               >
@@ -109,9 +112,21 @@ export default async function ProjectsPage({
             </p>
           ) : (
             <div className="grid gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
-              {filtered.map((project) => (
-                <ProjectCard key={project.slug} project={project} />
-              ))}
+              {filtered.map((project, index) => {
+                const featured = !params.category && index === 0;
+
+                return (
+                  <ProjectCard
+                    className={
+                      featured ? "md:col-span-2 xl:col-span-2" : undefined
+                    }
+                    featured={featured}
+                    key={project.slug}
+                    project={project}
+                    summary={PROJECT_LISTING_COPY[project.slug]}
+                  />
+                );
+              })}
             </div>
           )}
         </div>
