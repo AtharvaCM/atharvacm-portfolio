@@ -73,21 +73,21 @@ const TINKERING_POINTS = [
 
 export default function AboutPage() {
   return (
-    <section className="shell py-12 md:py-20">
-      <div className="grid gap-8 lg:grid-cols-[1fr_0.36fr] lg:items-end lg:gap-16">
+    <section className="shell py-14 md:py-20">
+      <div className="grid gap-10 lg:grid-cols-[1fr_0.36fr] lg:items-end lg:gap-16">
         <div>
           <p className="eyebrow">About</p>
-          <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.3rem,6vw,5rem)] tracking-tight">
+          <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.45rem,12vw,5rem)] leading-[0.95] tracking-tight md:leading-none">
             I like building things that stay useful over time.
           </h1>
-          <p className="section-copy mt-5 max-w-[46rem] text-base md:text-lg">
+          <p className="section-copy mt-6 max-w-[46rem] text-[1rem] leading-8 md:mt-5 md:text-lg">
             I&apos;m a senior full-stack engineer who cares about thoughtful
             work, clear systems, and products that hold up over time.
           </p>
         </div>
         <div
           aria-label="Portrait of Atharva Mahamuni"
-          className="min-h-80 overflow-hidden rounded-[1.45rem] border border-border/70 bg-cover bg-center opacity-95 shadow-[0_24px_80px_hsl(var(--ink)/0.28)] md:rounded-[1.7rem] lg:min-h-[24rem]"
+          className="min-h-[22rem] overflow-hidden rounded-[1.45rem] border border-border/70 bg-cover bg-center opacity-95 shadow-[0_24px_80px_hsl(var(--ink)/0.28)] md:min-h-80 md:rounded-[1.7rem] lg:min-h-[24rem]"
           role="img"
           style={{
             backgroundImage: "url(/images/about/atharva-portrait.jpg)",
@@ -95,9 +95,9 @@ export default function AboutPage() {
         />
       </div>
 
-      <div className="mt-10 grid gap-6 border-t border-border/80 pt-8 md:mt-14 md:gap-10 md:pt-10 lg:grid-cols-[0.76fr_1fr] lg:gap-16">
+      <div className="mt-12 grid gap-7 border-t border-border/80 pt-9 md:mt-14 md:gap-10 md:pt-10 lg:grid-cols-[0.76fr_1fr] lg:gap-16">
         <p className="eyebrow">A little context</p>
-        <div className="max-w-[47rem] space-y-4 text-[0.98rem] leading-7 text-text/76 md:space-y-5 md:text-[1.03rem] md:leading-8">
+        <div className="max-w-[47rem] space-y-5 text-[1rem] leading-8 text-text/76 md:text-[1.03rem]">
           <p>
             I&apos;m based in Pune, and most of my work has involved building
             products that need to work through real complexity, not just look
@@ -112,56 +112,60 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <section className="mt-12 grid gap-8 border-t border-border/80 pt-8 md:mt-16 md:gap-10 md:pt-10 lg:grid-cols-[0.72fr_1fr] lg:gap-16">
+      <section className="mt-14 grid gap-9 border-t border-border/80 pt-9 md:mt-16 md:gap-10 md:pt-10 lg:grid-cols-[0.72fr_1fr] lg:gap-16">
         <div>
           <h2 className="section-heading">How I got here</h2>
-          <p className="section-copy mt-4 text-sm md:text-base">
+          <p className="section-copy mt-5 text-[0.95rem] leading-7 md:mt-4 md:text-base">
             A short version of how I grew into the kind of engineer I am now.
           </p>
         </div>
-        <ol className="space-y-6">
+        <ol className="space-y-7 md:space-y-6">
           {STORY_POINTS.map((item, index) => (
             <li
-              className="grid gap-4 border-t border-border/70 pt-5 first:border-t-0 first:pt-0 sm:grid-cols-[3rem_1fr]"
+              className="grid gap-3 border-t border-border/70 pt-6 first:border-t-0 first:pt-0 sm:grid-cols-[3rem_1fr] sm:gap-4 md:pt-5"
               key={item}
             >
               <span className="font-mono text-xs uppercase tracking-[0.18em] text-accent/80">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <p className="text-[0.98rem] leading-7 text-text/76 md:text-[1.03rem] md:leading-8">{item}</p>
+              <p className="text-[1rem] leading-8 text-text/76 md:text-[1.03rem]">
+                {item}
+              </p>
             </li>
           ))}
         </ol>
       </section>
 
-      <section className="mt-12 border-t border-border/80 pt-8 md:mt-16 md:pt-10">
+      <section className="mt-14 border-t border-border/80 pt-9 md:mt-16 md:pt-10">
         <h2 className="section-heading">What matters to me</h2>
 
-        <div className="mt-7 grid gap-px overflow-hidden rounded-[1.2rem] border border-border/65 bg-border/65 md:mt-8 md:grid-cols-2 md:rounded-[1.45rem] xl:grid-cols-5">
+        <div className="mt-8 grid gap-4 md:mt-8 md:grid-cols-2 md:gap-px md:overflow-hidden md:rounded-[1.45rem] md:border md:border-border/65 md:bg-border/65 xl:grid-cols-5">
           {CARE_POINTS.map((item) => (
             <article
-              className="bg-[hsl(var(--surface)/0.96)] p-5 md:p-6"
+              className="rounded-[1.05rem] border border-border/70 bg-[hsl(var(--surface)/0.9)] p-5 md:rounded-none md:border-0 md:bg-[hsl(var(--surface)/0.96)] md:p-6"
               key={item.title}
             >
               <h3 className="text-base font-semibold tracking-[-0.02em] text-text">
                 {item.title}
               </h3>
-              <p className="mt-3 text-sm leading-7 text-text/72">{item.copy}</p>
+              <p className="mt-3 text-[0.95rem] leading-7 text-text/74 md:text-sm md:text-text/72">
+                {item.copy}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="mt-12 border-t border-border/80 pt-8 md:mt-16 md:pt-10">
+      <section className="mt-14 border-t border-border/80 pt-9 md:mt-16 md:pt-10">
         <div className="max-w-[42rem]">
           <h2 className="section-heading">
             What I&apos;m usually tinkering with
           </h2>
-          <p className="section-copy mt-4 text-sm md:text-base">
+          <p className="section-copy mt-5 text-[0.95rem] leading-7 md:mt-4 md:text-base">
             A few things that keep showing up outside the day job.
           </p>
         </div>
-        <div className="mt-7 grid gap-5 md:mt-8 md:grid-cols-2 md:gap-6">
+        <div className="mt-8 grid gap-6 md:mt-8 md:grid-cols-2 md:gap-6">
           {TINKERING_POINTS.map((item) => (
             <article
               className="overflow-hidden rounded-[1.2rem] border border-border/70 bg-[hsl(var(--surface)/0.72)] md:rounded-[1.4rem]"
@@ -169,7 +173,7 @@ export default function AboutPage() {
             >
               <div
                 aria-hidden="true"
-                className="relative aspect-[4/3] overflow-hidden border-b border-border/65 bg-[hsl(var(--ink)/0.55)] md:aspect-[5/4]"
+                className="relative aspect-square overflow-hidden border-b border-border/65 bg-[hsl(var(--ink)/0.55)] sm:aspect-[4/3] md:aspect-[5/4]"
               >
                 <div
                   className="absolute -inset-5 scale-110 bg-cover bg-center opacity-65 blur-xl"
@@ -185,7 +189,7 @@ export default function AboutPage() {
                 <h3 className="text-base font-semibold tracking-[-0.02em] text-text">
                   {item.title}
                 </h3>
-                <p className="mt-3 text-sm leading-7 text-text/72">
+                <p className="mt-3 text-[0.95rem] leading-7 text-text/74 md:text-sm md:text-text/72">
                   {item.copy}
                 </p>
               </div>
@@ -194,16 +198,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mt-12 border-t border-border/80 pt-8 md:mt-16 md:pt-10">
+      <section className="mt-14 border-t border-border/80 pt-9 md:mt-16 md:pt-10">
         <h2 className="section-heading max-w-4xl">
           If you think we&apos;d work well together, I&apos;d be glad to talk.
         </h2>
-        <p className="section-copy mt-5 max-w-[42rem] md:text-base">
+        <p className="section-copy mt-6 max-w-[42rem] md:mt-5 md:text-base">
           Especially if you care about thoughtful products, strong engineering
           judgment, and work that holds up over time.
         </p>
-        <div className="mt-8">
-          <Link className="btn-primary" href="/contact">
+        <div className="mt-8 grid sm:block">
+          <Link className="btn-primary sm:w-auto" href="/contact">
             Get in touch
           </Link>
         </div>
