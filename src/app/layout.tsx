@@ -63,6 +63,7 @@ export default async function RootLayout({
         <ClientOverlays
           clarityId={process.env.NEXT_PUBLIC_CLARITY_ID ?? ""}
           gaId={process.env.NEXT_PUBLIC_GA_ID ?? ""}
+          gtmId={process.env.NEXT_PUBLIC_GTM_ID ?? ""}
         />
       </body>
     </html>

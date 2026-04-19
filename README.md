@@ -10,7 +10,7 @@ A premium, Awwwards-inspired personal portfolio built with Next.js App Router, T
 - Category/tech filters for projects
 - Tag filtering + pagination + RSS for blog
 - Opportunity-focused contact form API with Zod validation, honeypot, basic rate limiting, and Resend integration
-- Cookie consent banner with consent-aware GA4 and Microsoft Clarity loading
+- Cookie consent banner with consent-aware GA4, Google Tag Manager, and Microsoft Clarity loading
 - SEO routes: `sitemap.xml`, `robots.txt`, `rss.xml`
 - CI workflow for lint/typecheck/test/build
 
@@ -42,6 +42,7 @@ Copy `.env.example` to `.env.local` and update values.
 
 - `NEXT_PUBLIC_SITE_URL`
 - `NEXT_PUBLIC_GA_ID`
+- `NEXT_PUBLIC_GTM_ID`
 - `NEXT_PUBLIC_CLARITY_ID`
 - `NEXT_PUBLIC_RESUME_URL`
 - `NEXT_PUBLIC_LINKEDIN_URL`
@@ -62,6 +63,14 @@ Contact email setup:
 - Contact form replies: `replyTo` is set to the visitor-submitted email address
 
 See [docs/contact-email-routing.md](docs/contact-email-routing.md) for the production setup.
+
+Analytics setup:
+
+- GA4 uses `NEXT_PUBLIC_GA_ID`
+- Google Tag Manager uses `NEXT_PUBLIC_GTM_ID`
+- Microsoft Clarity uses `NEXT_PUBLIC_CLARITY_ID`
+- Analytics loaders live in `src/components/client-overlays.tsx` and only mount after analytics consent is accepted
+- If GA4 is configured inside GTM, leave `NEXT_PUBLIC_GA_ID` empty to avoid duplicate pageviews
 
 ## Blog workflow
 
