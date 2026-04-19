@@ -37,6 +37,7 @@ function getResumeProjects<T extends { featured: boolean }>(projects: T[]) {
 
 export default async function ResumePage() {
   const resumeUrl = RESUME_URL;
+  const resumeDownload = resumeUrl?.startsWith("/") ? true : undefined;
   const linkedInUrl = LINKEDIN_URL;
   const githubUrl = GITHUB_URL;
   const contactEmail = getMeaningfulEmail(
@@ -61,16 +62,15 @@ export default async function ResumePage() {
           </p>
 
           <div className="mt-9 grid gap-3 sm:flex sm:flex-wrap md:mt-8">
-            {resumeUrl ? (
-              <Link
-                className="btn-primary sm:w-auto"
-                href={resumeUrl}
-                rel="noreferrer"
-                target="_blank"
-              >
-                Download PDF resume
-              </Link>
-            ) : null}
+            <Link
+              className="btn-primary sm:w-auto"
+              download={resumeDownload}
+              href={resumeUrl}
+              rel={resumeDownload ? undefined : "noreferrer"}
+              target={resumeDownload ? undefined : "_blank"}
+            >
+              Download resume
+            </Link>
             <Link className="btn-secondary sm:w-auto" href="/contact">
               Contact
             </Link>

@@ -181,8 +181,9 @@ export default async function HomePage() {
   const projects = await getAllProjects();
   const homepageProjects = getHomepageProjects(projects);
   const resumeHref = RESUME_URL ?? "/resume";
-  const resumeTarget = RESUME_URL ? "_blank" : undefined;
-  const resumeRel = RESUME_URL ? "noreferrer" : undefined;
+  const resumeDownload = RESUME_URL?.startsWith("/") ? true : undefined;
+  const resumeTarget = RESUME_URL && !resumeDownload ? "_blank" : undefined;
+  const resumeRel = RESUME_URL && !resumeDownload ? "noreferrer" : undefined;
 
   return (
     <>
@@ -228,6 +229,7 @@ export default async function HomePage() {
               </Link>
               <Link
                 className="btn-secondary sm:w-auto"
+                download={resumeDownload}
                 href={resumeHref}
                 rel={resumeRel}
                 target={resumeTarget}
@@ -434,6 +436,7 @@ export default async function HomePage() {
               </Link>
               <Link
                 className="btn-secondary sm:w-auto"
+                download={resumeDownload}
                 href={resumeHref}
                 rel={resumeRel}
                 target={resumeTarget}

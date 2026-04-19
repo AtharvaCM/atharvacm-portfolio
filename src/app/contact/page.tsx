@@ -21,6 +21,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default function ContactPage() {
   const resumeUrl = RESUME_URL;
+  const resumeDownload = resumeUrl?.startsWith("/") ? true : undefined;
   const linkedInUrl = LINKEDIN_URL;
   const contactEmail = getMeaningfulEmail(
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
@@ -68,9 +69,10 @@ export default function ContactPage() {
                 <span className="eyebrow block">Resume</span>
                 <Link
                   className="link-inline-accent mt-2"
+                  download={resumeDownload}
                   href={resumeUrl}
-                  rel="noreferrer"
-                  target="_blank"
+                  rel={resumeDownload ? undefined : "noreferrer"}
+                  target={resumeDownload ? undefined : "_blank"}
                 >
                   Download PDF resume
                 </Link>
