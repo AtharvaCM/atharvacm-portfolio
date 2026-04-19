@@ -59,21 +59,26 @@ export function SiteNav() {
           <button
             aria-expanded={open}
             aria-label="Toggle navigation"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-text/15 text-text md:hidden"
+            className={cn(
+              "inline-flex h-11 w-11 items-center justify-center rounded-full border text-text transition duration-200 md:hidden",
+              open
+                ? "border-transparent bg-transparent text-text/72"
+                : "border-text/15 hover:border-text/28"
+            )}
             onClick={() => setOpen((value) => !value)}
             type="button"
           >
             <div className="space-y-1.5">
               <span
                 className={cn(
-                  "block h-px w-5 bg-current transition",
-                  open && "translate-y-[7px] rotate-45"
+                  "block h-px bg-current transition",
+                  open ? "w-4 translate-y-[7px] rotate-45" : "w-5"
                 )}
               />
               <span
                 className={cn(
-                  "block h-px w-5 bg-current transition",
-                  open && "-translate-y-[1px] -rotate-45"
+                  "block h-px bg-current transition",
+                  open ? "w-4 -translate-y-[1px] -rotate-45" : "w-5"
                 )}
               />
             </div>
@@ -83,18 +88,23 @@ export function SiteNav() {
         <div
           className={cn(
             "overflow-hidden transition-[max-height,opacity] duration-200 ease-out md:hidden",
-            open ? "max-h-[calc(100dvh-4rem)] opacity-100 md:max-h-[calc(100dvh-5.25rem)]" : "max-h-0 opacity-0"
+            open
+              ? "max-h-[calc(100dvh-4rem)] opacity-100 md:max-h-[calc(100dvh-5.25rem)]"
+              : "max-h-0 opacity-0"
           )}
         >
-          <nav className="border-t border-border/90 py-3" aria-label="Mobile Primary">
-            <div className="flex flex-col gap-1">
+          <nav
+            className="border-t border-border/80 pb-4 pt-3"
+            aria-label="Mobile Primary"
+          >
+            <div className="flex flex-col gap-0.5">
               {NAV_ITEMS.map((item) => {
                 const active = pathname === item.href;
 
                 return (
                   <Link
                     className={cn(
-                      "flex items-center justify-between border-b border-border/55 py-3 text-lg font-semibold tracking-[-0.035em] transition duration-200 last:border-b-0",
+                      "flex items-center justify-between border-b border-border/45 py-3.5 text-lg font-semibold tracking-[-0.035em] transition duration-200 last:border-b-0",
                       active ? "text-accent" : "text-text"
                     )}
                     href={item.href}

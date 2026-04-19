@@ -58,12 +58,12 @@ export function ContactForm() {
 
   return (
     <form
-      className="panel relative space-y-5 overflow-hidden p-5 md:space-y-6 md:p-8"
+      className="relative space-y-5 overflow-hidden border-t border-border/80 pt-7 md:panel md:border md:p-8"
       onSubmit={onSubmit}
     >
-      <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-accent/10 blur-lg" />
+      <div className="pointer-events-none absolute -right-10 -top-10 hidden h-28 w-28 rounded-full bg-accent/10 blur-lg md:block" />
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2 md:gap-4">
         <label className="form-label">
           <span>Name</span>
           <input
@@ -92,13 +92,13 @@ export function ContactForm() {
       <label className="form-label">
         <span>Message</span>
         <textarea
-          className="form-textarea mt-2"
+          className="form-textarea mt-2 min-h-[8.75rem] leading-7 placeholder:text-text/38 md:min-h-[12rem]"
           maxLength={2500}
           minLength={20}
           onChange={(event) =>
             setForm((state) => ({ ...state, message: event.target.value }))
           }
-          placeholder="Tell me a little about why you’re reaching out, whether it’s a role, a project, a question, or just a hello."
+          placeholder="Tell me why you’re reaching out: a role, project, question, or hello."
           required
           value={form.message}
         />
@@ -115,9 +115,9 @@ export function ContactForm() {
         value={form.website}
       />
 
-      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="grid gap-4 sm:flex sm:items-center sm:justify-between">
         <button
-          className="btn-primary disabled:pointer-events-none disabled:opacity-55"
+          className="btn-primary disabled:pointer-events-none disabled:opacity-55 sm:w-auto"
           disabled={status === "loading"}
           type="submit"
         >
