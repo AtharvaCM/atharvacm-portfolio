@@ -105,6 +105,10 @@ export function SiteFooter() {
         <div className="mt-9 flex flex-col gap-4 border-t border-border/70 pt-5 text-[0.68rem] uppercase leading-6 tracking-[0.16em] text-text/48 md:mt-12 md:flex-row md:items-center md:justify-between md:gap-4 md:border-border/80 md:text-[0.72rem] md:leading-normal md:tracking-[0.18em] md:text-text/42">
           <p>Built with Next.js, TypeScript, and production-first instincts.</p>
           <p>
+            <Link className="link-inline" href="/now">
+              Now
+            </Link>
+            {" / "}
             <Link className="link-inline" href="/privacy">
               Privacy
             </Link>
