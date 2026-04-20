@@ -78,6 +78,28 @@ main {
   opacity: 1;
 }
 
+.command-palette-scroll {
+  scrollbar-color: hsl(var(--text) / 0.18) transparent;
+  scrollbar-width: thin;
+}
+
+.command-palette-scroll::-webkit-scrollbar {
+  width: 0.45rem;
+}
+
+.command-palette-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.command-palette-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: hsl(var(--text) / 0.16);
+}
+
+.command-palette-scroll::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--text) / 0.24);
+}
+
 a {
   @apply transition-colors duration-200;
 }

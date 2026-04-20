@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { IconType } from "react-icons";
+import { FiBookOpen, FiCode, FiCpu, FiMusic } from "react-icons/fi";
 
 import { SITE_NAME } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
@@ -20,20 +22,28 @@ const NOW_ITEMS = [
   {
     title: "Currently building",
     copy: "Refining this portfolio, getting the blog properly live, and going deeper into Vehicle Vault, a vehicle maintenance tracking product that's slowly turning into something much bigger.",
+    icon: FiCode,
   },
   {
     title: "Currently tinkering with",
     copy: "Trying to get an IR blaster + Home Assistant setup working cleanly for PAR lights and AC controls without turning it into an unnecessary science experiment.",
+    icon: FiCpu,
   },
   {
     title: "Currently reading",
     copy: "Working through 12 Rules for Life by Dr. Jordan Peterson.",
+    icon: FiBookOpen,
   },
   {
     title: "Currently listening to",
     copy: "A lot of heavy metal lately.",
+    icon: FiMusic,
   },
-] as const;
+] satisfies {
+  title: string;
+  copy: string;
+  icon: IconType;
+}[];
 
 export default function NowPage() {
   return (
@@ -54,7 +64,11 @@ export default function NowPage() {
             className="border-t border-border/65 pt-6 first:border-t-0 first:pt-0 md:first:border-t md:first:pt-6"
             key={item.title}
           >
-            <h2 className="text-[1.35rem] font-semibold leading-tight tracking-[-0.035em] text-text md:text-[1.6rem]">
+            <h2 className="flex items-center gap-3 text-[1.35rem] font-semibold leading-tight tracking-[-0.035em] text-text md:text-[1.6rem]">
+              <item.icon
+                aria-hidden="true"
+                className="h-4 w-4 shrink-0 text-accent/70 md:h-[1.05rem] md:w-[1.05rem]"
+              />
               {item.title}
             </h2>
             <p className="mt-3 max-w-[34rem] text-[1rem] leading-8 text-text/76 md:text-[1.03rem]">

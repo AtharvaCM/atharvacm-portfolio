@@ -20,6 +20,11 @@ const MicrosoftClarity = dynamic(
   { ssr: false }
 );
 
+const CommandPalette = dynamic(
+  () => import("@/components/command-palette").then((mod) => mod.CommandPalette),
+  { ssr: false }
+);
+
 type Props = {
   gtmId: string;
   clarityId: string;
@@ -31,6 +36,7 @@ export function ClientOverlays({ gtmId, clarityId }: Props) {
       <CookieBanner />
       <GoogleTagManager gtmId={gtmId} />
       <MicrosoftClarity projectId={clarityId} />
+      <CommandPalette />
     </>
   );
 }
