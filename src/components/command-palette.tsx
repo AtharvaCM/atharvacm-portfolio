@@ -9,6 +9,8 @@ import {
   useState,
 } from "react";
 
+import { trackEvent } from "@/lib/gtm-events";
+
 type Command = {
   id: string;
   label: string;
@@ -112,6 +114,34 @@ function matchesCommand(command: Command, query: string) {
   return haystack.includes(query.toLowerCase());
 }
 
+function normalizeCommandQuery(query: string) {
+  return query.trim().toLowerCase();
+}
+
+function getSelectedCommandName(command: Command, query: string) {
+  const normalizedQuery = normalizeCommandQuery(query);
+  const matchedAlias = command.aliases?.find(
+    (alias) => alias.toLowerCase() === normalizedQuery
+  );
+
+  if (matchedAlias) {
+    return matchedAlias;
+  }
+
+  return command.hidden ? command.label : command.id;
+}
+
+function isHiddenCommandSelection(command: Command, query: string) {
+  const normalizedQuery = normalizeCommandQuery(query);
+
+  return (
+    Boolean(command.hidden) ||
+    Boolean(
+      command.aliases?.some((alias) => alias.toLowerCase() === normalizedQuery)
+    )
+  );
+}
+
 export function CommandPalette() {
   const router = useRouter();
   const inputId = useId();
@@ -137,6 +167,9 @@ export function CommandPalette() {
 
       if (opensWithK || opensWithSlash) {
         event.preventDefault();
+        if (!isOpen) {
+          trackEvent("command_palette_open", { location: "global" });
+        }
         setIsOpen(true);
       }
     }
@@ -144,7 +177,7 @@ export function CommandPalette() {
     window.addEventListener("keydown", onKeyDown);
 
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -168,6 +201,12 @@ export function CommandPalette() {
     if (!command) {
       return;
     }
+
+    trackEvent("command_palette_select", {
+      command: getSelectedCommandName(command, query),
+      destination: command.href,
+      is_hidden_command: isHiddenCommandSelection(command, query),
+    });
 
     router.push(command.href);
     closePalette();

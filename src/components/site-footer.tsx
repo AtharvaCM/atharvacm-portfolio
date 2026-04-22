@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { FooterMicrocopy } from "@/components/footer-microcopy";
 import { TrackedLink } from "@/components/tracked-link";
 import { NAV_ITEMS, SITE_NAME, SOCIAL_LINKS } from "@/lib/constants";
 import { FOOTER_BIO } from "@/lib/profile-content";
@@ -36,6 +37,7 @@ export function SiteFooter() {
             <p className="mt-4 max-w-md text-sm leading-7 text-[hsl(var(--text-muted))]">
               {FOOTER_BIO}
             </p>
+            <FooterMicrocopy />
           </div>
 
           <div className="border-t border-border/55 pt-7 md:border-t-0 md:pt-0">

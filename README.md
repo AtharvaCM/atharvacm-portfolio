@@ -75,7 +75,8 @@ Custom GTM events:
 
 - Event helper: `src/lib/gtm-events.ts`
 - Tracked link wrapper: `src/components/tracked-link.tsx`
-- Events emitted by the app: `resume_click`, `contact_form_submit`, `contact_email_click`, `linkedin_click`, `github_click`, `project_open`, `project_live_site_click`, `project_filter_select`, `blog_post_open`, `rss_click`
+- Events emitted by the app: `resume_click`, `contact_form_submit`, `contact_email_click`, `linkedin_click`, `github_click`, `project_open`, `project_live_site_click`, `project_filter_select`, `blog_post_open`, `rss_click`, `command_palette_open`, `command_palette_select`
+- The hidden `/now` page is measured through normal GA4 pageviews; it does not emit a separate custom event
 - Custom events are pushed only after analytics consent is accepted
 - Custom analytics events are emitted through `dataLayer` for GTM to route into GA4
 
