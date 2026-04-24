@@ -107,6 +107,8 @@ export function ContactForm() {
       </label>
 
       <input
+        aria-hidden="true"
+        aria-label="Leave this field empty"
         autoComplete="off"
         className="hidden"
         name="website"

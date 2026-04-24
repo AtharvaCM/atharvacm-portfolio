@@ -1,14 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { StructuredData } from "@/components/structured-data";
 import { SITE_NAME } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+import {
+  buildMetadata,
+  getBreadcrumbStructuredData,
+  getProfilePageStructuredData
+} from "@/lib/seo";
+
+const ABOUT_DESCRIPTION =
+  "About Atharva Mahamuni, a senior full-stack engineer who cares about thoughtful work, clear systems, and products that hold up over time.";
 
 export const metadata: Metadata = buildMetadata({
   title: `About | ${SITE_NAME}`,
-  description:
-    "About Atharva Mahamuni, a senior full-stack engineer who cares about thoughtful work, clear systems, and products that hold up over time.",
+  description: ABOUT_DESCRIPTION,
   path: "/about",
+  type: "profile",
   keywords: [
     "Senior Full-Stack Engineer",
     "React Developer",
@@ -74,6 +82,18 @@ const TINKERING_POINTS = [
 export default function AboutPage() {
   return (
     <section className="shell py-14 md:py-20">
+      <StructuredData
+        data={getProfilePageStructuredData({
+          description: ABOUT_DESCRIPTION,
+          path: "/about"
+        })}
+      />
+      <StructuredData
+        data={getBreadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" }
+        ])}
+      />
       <div className="grid gap-10 lg:grid-cols-[1fr_0.36fr] lg:items-end lg:gap-16">
         <div>
           <p className="eyebrow">About</p>

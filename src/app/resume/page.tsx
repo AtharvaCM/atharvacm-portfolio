@@ -4,6 +4,8 @@ import Link from "next/link";
 import { BadgeLabel } from "@/components/badge-label";
 import { TrackedLink } from "@/components/tracked-link";
 import {
+  CONTACT_EMAIL,
+  CONTACT_MAILTO,
   GITHUB_URL,
   LINKEDIN_URL,
   RESUME_URL,
@@ -17,7 +19,7 @@ import {
   RESUME_SUMMARY,
 } from "@/lib/profile-content";
 import { buildMetadata } from "@/lib/seo";
-import { cn, getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: `Resume | ${SITE_NAME}`,
@@ -41,12 +43,8 @@ export default async function ResumePage() {
   const resumeDownload = resumeUrl?.startsWith("/") ? true : undefined;
   const linkedInUrl = LINKEDIN_URL;
   const githubUrl = GITHUB_URL;
-  const contactEmail = getMeaningfulEmail(
-    process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL,
-  );
-  const contactHref = getMailtoHref(
-    process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL,
-  );
+  const contactEmail = CONTACT_EMAIL;
+  const contactHref = CONTACT_MAILTO;
   const projects = await getAllProjects();
   const featuredProjects = getResumeProjects(projects);
 

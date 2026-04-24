@@ -2,17 +2,18 @@ import Link from "next/link";
 
 import { FooterMicrocopy } from "@/components/footer-microcopy";
 import { TrackedLink } from "@/components/tracked-link";
-import { NAV_ITEMS, SITE_NAME, SOCIAL_LINKS } from "@/lib/constants";
+import {
+  CONTACT_EMAIL,
+  CONTACT_MAILTO,
+  NAV_ITEMS,
+  SITE_NAME,
+  SOCIAL_LINKS,
+} from "@/lib/constants";
 import { FOOTER_BIO } from "@/lib/profile-content";
-import { getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
 
 export function SiteFooter() {
-  const contactEmail = getMeaningfulEmail(
-    process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
-  );
-  const contactHref = getMailtoHref(
-    process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
-  );
+  const contactEmail = CONTACT_EMAIL;
+  const contactHref = CONTACT_MAILTO;
 
   function getSocialTrackingEvent(label: string) {
     if (label === "GitHub") {

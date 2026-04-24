@@ -3,23 +3,49 @@ import type { Metadata } from "next";
 import { AnimatedSection } from "@/components/animated-section";
 import { ProjectCard } from "@/components/project-card";
 import { TrackedLink } from "@/components/tracked-link";
+import { StructuredData } from "@/components/structured-data";
 import { PROJECT_CATEGORY_LABELS, SITE_NAME } from "@/lib/constants";
 import { filterProjects, getAllProjects } from "@/lib/content";
-import { buildMetadata } from "@/lib/seo";
+import {
+  buildMetadata,
+  getBreadcrumbStructuredData,
+  getCollectionPageStructuredData
+} from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = buildMetadata({
-  title: `Projects | ${SITE_NAME}`,
-  description:
-    "Selected frontend, platform, performance, and full-stack work across production systems, scalable web applications, and independent engineering projects.",
-  path: "/projects",
-  keywords: [
-    "Frontend Architecture",
-    "Scalable Web Applications",
-    "Performance Optimization",
-    "Production Systems",
-  ],
-});
+type ProjectsSearchParams = { category?: string };
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<ProjectsSearchParams>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const categoryLabel =
+    params.category &&
+    PROJECT_CATEGORY_LABELS[
+      params.category as keyof typeof PROJECT_CATEGORY_LABELS
+    ];
+  const titleSuffix = categoryLabel ? ` · ${categoryLabel}` : "";
+  const canonical = categoryLabel
+    ? `/projects?category=${encodeURIComponent(params.category!)}`
+    : "/projects";
+
+  return buildMetadata({
+    title: `Projects${titleSuffix} | ${SITE_NAME}`,
+    description: categoryLabel
+      ? `${categoryLabel} projects — production systems, scalable web applications, and independent engineering work.`
+      : "Selected frontend, platform, performance, and full-stack work across production systems, scalable web applications, and independent engineering projects.",
+    path: canonical,
+    keywords: [
+      "Frontend Architecture",
+      "Scalable Web Applications",
+      "Performance Optimization",
+      "Production Systems",
+      ...(categoryLabel ? [categoryLabel] : []),
+    ],
+  });
+}
 
 function buildFilterLink(params: URLSearchParams, key: string, value?: string) {
   const next = new URLSearchParams(params);
@@ -69,8 +95,35 @@ export default async function ProjectsPage({
     urlParams.set("category", params.category);
   }
 
+  const categoryLabel =
+    params.category &&
+    PROJECT_CATEGORY_LABELS[
+      params.category as keyof typeof PROJECT_CATEGORY_LABELS
+    ];
+  const listingCanonical = categoryLabel
+    ? `/projects?category=${encodeURIComponent(params.category!)}`
+    : "/projects";
+
   return (
     <section className="shell py-14 md:py-20">
+      <StructuredData
+        data={getCollectionPageStructuredData({
+          name: categoryLabel ? `Projects · ${categoryLabel}` : "Projects",
+          description:
+            "Selected frontend, platform, performance, and full-stack work.",
+          path: listingCanonical,
+          items: filtered.map((project) => ({
+            name: project.title,
+            path: `/projects/${project.slug}`
+          }))
+        })}
+      />
+      <StructuredData
+        data={getBreadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "Projects", path: "/projects" }
+        ])}
+      />
       <p className="eyebrow">Projects</p>
       <h1 className="mt-4 max-w-[10ch] font-display text-[clamp(2.8rem,12vw,5rem)] leading-[0.92] tracking-tight md:leading-none">
         Selected work

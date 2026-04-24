@@ -1,8 +1,13 @@
-import { getMeaningfulExternalUrl } from "./utils";
+import { getMailtoHref, getMeaningfulEmail, getMeaningfulExternalUrl } from "./utils";
 import { PROFILE_NAME } from "./profile-content";
 
 export const SITE_NAME = PROFILE_NAME;
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://atharvacm.dev";
+
+const rawContactEmail =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL;
+export const CONTACT_EMAIL = getMeaningfulEmail(rawContactEmail);
+export const CONTACT_MAILTO = getMailtoHref(rawContactEmail);
 const DEFAULT_RESUME_URL = "/files/atharva-mahamuni-resume.pdf";
 const configuredResumeUrl = getMeaningfulExternalUrl(process.env.NEXT_PUBLIC_RESUME_URL);
 export const RESUME_URL =

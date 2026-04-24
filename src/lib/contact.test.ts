@@ -1,4 +1,10 @@
-import { __resetRateLimitStoreForTests, handleContactSubmission, sendContactEmail } from "@/lib/contact";
+import {
+  __resetRateLimitStoreForTests,
+  getRateLimitIdentifier,
+  handleContactSubmission,
+  isRateLimited,
+  sendContactEmail
+} from "@/lib/contact";
 
 const validInput = {
   name: "Ada Lovelace",
@@ -69,6 +75,32 @@ describe("handleContactSubmission", () => {
       ok: false,
       error: "Failed to send your message. Please try again."
     });
+  });
+
+  it("resets the rate-limit window after 15 minutes", async () => {
+    const key = "window-key";
+    const t0 = 1_000_000;
+    for (let i = 0; i < 5; i += 1) {
+      expect(isRateLimited(key, t0)).toBe(false);
+    }
+    expect(isRateLimited(key, t0)).toBe(true);
+
+    const later = t0 + 15 * 60 * 1000 + 1;
+    expect(isRateLimited(key, later)).toBe(false);
+  });
+
+  it("isolates rate-limit buckets per identifier", async () => {
+    const now = 2_000_000;
+    for (let i = 0; i < 5; i += 1) {
+      isRateLimited("bucket-a", now);
+    }
+    expect(isRateLimited("bucket-a", now)).toBe(true);
+    expect(isRateLimited("bucket-b", now)).toBe(false);
+  });
+
+  it("getRateLimitIdentifier falls back to 'anonymous' when ip is null", () => {
+    expect(getRateLimitIdentifier(null)).toBe("anonymous");
+    expect(getRateLimitIdentifier("203.0.113.7")).toBe("203.0.113.7");
   });
 
   it("does not silently simulate delivery when email config is missing", async () => {

@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { TrackedLink } from "@/components/tracked-link";
-import { SITE_NAME } from "@/lib/constants";
+import { CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-import { getMeaningfulEmail } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: `Terms | ${SITE_NAME}`,
@@ -14,9 +13,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function TermsPage() {
-  const contactEmail = getMeaningfulEmail(
-    process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
-  );
+  const contactEmail = CONTACT_EMAIL;
 
   return (
     <section className="shell py-16 md:py-20">

@@ -16,7 +16,11 @@ import {
   isPublishedBlogPost
 } from "@/lib/content";
 import { SITE_NAME } from "@/lib/constants";
-import { buildMetadata, getArticleStructuredData } from "@/lib/seo";
+import {
+  buildMetadata,
+  getArticleStructuredData,
+  getBreadcrumbStructuredData
+} from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 type Props = {
@@ -37,15 +41,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
+  const isUnpublished = !isPublishedBlogPost(post);
+
   return buildMetadata({
     title: `${post.title} | ${SITE_NAME}`,
     description: post.excerpt,
     path: `/blog/${post.slug}`,
-    image: post.coverImage,
+    image: `/blog/${post.slug}/opengraph-image`,
     keywords: post.tags,
     type: "article",
     publishedTime: post.publishedAt,
-    modifiedTime: post.updatedAt ?? post.publishedAt
+    modifiedTime: post.updatedAt ?? post.publishedAt,
+    noIndex: isUnpublished
   });
 }
 
@@ -68,6 +75,13 @@ export default async function BlogDetailPage({ params }: Props) {
     <article className="shell py-16 md:py-20">
       <ArticleProgress />
       <StructuredData data={getArticleStructuredData(post)} />
+      <StructuredData
+        data={getBreadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "Blog", path: "/blog" },
+          { name: post.title, path: `/blog/${post.slug}` }
+        ])}
+      />
       <p className="eyebrow">Article</p>
       {isPreviewingUnpublished ? (
         <p className="mt-4 text-sm uppercase tracking-[0.16em] text-accent">

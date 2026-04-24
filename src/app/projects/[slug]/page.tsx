@@ -15,7 +15,11 @@ import {
   getProjectBySlug,
   getProjectSlugs
 } from "@/lib/content";
-import { buildMetadata, getProjectStructuredData } from "@/lib/seo";
+import {
+  buildMetadata,
+  getBreadcrumbStructuredData,
+  getProjectStructuredData
+} from "@/lib/seo";
 import { getMeaningfulExternalUrl } from "@/lib/utils";
 
 type Props = {
@@ -39,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${project.title} | ${SITE_NAME}`,
     description: project.excerpt,
     path: `/projects/${project.slug}`,
-    image: project.coverImage,
+    image: `/projects/${project.slug}/opengraph-image`,
     keywords: [...project.techStack, "Frontend Architecture", "Production Systems"]
   });
 }
@@ -65,6 +69,13 @@ export default async function ProjectDetailPage({ params }: Props) {
   return (
     <article className="shell py-12 md:py-20">
       <StructuredData data={getProjectStructuredData(project)} />
+      <StructuredData
+        data={getBreadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "Projects", path: "/projects" },
+          { name: project.title, path: `/projects/${project.slug}` }
+        ])}
+      />
       <p className="eyebrow">{PROJECT_CATEGORY_LABELS[project.category]} Project</p>
       <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.15rem,12vw,5rem)] leading-[0.96] tracking-tight md:leading-none">{project.title}</h1>
       <p className="section-copy mt-6 max-w-[46rem] md:text-base">{project.excerpt}</p>

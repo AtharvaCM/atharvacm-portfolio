@@ -1,17 +1,18 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 
 import { ClientOverlays } from "@/components/client-overlays";
 import { DraftModeBanner } from "@/components/draft-mode-banner";
-import { NavigationProgress } from "@/components/navigation-progress";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { StructuredData } from "@/components/structured-data";
 import { SITE_URL } from "@/lib/constants";
+import "@/lib/env";
 import {
   HOME_DESCRIPTION,
   HOME_TITLE,
   buildMetadata,
+  getRootVerification,
   getSiteStructuredData
 } from "@/lib/seo";
 
@@ -33,6 +34,17 @@ const fontDisplay = Space_Grotesk({
   fallback: ["Avenir Next", "Segoe UI", "sans-serif"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  colorScheme: "light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f2ee" },
+    { media: "(prefers-color-scheme: dark)", color: "#2c211d" }
+  ]
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   ...buildMetadata({
@@ -40,7 +52,8 @@ export const metadata: Metadata = {
     description: HOME_DESCRIPTION,
     path: "/",
     keywords: ["Senior Frontend Engineer", "React Developer", "Next.js Developer"]
-  })
+  }),
+  verification: getRootVerification()
 };
 
 export default async function RootLayout({
@@ -55,7 +68,6 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <StructuredData data={getSiteStructuredData()} />
-        <NavigationProgress />
         <DraftModeBanner />
         <SiteNav />
         <main>{children}</main>

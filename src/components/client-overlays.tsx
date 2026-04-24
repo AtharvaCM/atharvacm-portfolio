@@ -25,6 +25,14 @@ const CommandPalette = dynamic(
   { ssr: false }
 );
 
+const NavigationProgress = dynamic(
+  () =>
+    import("@/components/navigation-progress").then(
+      (mod) => mod.NavigationProgress
+    ),
+  { ssr: false }
+);
+
 type Props = {
   gtmId: string;
   clarityId: string;
@@ -33,6 +41,7 @@ type Props = {
 export function ClientOverlays({ gtmId, clarityId }: Props) {
   return (
     <>
+      <NavigationProgress />
       <CookieBanner />
       <GoogleTagManager gtmId={gtmId} />
       <MicrosoftClarity projectId={clarityId} />

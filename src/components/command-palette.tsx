@@ -3,8 +3,10 @@
 import { useRouter } from "next/navigation";
 import {
   type KeyboardEvent,
+  useCallback,
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -150,8 +152,9 @@ export function CommandPalette() {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const visibleCommands = COMMANDS.filter((command) =>
-    matchesCommand(command, query.trim())
+  const visibleCommands = useMemo(
+    () => COMMANDS.filter((command) => matchesCommand(command, query.trim())),
+    [query]
   );
 
   useEffect(() => {
@@ -191,53 +194,59 @@ export function CommandPalette() {
     return () => window.cancelAnimationFrame(frame);
   }, [isOpen]);
 
-  function closePalette() {
+  const closePalette = useCallback(() => {
     setIsOpen(false);
     setQuery("");
     setActiveIndex(0);
-  }
+  }, []);
 
-  function runCommand(command: Command | undefined) {
-    if (!command) {
-      return;
-    }
+  const runCommand = useCallback(
+    (command: Command | undefined) => {
+      if (!command) {
+        return;
+      }
 
-    trackEvent("command_palette_select", {
-      command: getSelectedCommandName(command, query),
-      destination: command.href,
-      is_hidden_command: isHiddenCommandSelection(command, query),
-    });
+      trackEvent("command_palette_select", {
+        command: getSelectedCommandName(command, query),
+        destination: command.href,
+        is_hidden_command: isHiddenCommandSelection(command, query),
+      });
 
-    router.push(command.href);
-    closePalette();
-  }
-
-  function handleInputKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "Escape") {
-      event.preventDefault();
+      router.push(command.href);
       closePalette();
-      return;
-    }
+    },
+    [closePalette, query, router]
+  );
 
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      setActiveIndex((current) =>
-        Math.min(current + 1, Math.max(visibleCommands.length - 1, 0))
-      );
-      return;
-    }
+  const handleInputKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closePalette();
+        return;
+      }
 
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-      setActiveIndex((current) => Math.max(current - 1, 0));
-      return;
-    }
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setActiveIndex((current) =>
+          Math.min(current + 1, Math.max(visibleCommands.length - 1, 0))
+        );
+        return;
+      }
 
-    if (event.key === "Enter") {
-      event.preventDefault();
-      runCommand(visibleCommands[activeIndex]);
-    }
-  }
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        setActiveIndex((current) => Math.max(current - 1, 0));
+        return;
+      }
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        runCommand(visibleCommands[activeIndex]);
+      }
+    },
+    [activeIndex, closePalette, runCommand, visibleCommands]
+  );
 
   if (!isOpen) {
     return null;

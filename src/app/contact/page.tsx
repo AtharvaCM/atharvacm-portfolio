@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/contact-form";
 import { TrackedLink } from "@/components/tracked-link";
-import { LINKEDIN_URL, RESUME_URL, SITE_NAME } from "@/lib/constants";
+import {
+  CONTACT_EMAIL,
+  CONTACT_MAILTO,
+  LINKEDIN_URL,
+  RESUME_URL,
+  SITE_NAME,
+} from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-import { getMailtoHref, getMeaningfulEmail } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: `Contact | ${SITE_NAME}`,
@@ -23,12 +28,8 @@ export default function ContactPage() {
   const resumeUrl = RESUME_URL;
   const resumeDownload = resumeUrl?.startsWith("/") ? true : undefined;
   const linkedInUrl = LINKEDIN_URL;
-  const contactEmail = getMeaningfulEmail(
-    process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
-  );
-  const contactHref = getMailtoHref(
-    process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? process.env.CONTACT_TO_EMAIL
-  );
+  const contactEmail = CONTACT_EMAIL;
+  const contactHref = CONTACT_MAILTO;
 
   return (
     <section className="shell py-12 md:py-20">

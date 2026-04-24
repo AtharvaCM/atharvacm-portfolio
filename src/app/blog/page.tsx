@@ -6,22 +6,56 @@ import { AnimatedSection } from "@/components/animated-section";
 import { BadgeLabel } from "@/components/badge-label";
 import { BlogCard } from "@/components/blog-card";
 import { TrackedLink } from "@/components/tracked-link";
+import { StructuredData } from "@/components/structured-data";
 import { BLOG_PAGE_SIZE, SITE_NAME } from "@/lib/constants";
 import { filterPostsByTag, getAllBlogPosts, getAllTags, paginatePosts } from "@/lib/content";
-import { buildMetadata } from "@/lib/seo";
+import {
+  buildMetadata,
+  getBreadcrumbStructuredData,
+  getCollectionPageStructuredData
+} from "@/lib/seo";
 
-export const metadata: Metadata = buildMetadata({
-  title: `Blog | ${SITE_NAME}`,
-  description:
-    "Writing about frontend architecture, performance, testing, and practical product engineering.",
-  path: "/blog",
-  keywords: [
-    "Frontend Architecture",
-    "Performance Optimization",
-    "React",
-    "Next.js"
-  ]
-});
+type BlogSearchParams = { tag?: string; page?: string };
+
+function buildBlogCanonical(params: BlogSearchParams) {
+  const query = new URLSearchParams();
+  if (params.tag) {
+    query.set("tag", params.tag);
+  }
+  const pageNum = Number(params.page ?? "1");
+  if (Number.isFinite(pageNum) && pageNum > 1) {
+    query.set("page", String(pageNum));
+  }
+  const qs = query.toString();
+  return qs ? `/blog?${qs}` : "/blog";
+}
+
+export async function generateMetadata({
+  searchParams
+}: {
+  searchParams: Promise<BlogSearchParams>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const tagSuffix = params.tag ? ` · ${params.tag}` : "";
+  const pageNum = Number(params.page ?? "1");
+  const pageSuffix =
+    Number.isFinite(pageNum) && pageNum > 1 ? ` · Page ${pageNum}` : "";
+
+  return buildMetadata({
+    title: `Blog${tagSuffix}${pageSuffix} | ${SITE_NAME}`,
+    description: params.tag
+      ? `Posts tagged ${params.tag}: frontend architecture, performance, testing, and product engineering notes.`
+      : "Writing about frontend architecture, performance, testing, and practical product engineering.",
+    path: buildBlogCanonical(params),
+    keywords: [
+      "Frontend Architecture",
+      "Performance Optimization",
+      "React",
+      "Next.js",
+      ...(params.tag ? [params.tag] : [])
+    ]
+  });
+}
 
 function buildTagHref(tag?: string) {
   if (!tag) {
@@ -55,6 +89,25 @@ export default async function BlogPage({
 
   return (
     <section className="shell py-12 md:py-20">
+      <StructuredData
+        data={getCollectionPageStructuredData({
+          name: params.tag ? `Blog · ${params.tag}` : "Blog",
+          description: params.tag
+            ? `Posts tagged ${params.tag}.`
+            : "Writing about frontend architecture, performance, testing, and practical product engineering.",
+          path: buildBlogCanonical(params),
+          items: pagination.posts.map((post) => ({
+            name: post.title,
+            path: `/blog/${post.slug}`
+          }))
+        })}
+      />
+      <StructuredData
+        data={getBreadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "Blog", path: "/blog" }
+        ])}
+      />
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="eyebrow">Blog</p>

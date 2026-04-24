@@ -16,7 +16,15 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     coverage: {
       reporter: ["text", "html"],
-      include: ["src/lib/**/*.ts", "src/app/api/contact/route.ts"]
+      include: [
+        "src/lib/**/*.ts",
+        "src/components/**/*.{ts,tsx}",
+        "src/app/api/contact/route.ts"
+      ],
+      exclude: [
+        "src/components/**/*.test.{ts,tsx}",
+        "src/lib/**/*.test.ts"
+      ]
     }
   }
 });
