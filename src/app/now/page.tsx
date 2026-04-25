@@ -31,12 +31,13 @@ const NOW_ITEMS = [
   },
   {
     title: "Currently reading",
-    copy: "Working through 12 Rules for Life by Dr. Jordan Peterson.",
+    copy: "Working through 12 Rules for Life by Jordan Peterson.",
     icon: FiBookOpen,
   },
   {
     title: "Currently listening to",
-    copy: "A lot of heavy metal lately.",
+    // TODO(atharva): swap in the actual bands/albums on rotation — placeholder copy below.
+    copy: "Heavy rotation of metal lately — replace with current favorites (e.g. specific albums or bands).",
     icon: FiMusic,
   },
 ] satisfies {

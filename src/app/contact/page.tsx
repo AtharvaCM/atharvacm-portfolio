@@ -14,10 +14,10 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: `Contact | ${SITE_NAME}`,
   description:
-    "Contact Atharva Mahamuni about senior frontend and full-stack roles with teams that care about product quality and ownership.",
+    "Contact Atharva Mahamuni about senior full-stack roles with teams that care about product quality and ownership.",
   path: "/contact",
   keywords: [
-    "Senior Frontend Engineer",
+    "Senior Full-Stack Engineer",
     "Full-Stack Engineer",
     "Contact",
     "React Developer",
@@ -35,19 +35,17 @@ export default function ContactPage() {
     <section className="shell py-12 md:py-20">
       <p className="eyebrow">Contact</p>
       <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.35rem,11vw,5rem)] leading-[0.95] tracking-tight md:text-[clamp(2.45rem,6vw,5rem)] md:leading-none">
-        If you&apos;d like to talk, I&apos;d be glad to hear from you.
+        Let&apos;s talk.
       </h1>
       <p className="section-copy mt-5 max-w-[44rem] md:mt-4">
-        I&apos;m open to senior frontend and full-stack roles.
+        Open to senior full-stack roles.
         <span className="hidden md:inline">
           {" "}
-          Also happy to hear from people building interesting products,
-          exploring ideas, or just wanting to connect.
+          Also happy to hear from teams building serious products.
         </span>
       </p>
       <p className="mt-4 max-w-2xl text-sm leading-7 text-text/64 md:mt-3 md:text-text/60">
-        The easiest way to reach me is on LinkedIn. You can also start with my
-        resume or email.
+        Send a message below, or reach me by email or LinkedIn.
       </p>
 
       <div className="mt-8 grid gap-7 md:mt-10 md:gap-6 lg:grid-cols-[2fr_1fr]">
@@ -60,8 +58,7 @@ export default function ContactPage() {
             Other ways to reach me
           </h2>
           <p className="mt-4 text-sm leading-7 text-text/72">
-            Based in India. Open to roles, collaborations, and thoughtful
-            conversations around products, systems, and ideas.
+            Based in Pune. Open to roles and collaborations on serious product work.
           </p>
           <div className="subtle-rule mt-5 md:mt-6" />
           <div className="mt-5 grid gap-4 text-sm leading-7 sm:grid-cols-3 md:mt-6 md:block md:space-y-4">

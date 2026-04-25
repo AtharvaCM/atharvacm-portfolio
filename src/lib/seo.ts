@@ -36,15 +36,15 @@ export function getRootVerification() {
   return getVerificationMeta();
 }
 
-export const HOME_TITLE = `${SITE_NAME} | Senior Frontend Engineer`;
+export const HOME_TITLE = `${SITE_NAME} | Senior Full-Stack Engineer`;
 export const HOME_DESCRIPTION =
-  "Senior frontend-focused full-stack engineer building scalable React, Next.js, and TypeScript systems. Experienced in frontend architecture, performance optimization, and production-grade applications.";
+  "Senior full-stack engineer building scalable React, Next.js, and TypeScript systems. Frontend architecture, performance optimization, and production-grade applications that scale past v1.";
 export const DEFAULT_OG_IMAGE_PATH = "/opengraph-image";
 
 const DEFAULT_KEYWORDS = [
-  "Senior Frontend Engineer",
-  "Frontend Developer",
+  "Senior Full-Stack Engineer",
   "Full-Stack Engineer",
+  "Frontend Engineer",
   "React Developer",
   "Next.js Developer",
   "TypeScript",
@@ -178,7 +178,7 @@ export function getProfilePageStructuredData({
       "@type": "Person",
       name: PROFILE_NAME,
       url: SITE_URL,
-      jobTitle: "Senior Frontend Engineer",
+      jobTitle: "Senior Full-Stack Engineer",
       sameAs: [LINKEDIN_URL, GITHUB_URL].filter(
         (value): value is string => Boolean(value)
       )
@@ -256,7 +256,7 @@ export function getSiteStructuredData() {
         "@id": `${SITE_URL}#person`,
         name: PROFILE_NAME,
         url: SITE_URL,
-        jobTitle: "Senior Frontend Engineer",
+        jobTitle: "Senior Full-Stack Engineer",
         description: HOME_DESCRIPTION,
         sameAs,
         knowsAbout: [

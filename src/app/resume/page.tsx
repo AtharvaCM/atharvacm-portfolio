@@ -24,10 +24,10 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = buildMetadata({
   title: `Resume | ${SITE_NAME}`,
   description:
-    "Resume and experience highlights for Atharva Mahamuni across frontend architecture, performance optimization, product delivery, and full-stack systems work.",
+    "Resume and experience highlights for Atharva Mahamuni — senior full-stack engineer working across frontend architecture, performance, product delivery, and Node services.",
   path: "/resume",
   keywords: [
-    "Senior Frontend Engineer",
+    "Senior Full-Stack Engineer",
     "Frontend Architecture",
     "Performance Optimization",
     "TypeScript",
@@ -54,7 +54,7 @@ export default async function ResumePage() {
         <div>
           <p className="eyebrow">Resume</p>
           <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.45rem,12vw,5rem)] leading-[0.94] tracking-tight md:leading-none">
-            Experience and technical profile.
+            Five years of shipping production frontend.
           </h1>
           <p className="section-copy mt-7 max-w-[44rem] md:mt-6">
             {RESUME_SUMMARY}

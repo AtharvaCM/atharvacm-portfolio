@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 import { SITE_NAME } from "@/lib/constants";
 
-export const alt = "Atharva Mahamuni | Senior Frontend Engineer";
+export const alt = "Atharva Mahamuni | Senior Full-Stack Engineer";
 export const size = {
   width: 1200,
   height: 630
@@ -48,7 +48,7 @@ export default function OpenGraphImage() {
               color: "rgba(44, 33, 29, 0.7)"
             }}
           >
-            <span>Senior Frontend Engineer</span>
+            <span>Senior Full-Stack Engineer</span>
             <span>React / Next.js / TypeScript</span>
           </div>
 

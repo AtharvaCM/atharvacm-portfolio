@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
     path: "/",
-    keywords: ["Senior Frontend Engineer", "React Developer", "Next.js Developer"]
+    keywords: ["Senior Full-Stack Engineer", "React Developer", "Next.js Developer"]
   }),
   verification: getRootVerification()
 };

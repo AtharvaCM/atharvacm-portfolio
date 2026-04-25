@@ -129,8 +129,8 @@ export default async function ProjectsPage({
         Selected work
       </h1>
       <p className="section-copy mt-6 max-w-[39rem]">
-        Production systems, product surfaces, and independent builds where
-        architecture, performance, and delivery quality mattered.
+        Production systems and independent builds where the work had to
+        ship, scale, and keep working.
       </p>
       <TrackedLink
         className="link-action mt-7"

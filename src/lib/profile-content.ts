@@ -44,7 +44,7 @@ export const HOME_FOCUS_AREAS = [
   },
   {
     title: "Performance and release confidence",
-    copy: "Use performance, testing, and observability to keep releases safer.",
+    copy: "Performance budgets, E2E coverage, and structured logging so releases ship without surprises.",
   },
   {
     title: "Frontend decisions with product context",
@@ -54,8 +54,8 @@ export const HOME_FOCUS_AREAS = [
 
 export const HOME_IMPACT_ITEMS = [
   "Cut a large production frontend from roughly 7 MB to modular, on-demand chunks.",
-  "Added Playwright coverage for critical workflow-heavy product flows.",
-  "Turned dynamic product flows into reusable, schema-driven frontend systems.",
+  "Brought Playwright E2E coverage to assignment, permissions, and reporting flows that gated releases.",
+  "Replaced ad-hoc form and report code with schema-driven systems (Zod, jsonLogic) that cut regression bugs.",
   "Improved backend response time by 17% on a high-traffic Next.js platform.",
 ] as const;
 
@@ -69,10 +69,10 @@ export const QUICK_SNAPSHOT_ITEMS = [
 ] as const;
 
 export const AVAILABILITY_NOTE =
-  "Senior frontend or full-stack roles where engineering quality, ownership, and long-term product health matter.";
+  "Senior full-stack roles where engineering quality, ownership, and long-term product health matter.";
 
 export const BEST_FIT_NOTE =
-  "Best fit: teams building serious products where performance, maintainability, and delivery quality all matter.";
+  "Best fit: teams shipping products where performance, maintainability, and delivery quality all matter.";
 
 export const ABOUT_INTERESTS = [
   "Frontend architecture",
@@ -107,7 +107,7 @@ export const EXPERIENCE_SNAPSHOT = [
 ] as const;
 
 export const RESUME_SUMMARY =
-  "Frontend-focused fullstack engineer with experience building scalable React applications, owning complex product workflows, and improving performance, reliability, and developer experience. Strong background in monorepo architectures, state management, and production-grade frontend systems.";
+  "Senior full-stack engineer with five years of building scalable React applications and owning complex product workflows end to end. Strong on monorepo architecture, state management, and the performance and testing work that keeps production systems reliable.";
 
 export const RESUME_COMPETENCIES = [
   {
@@ -186,4 +186,4 @@ export const RESUME_SKILLS = [
 ] as const;
 
 export const FOOTER_BIO =
-  "I build durable frontend and full-stack systems for products that need to keep working as they grow.";
+  "Senior full-stack engineer. React, Next.js, and TypeScript for products that need to scale past v1.";

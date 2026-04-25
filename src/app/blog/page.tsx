@@ -45,7 +45,7 @@ export async function generateMetadata({
     title: `Blog${tagSuffix}${pageSuffix} | ${SITE_NAME}`,
     description: params.tag
       ? `Posts tagged ${params.tag}: frontend architecture, performance, testing, and product engineering notes.`
-      : "Writing about frontend architecture, performance, testing, and practical product engineering.",
+      : "Writing about frontend architecture, performance, testing, and product engineering.",
     path: buildBlogCanonical(params),
     keywords: [
       "Frontend Architecture",
@@ -94,7 +94,7 @@ export default async function BlogPage({
           name: params.tag ? `Blog · ${params.tag}` : "Blog",
           description: params.tag
             ? `Posts tagged ${params.tag}.`
-            : "Writing about frontend architecture, performance, testing, and practical product engineering.",
+            : "Writing about frontend architecture, performance, testing, and product engineering.",
           path: buildBlogCanonical(params),
           items: pagination.posts.map((post) => ({
             name: post.title,
@@ -111,10 +111,9 @@ export default async function BlogPage({
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="eyebrow">Blog</p>
-          <h1 className="mt-5 font-display text-[clamp(2.25rem,12vw,5rem)] leading-none tracking-tight">Insights and notes</h1>
+          <h1 className="mt-5 font-display text-[clamp(2.25rem,12vw,5rem)] leading-none tracking-tight">Writing</h1>
           <p className="mt-4 max-w-2xl text-sm leading-7 text-text/74 md:text-base">
-            Writing about engineering decisions, product systems, performance, and the practical tradeoffs behind
-            real-world software.
+            Engineering decisions, product systems, performance, and the practical tradeoffs behind production software.
           </p>
           {isEnabled ? (
             <p className="mt-3 text-sm text-accent">Preview mode includes drafts and scheduled posts.</p>

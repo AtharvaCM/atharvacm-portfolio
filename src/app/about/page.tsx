@@ -10,7 +10,7 @@ import {
 } from "@/lib/seo";
 
 const ABOUT_DESCRIPTION =
-  "About Atharva Mahamuni, a senior full-stack engineer who cares about thoughtful work, clear systems, and products that hold up over time.";
+  "Atharva Mahamuni — senior full-stack engineer based in Pune, working on React, Next.js, and TypeScript systems for products that need to scale past v1.";
 
 export const metadata: Metadata = buildMetadata({
   title: `About | ${SITE_NAME}`,
@@ -29,31 +29,29 @@ export const metadata: Metadata = buildMetadata({
 const CARE_POINTS = [
   {
     title: "Clarity",
-    copy: "I like work that is easy to understand, honest about its tradeoffs, and simple enough to build on.",
+    copy: "I'd rather ship a 50-line module the next person can read than a 15-line one only I can.",
   },
   {
     title: "Durability",
-    copy: "I care about things that still make sense after the first version ships.",
+    copy: "Code that still makes sense six months and three feature pivots later.",
   },
   {
     title: "Ownership",
-    copy: "I do my best work when I can care about the product, not just the task in front of me.",
+    copy: "I do my best work when I can think about the product, not just the ticket in front of me.",
   },
   {
     title: "Curiosity",
-    copy: "A lot of my best learning has come from tinkering and following ideas properly.",
+    copy: "Self-hosted setups, IR blasters, side projects — most of what I learn comes from tinkering.",
   },
   {
     title: "Taste",
-    copy: "I care when things feel considered, useful, and well made.",
+    copy: "Software, like good design, should feel considered. I notice when it doesn't.",
   },
 ] as const;
 
 const STORY_POINTS = [
-  "Started with a straightforward interest in building things for the web, then got pulled deeper into the systems behind them.",
-  "The more real product work I did, the more I cared about structure, maintainability, and decisions that only show up once complexity arrives.",
-  "Over time, I moved from just shipping features to thinking more about architecture, performance, and how products hold up after release.",
-  "That is still the part of engineering I enjoy most: building things that stay useful, clear, and dependable in the real world.",
+  "Started with a straightforward interest in building for the web, then got pulled deeper into the systems behind them. The more real product work I did, the more I cared about structure, maintainability, and the decisions that only show up once complexity arrives.",
+  "Over time I moved from shipping features to thinking about architecture, performance, and how products hold up after release. That's still the part of engineering I enjoy most.",
 ] as const;
 
 const TINKERING_POINTS = [
@@ -101,8 +99,8 @@ export default function AboutPage() {
             I like building things that stay useful over time.
           </h1>
           <p className="section-copy mt-6 max-w-[46rem] text-[1rem] leading-8 md:mt-5 md:text-lg">
-            I&apos;m a senior full-stack engineer who cares about thoughtful
-            work, clear systems, and products that hold up over time.
+            Senior full-stack engineer based in Pune. I work on React, Next.js,
+            and TypeScript systems for products that need to scale past v1.
           </p>
         </div>
         <div
@@ -223,8 +221,8 @@ export default function AboutPage() {
           If you think we&apos;d work well together, I&apos;d be glad to talk.
         </h2>
         <p className="section-copy mt-6 max-w-[42rem] md:mt-5 md:text-base">
-          Especially if you care about thoughtful products, strong engineering
-          judgment, and work that holds up over time.
+          Especially if you care about strong engineering judgment, clear
+          systems, and shipping work you can stand behind.
         </p>
         <div className="mt-8 grid sm:block">
           <Link className="btn-primary sm:w-auto" href="/contact">

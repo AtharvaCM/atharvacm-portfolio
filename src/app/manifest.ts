@@ -5,7 +5,7 @@ import { HOME_DESCRIPTION } from "@/lib/seo";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `${SITE_NAME} | Senior Frontend Engineer`,
+    name: `${SITE_NAME} | Senior Full-Stack Engineer`,
     short_name: SITE_NAME,
     description: HOME_DESCRIPTION,
     start_url: "/",

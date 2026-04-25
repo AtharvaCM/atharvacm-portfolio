@@ -30,8 +30,8 @@ export const metadata = buildMetadata({
   description: HOME_DESCRIPTION,
   path: "/",
   keywords: [
-    "Senior Frontend Engineer",
-    "Frontend-Focused Full-Stack Engineer",
+    "Senior Full-Stack Engineer",
+    "Full-Stack Engineer",
     "React Architecture",
     "Next.js Performance",
     "Product Engineering",
@@ -48,8 +48,8 @@ const IMPACT_LABELS = [
 const IMPACT_ICONS: IconType[] = [FiTrendingUp, FiShield, FiGrid, FiUpload];
 
 const EXPERIENCE_PERIODS = [
-  "Current • 2025–Present",
-  "Previous • 2022–2025",
+  "Nov 2025 — Present",
+  "Jan 2022 — Oct 2025",
 ] as const;
 
 function getHomepageProjects(projects: ProjectMeta[]) {
@@ -242,7 +242,7 @@ export default async function HomePage() {
               className="intro-reveal mt-6 max-w-[30rem] text-[0.98rem] leading-7 text-[hsl(var(--text-muted))] md:mt-6 md:max-w-[34rem] md:text-[1.03rem] md:leading-7"
               style={{ "--delay": "0.26s" } as CSSProperties}
             >
-              React, Next.js, and TypeScript for production product systems.
+              Frontend architecture for content-driven products that need to scale past v1.
             </p>
 
             <div
