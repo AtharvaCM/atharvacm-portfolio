@@ -183,7 +183,7 @@ export default async function ResumePage() {
                     )}
                     key={point}
                   >
-                    <span className="mt-[0.85rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    <span className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                     <span>{point}</span>
                   </li>
                 ))}

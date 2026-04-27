@@ -4,21 +4,29 @@ import { createElement, type CSSProperties } from "react";
 import type { IconType } from "react-icons";
 import {
   FiArrowUpRight,
+  FiGithub,
   FiGrid,
+  FiLinkedin,
+  FiMail,
   FiShield,
   FiTrendingUp,
+  FiTwitter,
   FiUpload,
 } from "react-icons/fi";
 
 import { AnimatedSection } from "@/components/animated-section";
 import { TrackedLink } from "@/components/tracked-link";
-import { PROJECT_CATEGORY_LABELS, RESUME_URL } from "@/lib/constants";
+import {
+  CONTACT_EMAIL,
+  CONTACT_MAILTO,
+  PROJECT_CATEGORY_LABELS,
+  RESUME_URL,
+  SOCIAL_LINKS,
+} from "@/lib/constants";
 import { getAllProjects } from "@/lib/content";
 import {
   AVAILABILITY_NOTE,
-  HOME_FOCUS_AREAS,
   HOME_IMPACT_ITEMS,
-  PROFILE_NAME,
   RESUME_EXPERIENCE,
 } from "@/lib/profile-content";
 import { HOME_DESCRIPTION, HOME_TITLE, buildMetadata } from "@/lib/seo";
@@ -147,7 +155,7 @@ function WorkRow({
                 )}
                 key={item}
               >
-                <span className="mt-[0.95rem] h-1.5 w-1.5 rounded-full bg-accent" />
+                <span className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                 <span>{item}</span>
               </li>
             ))}
@@ -210,43 +218,84 @@ export default async function HomePage() {
   const resumeTarget = RESUME_URL && !resumeDownload ? "_blank" : undefined;
   const resumeRel = RESUME_URL && !resumeDownload ? "noreferrer" : undefined;
 
+  const heroSocialIconMap: Record<string, IconType> = {
+    GitHub: FiGithub,
+    LinkedIn: FiLinkedin,
+    X: FiTwitter,
+  };
+  const heroSocials: Array<{
+    label: string;
+    href: string;
+    icon: IconType;
+    trackingEvent?: string;
+  }> = [
+    ...SOCIAL_LINKS.filter((item) => heroSocialIconMap[item.label]).map(
+      (item) => ({
+        label: item.label,
+        href: item.href,
+        icon: heroSocialIconMap[item.label]!,
+        trackingEvent:
+          item.label === "GitHub"
+            ? "github_click"
+            : item.label === "LinkedIn"
+              ? "linkedin_click"
+              : undefined,
+      }),
+    ),
+    ...(CONTACT_MAILTO && CONTACT_EMAIL
+      ? [
+          {
+            label: "Email",
+            href: CONTACT_MAILTO,
+            icon: FiMail,
+            trackingEvent: "contact_email_click",
+          },
+        ]
+      : []),
+  ];
+
   return (
     <>
-      <section className="shell relative overflow-hidden pb-4 pt-7 md:pb-8 md:pt-8">
-        <div className="flex min-h-[calc(82svh-4rem)] items-start pt-8 md:min-h-[calc(88svh-5.25rem)] md:pt-10 lg:pt-12">
-          <div className="w-full max-w-[66rem]">
+      <section className="shell relative overflow-hidden pt-7 md:pt-10">
+        <div className="grid max-w-[68rem] items-center gap-12 pb-14 pt-6 md:pb-16 md:pt-8 lg:min-h-[78svh] lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12">
+          <div className="flex w-full max-w-[64rem] flex-col">
             <p
-              className="intro-reveal text-[clamp(2.15rem,14vw,3.3rem)] font-semibold tracking-[-0.07em] text-text md:text-[clamp(2.4rem,4vw,4.2rem)]"
+              className="intro-reveal chapter-index"
               style={{ "--delay": "0.04s" } as CSSProperties}
-            >
-              {PROFILE_NAME}
-            </p>
-            <p
-              className="intro-reveal mt-6 chapter-index md:mt-5"
-              style={{ "--delay": "0.1s" } as CSSProperties}
             >
               Senior full-stack engineer
             </p>
 
             <h1
-              className="intro-reveal mt-7 text-[clamp(2.35rem,13vw,3.85rem)] font-bold leading-[0.92] tracking-[-0.09em] text-text md:mt-6 md:text-[clamp(2.85rem,6.35vw,5.95rem)] md:leading-[0.88]"
-              style={{ "--delay": "0.18s" } as CSSProperties}
+              className="intro-reveal mt-8 font-display font-bold tracking-[-0.05em] text-text md:mt-10"
+              style={{
+                "--delay": "0.14s",
+                fontSize: "clamp(2.85rem,9.2vw,6rem)",
+                lineHeight: 1.02,
+              } as CSSProperties}
             >
-              <span className="block">I build scalable,</span>
-              <span className="block sm:whitespace-nowrap">
-                content-driven platforms.
+              <span className="block">
+                I build <span className="text-accent">scalable</span>
               </span>
+              <span className="block">content-driven platforms.</span>
             </h1>
 
             <p
-              className="intro-reveal mt-6 max-w-[30rem] text-[0.98rem] leading-7 text-[hsl(var(--text-muted))] md:mt-6 md:max-w-[34rem] md:text-[1.03rem] md:leading-7"
-              style={{ "--delay": "0.26s" } as CSSProperties}
+              className="intro-reveal mt-8 max-w-[40rem] text-[1.05rem] leading-7 text-text/78 md:mt-10 md:max-w-[44rem] md:text-[1.2rem] md:leading-9"
+              style={{ "--delay": "0.22s" } as CSSProperties}
             >
-              Frontend architecture for content-driven products that need to scale past v1.
+              React, Next.js, and TypeScript systems for products that need to scale past v1.
+            </p>
+
+            <p
+              className="intro-reveal mt-4 text-sm tracking-[0.01em] text-text/60 md:mt-5 md:text-[0.95rem]"
+              style={{ "--delay": "0.28s" } as CSSProperties}
+            >
+              — Atharva Mahamuni
             </p>
 
             <div
-              className="intro-reveal mt-8 grid gap-3 sm:flex sm:flex-wrap sm:items-center md:mt-8"
+              className="intro-reveal mt-9 grid gap-3 sm:flex sm:flex-wrap sm:items-center md:mt-11"
               style={{ "--delay": "0.34s" } as CSSProperties}
             >
               <Link className="btn-primary sm:w-auto" href="#selected-work">
@@ -263,14 +312,64 @@ export default async function HomePage() {
               >
                 Resume
               </TrackedLink>
-              <Link
-                className="link-inline justify-center py-2 sm:justify-start sm:py-0"
-                href="/contact"
-              >
-                Contact
-              </Link>
             </div>
+
+            {heroSocials.length > 0 ? (
+              <ul
+                aria-label="Social links"
+                className="intro-reveal mt-10 flex items-center gap-6 lg:hidden"
+                style={{ "--delay": "0.42s" } as CSSProperties}
+              >
+                {heroSocials.map(({ label, href, icon: Icon, trackingEvent }) => (
+                  <li key={label}>
+                    <TrackedLink
+                      aria-label={label}
+                      className="text-text/45 transition-colors duration-150 hover:text-text"
+                      href={href}
+                      rel={href.startsWith("mailto:") ? undefined : "noreferrer"}
+                      target={href.startsWith("mailto:") ? undefined : "_blank"}
+                      trackingEvent={trackingEvent}
+                      trackingPayload={
+                        trackingEvent
+                          ? { link_url: href, location: "home_hero" }
+                          : undefined
+                      }
+                    >
+                      <Icon aria-hidden className="h-[1.15rem] w-[1.15rem]" />
+                    </TrackedLink>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
+
+          {heroSocials.length > 0 ? (
+            <ul
+              aria-label="Social links"
+              className="intro-reveal hidden lg:flex lg:flex-col lg:items-center lg:gap-5 lg:self-center"
+              style={{ "--delay": "0.42s" } as CSSProperties}
+            >
+              {heroSocials.map(({ label, href, icon: Icon, trackingEvent }) => (
+                <li key={label}>
+                  <TrackedLink
+                    aria-label={label}
+                    className="block text-text/45 transition-colors duration-150 hover:text-text"
+                    href={href}
+                    rel={href.startsWith("mailto:") ? undefined : "noreferrer"}
+                    target={href.startsWith("mailto:") ? undefined : "_blank"}
+                    trackingEvent={trackingEvent}
+                    trackingPayload={
+                      trackingEvent
+                        ? { link_url: href, location: "home_hero" }
+                        : undefined
+                    }
+                  >
+                    <Icon aria-hidden className="h-5 w-5" />
+                  </TrackedLink>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </section>
 
@@ -355,38 +454,6 @@ export default async function HomePage() {
           <div className="section-frame">
             <div className="grid gap-7 md:gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
               <div className="lg:pt-1">
-                <p className="chapter-index">Approach</p>
-              </div>
-
-              <div>
-                <h2 className="section-heading max-w-[8ch]">How I build.</h2>
-                <div className="mt-10 grid gap-9 md:mt-10 md:grid-cols-3">
-                  {HOME_FOCUS_AREAS.map((area, index) => (
-                    <article
-                      className="border-t border-border/80 pt-6 md:pt-5"
-                      key={area.title}
-                    >
-                      <p className="chapter-index">0{index + 1}</p>
-                      <h3 className="mt-4 max-w-[15ch] text-[1.55rem] font-bold leading-tight tracking-[-0.05em] text-text md:max-w-[14ch] md:text-[1.6rem]">
-                        {area.title}
-                      </h3>
-                      <p className="mt-3 text-[0.92rem] leading-7 text-text/74 md:mt-4 md:text-sm md:text-[hsl(var(--text-muted))]">
-                        {area.copy}
-                      </p>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
-
-      <AnimatedSection>
-        <section className="shell content-band content-auto">
-          <div className="section-frame">
-            <div className="grid gap-7 md:gap-10 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-14">
-              <div className="lg:pt-1">
                 <p className="chapter-index">Experience</p>
               </div>
 
@@ -399,65 +466,71 @@ export default async function HomePage() {
                   teams.
                 </p>
 
-                <div className="mt-10 space-y-11 md:mt-10 md:space-y-10">
+                <ol className="relative mt-12 space-y-12 md:mt-14 md:space-y-14">
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-2 hidden h-[calc(100%-1rem)] w-px bg-border/55 md:left-[8rem] md:block"
+                  />
                   {RESUME_EXPERIENCE.map((role, index) => (
-                    <article
-                      className="border-t border-border/80 pt-7 md:pt-6"
+                    <li
+                      className="relative grid gap-4 md:grid-cols-[8rem_minmax(0,1fr)] md:gap-7"
                       key={`${role.company}-${role.title}`}
                     >
-                      <div className="grid gap-4 sm:flex sm:flex-wrap sm:items-start sm:justify-between">
-                        <div>
-                          <p className="chapter-index">0{index + 1}</p>
-                          <h3 className="mt-3 text-[clamp(1.7rem,9vw,2.2rem)] font-bold leading-none tracking-[-0.05em] text-text md:text-[clamp(1.7rem,2.4vw,2.4rem)]">
-                            {role.company}
-                          </h3>
-                          <p className="mt-3 text-[0.72rem] uppercase leading-5 tracking-[0.18em] text-text/64 md:mt-2 md:text-sm md:text-[hsl(var(--text-muted))]">
-                            {role.title}
-                          </p>
-                        </div>
-                        <p className="eyebrow">{EXPERIENCE_PERIODS[index]}</p>
+                      <span
+                        aria-hidden
+                        className="absolute hidden h-2 w-2 rounded-full bg-accent md:left-[8rem] md:top-[0.65rem] md:block md:-translate-x-1/2"
+                      />
+                      <div className="md:pr-5 md:pt-[0.35rem] md:text-right">
+                        <p className="font-mono text-[0.78rem] uppercase tracking-[0.18em] text-text/72 md:text-[0.82rem]">
+                          {EXPERIENCE_PERIODS[index]}
+                        </p>
                       </div>
-
-                      <ul className="mt-6 grid gap-4 md:gap-3">
-                        {role.points
-                          .filter((_, pointIndex) =>
-                            index === 0
-                              ? pointIndex === 0 || pointIndex === 4
-                              : pointIndex === 0 || pointIndex === 2,
-                          )
-                          .map((point) => (
-                            <li
-                              className="flex gap-3 text-[0.92rem] leading-7 text-text/74 md:text-sm md:text-[hsl(var(--text-muted))]"
-                              key={point}
-                            >
-                              <span className="mt-[0.95rem] h-1.5 w-1.5 rounded-full bg-accent" />
-                              <span>{point}</span>
-                            </li>
-                          ))}
-                      </ul>
-                    </article>
+                      <div>
+                        <h3 className="text-[clamp(1.7rem,9vw,2.2rem)] font-bold leading-none tracking-[-0.05em] text-text md:text-[clamp(1.7rem,2.4vw,2.4rem)]">
+                          {role.company}
+                        </h3>
+                        <p className="mt-3 text-[0.72rem] uppercase leading-5 tracking-[0.18em] text-text/64 md:mt-2 md:text-sm md:text-[hsl(var(--text-muted))]">
+                          {role.title}
+                        </p>
+                        <ul className="mt-5 grid gap-3 md:mt-6">
+                          {role.points
+                            .filter((_, pointIndex) =>
+                              index === 0
+                                ? pointIndex === 0 || pointIndex === 4
+                                : pointIndex === 0 || pointIndex === 2,
+                            )
+                            .map((point) => (
+                              <li
+                                className="flex gap-3 text-[0.92rem] leading-7 text-text/74 md:text-sm md:text-[hsl(var(--text-muted))]"
+                                key={point}
+                              >
+                                <span className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                                <span>{point}</span>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    </li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
           </div>
         </section>
       </AnimatedSection>
 
-      <section className="shell content-band content-auto">
+      <section className="shell pb-8 pt-14 content-auto md:pb-12 md:pt-20">
         <div className="section-frame">
           <p className="chapter-index">Next</p>
-          <div className="mt-6 grid gap-7 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end">
-            <div>
-              <h2 className="section-heading max-w-[18ch]">
-                Looking for the next serious product to help build.
-              </h2>
-              <p className="section-copy mt-5 max-w-[50rem]">
-                {AVAILABILITY_NOTE}
-              </p>
-            </div>
+          <div className="mt-6 max-w-[52rem]">
+            <h2 className="section-heading max-w-[18ch]">
+              Looking for the next serious product to help build.
+            </h2>
+            <p className="section-copy mt-6 max-w-[44rem] md:mt-7">
+              {AVAILABILITY_NOTE}
+            </p>
 
-            <div className="grid gap-3 sm:flex sm:flex-wrap sm:items-center lg:justify-end">
+            <div className="mt-9 grid gap-3 sm:flex sm:flex-wrap sm:items-center md:mt-10">
               <Link className="btn-primary sm:w-auto" href="/contact">
                 Contact
               </Link>
