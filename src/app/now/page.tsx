@@ -26,7 +26,7 @@ const NOW_ITEMS = [
   },
   {
     title: "Currently tinkering with",
-    copy: "Trying to get an IR blaster + Home Assistant setup working cleanly for PAR lights and AC controls without turning it into an unnecessary science experiment.",
+    copy: "Trying to get an IR blaster + Home Assistant setup working cleanly for PAR lights and AC controls.",
     icon: FiCpu,
   },
   {
@@ -36,8 +36,7 @@ const NOW_ITEMS = [
   },
   {
     title: "Currently listening to",
-    // TODO(atharva): swap in the actual bands/albums on rotation — placeholder copy below.
-    copy: "Heavy rotation of metal lately — replace with current favorites (e.g. specific albums or bands).",
+    copy: "Sacrament - Lamb of God",
     icon: FiMusic,
   },
 ] satisfies {
