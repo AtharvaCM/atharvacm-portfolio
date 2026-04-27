@@ -1,44 +1,68 @@
 # Atharva CM Portfolio
 
-A premium, Awwwards-inspired personal portfolio built with Next.js App Router, Tailwind CSS, MDX content collections, and motion libraries.
+Personal portfolio site for Atharva Mahamuni, a senior full-stack engineer focused on React, Next.js, TypeScript, performance, and product engineering. This repo holds the public site, project case studies, writing system, and the small operational pieces around contact, analytics, SEO, and publishing.
 
-## Features
+## Highlights
 
-- App Router + TypeScript strict mode
-- Blog + project case studies powered by local MDX
-- Dedicated resume page for experience and skills
-- Category/tech filters for projects
-- Tag filtering + pagination + RSS for blog
-- Opportunity-focused contact form API with Zod validation, honeypot, basic rate limiting, and Resend integration
-- Cookie consent banner with consent-aware Google Tag Manager and Microsoft Clarity loading
-- SEO routes: `sitemap.xml`, `robots.txt`, `rss.xml`
-- CI workflow for lint/typecheck/test/build
+- Home page built around positioning, proof points, and selected work
+- Projects index with category filters and MDX-backed case study pages
+- Resume, About, Contact, Blog, and `/now` pages
+- Command palette for fast navigation
+- Local MDX content workflow for projects and blog posts
+- Blog tags, pagination, RSS, and draft preview support
+- Consent-aware analytics with Google Tag Manager and Microsoft Clarity
+- Contact form API with Zod validation, honeypot protection, basic rate limiting, and Resend email delivery
+- Structured metadata, dynamic Open Graph images, `sitemap.xml`, and `robots.txt`
+- Unit tests for core content, analytics, SEO, contact, and UI behavior
 
-## Getting started
+## Tech Stack
+
+- Next.js 16 App Router
+- React 19
+- TypeScript
+- Tailwind CSS
+- MDX
+- Zod
+- Vitest
+- ESLint
+
+## Content And Authoring
+
+Projects and blog posts are stored locally as MDX content. The blog workflow supports draft creation, validation, publishing, preview mode for unpublished posts, RSS generation, and an optional local MCP server for authoring support.
+
+Common commands:
+
+```bash
+npm run blog:new -- "Post title"
+npm run blog:validate
+npm run blog:publish -- <slug>
+npm run mcp:blog
+```
+
+For the full publishing and preview flow, see [docs/blogging-system.md](/Users/atharvacm/technowizard/atharvacm-portfolio/docs/blogging-system.md).
+
+## Local Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Scripts
+Useful scripts:
 
-- `npm run dev` - start local dev server
-- `npm run build` - production build
-- `npm run start` - run production server
-- `npm run lint` - lint
-- `npm run typecheck` - TypeScript checks
-- `npm test` - run unit tests
-- `npm run blog:new -- "Post title"` - scaffold a hidden draft post in `src/content/blog`
-- `npm run blog:publish -- <slug>` - flip a draft live and optionally prepare git/PR workflow
-- `npm run blog:validate` - validate all blog posts
-- `npm run mcp:blog` - start the local MCP server for blog authoring tools
+```bash
+npm run build
+npm run start
+npm run lint
+npm run typecheck
+npm test
+```
 
-## Environment variables
+## Environment Variables
 
-Copy `.env.example` to `.env.local` and update values.
+Create `.env.local` and set the values relevant to your setup.
 
 - `NEXT_PUBLIC_SITE_URL`
 - `NEXT_PUBLIC_GTM_ID`
@@ -54,42 +78,21 @@ Copy `.env.example` to `.env.local` and update values.
 - `CONTACT_TO_EMAIL`
 - `CONTACT_FROM_EMAIL`
 
-Contact email setup:
+The detailed production email routing setup lives in [docs/contact-email-routing.md](/Users/atharvacm/technowizard/atharvacm-portfolio/docs/contact-email-routing.md).
 
-- Public email shown on the site: `hello@atharvacm.dev`
-- Inbound email: Cloudflare Email Routing should forward `hello@atharvacm.dev` to the real inbox
-- Contact form sender: Resend should send from a verified `middle-earth.in` address, configured with `CONTACT_FROM_EMAIL`
-- Contact form replies: `replyTo` is set to the visitor-submitted email address
+## Quality
 
-See [docs/contact-email-routing.md](docs/contact-email-routing.md) for the production setup.
+The repo includes:
 
-Analytics setup:
+- `npm run lint` for linting
+- `npm run typecheck` for TypeScript checks
+- `npm test` for unit tests with Vitest
 
-- Google Tag Manager uses `NEXT_PUBLIC_GTM_ID` and is the single entry point for GA4
-- Microsoft Clarity uses `NEXT_PUBLIC_CLARITY_ID` and is intentionally loaded directly by the app, not through GTM
-- Analytics loaders live in `src/components/client-overlays.tsx` and only mount after analytics consent is accepted
-- Do not initialize GA4 directly in app code while GTM owns the GA4 base tag, or pageviews/events can duplicate
-- Do not add a Clarity tag in GTM unless the direct app integration is removed first, or Clarity can load twice
+## Documentation
 
-Custom GTM events:
+- [Blog publishing system](/Users/atharvacm/technowizard/atharvacm-portfolio/docs/blogging-system.md)
+- [Contact email routing](/Users/atharvacm/technowizard/atharvacm-portfolio/docs/contact-email-routing.md)
 
-- Event helper: `src/lib/gtm-events.ts`
-- Tracked link wrapper: `src/components/tracked-link.tsx`
-- Events emitted by the app: `resume_click`, `contact_form_submit`, `contact_email_click`, `linkedin_click`, `github_click`, `project_open`, `project_live_site_click`, `project_filter_select`, `blog_post_open`, `rss_click`, `command_palette_open`, `command_palette_select`
-- The hidden `/now` page is measured through normal GA4 pageviews; it does not emit a separate custom event
-- Custom events are pushed only after analytics consent is accepted
-- Custom analytics events are emitted through `dataLayer` for GTM to route into GA4
+## Notes
 
-## Blog workflow
-
-Blog posts are local MDX files in `src/content/blog`. Drafts, scheduled posts, validation, preview mode,
-RSS, and MCP-assisted authoring are documented in [docs/blogging-system.md](docs/blogging-system.md).
-
-Common commands:
-
-```bash
-npm run blog:new -- "Post title"
-npm run blog:validate
-npm run blog:publish -- <slug>
-npm run mcp:blog
-```
+This is a living personal site. Part portfolio, part writing system, part engineering sandbox.
