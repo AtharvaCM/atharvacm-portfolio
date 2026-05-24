@@ -253,6 +253,304 @@ a {
     color: hsl(var(--accent));
   }
 
+  .article-prose {
+    @apply prose prose-invert max-w-[72ch] text-[1rem] leading-8 md:text-[1.05rem] md:leading-9;
+    color: hsl(var(--text) / 0.86);
+  }
+
+  .article-prose :where(p) {
+    color: hsl(var(--text) / 0.85);
+  }
+
+  .article-prose :where(h2, h3, h4) {
+    color: hsl(var(--text));
+    font-family: var(--font-display);
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    scroll-margin-top: 7rem;
+  }
+
+  .article-prose :where(h2) {
+    margin-top: 3.5rem;
+    margin-bottom: 1.1rem;
+    font-size: clamp(1.8rem, 5vw, 2.45rem);
+  }
+
+  .article-prose :where(h3) {
+    margin-top: 2.4rem;
+    margin-bottom: 0.9rem;
+    font-size: clamp(1.35rem, 4vw, 1.8rem);
+  }
+
+  .article-prose :where(h4) {
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.05rem;
+  }
+
+  .article-prose :where(p, ul, ol, blockquote, pre, table) {
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .article-prose :where(ul, ol) {
+    padding-left: 1.2rem;
+  }
+
+  .article-prose :where(li) {
+    margin-top: 0.45rem;
+    margin-bottom: 0.45rem;
+    color: hsl(var(--text) / 0.83);
+  }
+
+  .article-prose :where(li)::marker {
+    color: hsl(var(--accent) / 0.72);
+  }
+
+  .article-prose :where(strong) {
+    color: hsl(var(--text));
+  }
+
+  .article-prose :where(hr) {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    border-color: hsl(var(--border) / 0.9);
+  }
+
+  .article-prose :where(code):not(:where(pre code)) {
+    border: 1px solid hsl(var(--border) / 0.78);
+    border-radius: 0.45rem;
+    background: hsl(var(--surface-soft) / 0.92);
+    padding: 0.16rem 0.38rem;
+    font-size: 0.9em;
+    color: hsl(var(--text) / 0.96);
+  }
+
+  .article-prose :where(code):not(:where(pre code))::before,
+  .article-prose :where(code):not(:where(pre code))::after {
+    content: none;
+  }
+
+  .article-prose :where(pre) {
+    overflow-x: auto;
+    border: 1px solid hsl(var(--border) / 0.82);
+    border-radius: 1rem;
+    background: linear-gradient(
+      180deg,
+      hsl(var(--surface-soft) / 0.94),
+      hsl(var(--surface) / 0.96)
+    );
+    padding: 1.1rem 1.05rem;
+    box-shadow: inset 0 1px 0 hsl(var(--text) / 0.03);
+    scrollbar-color: hsl(var(--text) / 0.18) hsl(var(--surface-soft) / 0.12);
+    scrollbar-width: thin;
+  }
+
+  .article-prose :where(pre)::-webkit-scrollbar {
+    height: 0.52rem;
+  }
+
+  .article-prose :where(pre)::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background: hsl(var(--surface-soft) / 0.18);
+  }
+
+  .article-prose :where(pre)::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: hsl(var(--text) / 0.16);
+  }
+
+  .article-prose :where(pre)::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--text) / 0.24);
+  }
+
+  .article-prose :where(pre code) {
+    background: transparent;
+    padding: 0;
+    font-size: 0.9em;
+    line-height: 1.8;
+    color: hsl(var(--text) / 0.9);
+  }
+
+  .article-prose :where([data-rehype-pretty-code-figure]) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-prose :where([data-line]) {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+  }
+
+  .article-prose :where([data-highlighted-line]) {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    border-left: 2px solid hsl(var(--accent) / 0.65);
+    background: hsl(var(--text) / 0.045);
+    padding-left: calc(0.75rem - 2px);
+    padding-right: 0.75rem;
+  }
+
+  .article-prose :where([data-highlighted-chars]) {
+    border-radius: 0.35rem;
+    background: hsl(var(--text) / 0.08);
+    box-shadow: 0 0 0 1px hsl(var(--text) / 0.04);
+  }
+
+  .article-prose :where(blockquote) {
+    border-left: 1px solid hsl(var(--accent) / 0.55);
+    border-radius: 0 1rem 1rem 0;
+    background: hsl(var(--surface) / 0.58);
+    padding: 1rem 1.15rem;
+    color: hsl(var(--text) / 0.76);
+    font-style: normal;
+  }
+
+  .article-prose :where(table) {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .article-prose :where(thead th) {
+    border-bottom: 1px solid hsl(var(--border) / 0.9);
+    color: hsl(var(--text) / 0.94);
+    font-weight: 600;
+  }
+
+  .article-prose :where(tbody td) {
+    border-bottom: 1px solid hsl(var(--border) / 0.55);
+    color: hsl(var(--text) / 0.8);
+  }
+
+  .article-prose :where(th, td) {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .article-prose :where(img) {
+    border-radius: 1rem;
+  }
+
+  .article-prose :where(.heading-anchor) {
+    margin-left: 0.5rem;
+    color: hsl(var(--text) / 0.28);
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 150ms ease, color 150ms ease;
+  }
+
+  .article-prose :where(h2, h3, h4):hover .heading-anchor {
+    opacity: 1;
+  }
+
+  .article-prose :where(.heading-anchor:hover) {
+    color: hsl(var(--accent));
+  }
+
+  .code-block-shell {
+    position: relative;
+  }
+
+  .code-copy-button {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.75rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border: 1px solid hsl(var(--text) / 0.08);
+    border-radius: 999px;
+    background: hsl(var(--bg) / 0.34);
+    padding: 0.3rem 0.52rem;
+    backdrop-filter: blur(12px);
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: hsl(var(--text) / 0.54);
+    transition:
+      color 150ms ease,
+      border-color 150ms ease,
+      background 150ms ease,
+      opacity 150ms ease;
+    opacity: 0.74;
+  }
+
+  .code-copy-button:hover {
+    border-color: hsl(var(--accent) / 0.28);
+    color: hsl(var(--text) / 0.92);
+    background: hsl(var(--surface-soft) / 0.76);
+    opacity: 1;
+  }
+
+  .code-copy-button-icon {
+    display: inline-flex;
+    width: 0.72rem;
+    justify-content: center;
+    font-size: 0.72rem;
+    line-height: 1;
+    opacity: 0.72;
+  }
+
+  .code-copy-button-label {
+    line-height: 1;
+  }
+
+  .rail-link-button {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.45rem;
+    border: 1px solid hsl(var(--text) / 0.11);
+    border-radius: 999px;
+    background: hsl(var(--bg) / 0.3);
+    padding: 0.56rem 0.82rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: hsl(var(--text) / 0.66);
+    transition:
+      color 150ms ease,
+      border-color 150ms ease,
+      background 150ms ease;
+  }
+
+  .rail-link-button:hover {
+    border-color: hsl(var(--accent) / 0.24);
+    background: hsl(var(--surface-soft) / 0.68);
+    color: hsl(var(--text) / 0.94);
+  }
+
+  .rail-link-button-copy {
+    color: hsl(var(--text) / 0.7);
+  }
+
+  .article-rail-scroll {
+    scrollbar-color: hsl(var(--text) / 0.14) transparent;
+    scrollbar-width: thin;
+  }
+
+  .article-rail-scroll::-webkit-scrollbar {
+    width: 0.42rem;
+  }
+
+  .article-rail-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .article-rail-scroll::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: hsl(var(--text) / 0.12);
+  }
+
+  .article-rail-scroll::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--text) / 0.18);
+  }
+
   .form-label {
     font-family:
       ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",

@@ -4,6 +4,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ArticleProgress } from "@/components/article-progress";
+import {
+  ArticleTocDesktop,
+  ArticleTocMobile,
+} from "@/components/article-toc";
 import { BadgeLabel } from "@/components/badge-label";
 import { BlogCard } from "@/components/blog-card";
 import { MdxRenderer } from "@/components/mdx-renderer";
@@ -15,11 +19,13 @@ import {
   getRelatedPosts,
   isPublishedBlogPost
 } from "@/lib/content";
+import { extractMarkdownHeadings as extractArticleHeadings } from "@/lib/markdown";
 import { SITE_NAME } from "@/lib/constants";
 import {
   buildMetadata,
   getArticleStructuredData,
-  getBreadcrumbStructuredData
+  getBreadcrumbStructuredData,
+  absoluteUrl
 } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
@@ -70,6 +76,8 @@ export default async function BlogDetailPage({ params }: Props) {
 
   const related = getRelatedPosts(allPosts, post.slug);
   const isPreviewingUnpublished = isEnabled && !isPublishedBlogPost(post);
+  const headings = extractArticleHeadings(post.content);
+  const articleUrl = absoluteUrl(`/blog/${post.slug}`);
 
   return (
     <article className="shell py-16 md:py-20">
@@ -88,11 +96,15 @@ export default async function BlogDetailPage({ params }: Props) {
           Previewing {post.draft ? "draft" : "scheduled"} post
         </p>
       ) : null}
-      <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.2rem,5.7vw,4.8rem)] tracking-tight">{post.title}</h1>
-      <p className="mt-5 text-sm uppercase tracking-[0.15em] text-text/55">
+      <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.45rem,6.2vw,5.35rem)] leading-[0.94] tracking-[-0.055em]">
+        {post.title}
+      </h1>
+      <p className="mt-5 text-sm uppercase tracking-[0.15em] text-text/58">
         {formatDate(post.publishedAt)} • {post.readingTime ?? 1} min read
       </p>
-      <p className="mt-6 max-w-2xl text-text/72">{post.excerpt}</p>
+      <p className="mt-7 max-w-3xl border-l border-accent/45 pl-5 text-[1.05rem] leading-8 text-text/74 md:text-[1.18rem] md:leading-9">
+        {post.excerpt}
+      </p>
 
       <ul className="mt-6 flex flex-wrap gap-2 text-xs">
         {post.tags.map((tag) => (
@@ -102,8 +114,25 @@ export default async function BlogDetailPage({ params }: Props) {
         ))}
       </ul>
 
-      <div className="prose prose-neutral mt-12 max-w-none prose-a:text-accent prose-headings:font-display prose-headings:tracking-tight">
-        <MdxRenderer source={post.content} />
+      <div className="mx-auto max-w-[1160px]">
+        <ArticleTocMobile
+          headings={headings}
+          title={post.title}
+          url={articleUrl}
+        />
+
+        <div className="mt-12 lg:grid lg:grid-cols-[minmax(0,70ch)_20rem] lg:items-start lg:gap-14 xl:grid-cols-[minmax(0,72ch)_20.5rem] xl:gap-16">
+          <div className="min-w-0">
+            <div className="article-prose">
+              <MdxRenderer source={post.content} />
+            </div>
+          </div>
+          <ArticleTocDesktop
+            headings={headings}
+            title={post.title}
+            url={articleUrl}
+          />
+        </div>
       </div>
 
       <section className="mt-14">
