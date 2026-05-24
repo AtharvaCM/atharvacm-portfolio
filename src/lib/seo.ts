@@ -61,6 +61,7 @@ type MetadataInput = {
   description: string;
   path?: string;
   image?: string;
+  imageAlt?: string;
   keywords?: string[];
   type?: "website" | "article" | "profile";
   publishedTime?: string;
@@ -93,6 +94,7 @@ export function buildMetadata({
   description,
   path = "/",
   image = DEFAULT_OG_IMAGE_PATH,
+  imageAlt,
   keywords = [],
   type = "website",
   publishedTime,
@@ -145,7 +147,7 @@ export function buildMetadata({
           url: imageUrl,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: imageAlt ?? title,
           type: "image/png"
         }
       ]

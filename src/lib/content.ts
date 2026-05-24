@@ -46,6 +46,8 @@ const blogMetaSchema = z.object({
     .optional(),
   tags: z.array(z.string()).min(1),
   coverImage: z.string().optional(),
+  coverImageAlt: z.string().optional(),
+  showCoverImageInPost: z.boolean().optional().default(true),
   readingTime: z.number().int().positive().optional(),
   featured: z.boolean(),
   draft: z.boolean().optional().default(false)
@@ -201,6 +203,8 @@ export async function getAllBlogPosts(options: BlogQueryOptions = {}): Promise<B
         updatedAt: parsed.updatedAt,
         tags: parsed.tags,
         coverImage: parsed.coverImage,
+        coverImageAlt: parsed.coverImageAlt,
+        showCoverImageInPost: parsed.showCoverImageInPost,
         readingTime: parsed.readingTime,
         featured: parsed.featured,
         draft: parsed.draft

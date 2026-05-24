@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -53,7 +54,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${post.title} | ${SITE_NAME}`,
     description: post.excerpt,
     path: `/blog/${post.slug}`,
-    image: `/blog/${post.slug}/opengraph-image`,
+    image: post.coverImage ?? `/blog/${post.slug}/opengraph-image`,
+    imageAlt: post.coverImageAlt,
     keywords: post.tags,
     type: "article",
     publishedTime: post.publishedAt,
@@ -115,6 +117,20 @@ export default async function BlogDetailPage({ params }: Props) {
       </ul>
 
       <div className="mx-auto max-w-[1160px]">
+        {post.coverImage && post.showCoverImageInPost !== false ? (
+          <figure className="mt-10 overflow-hidden rounded-[0.45rem] border border-border/70 bg-panel/40 shadow-[0_24px_70px_-52px_hsl(var(--text)/0.32)] md:mt-12">
+            <Image
+              alt={post.coverImageAlt ?? ""}
+              className="aspect-[3/2] w-full object-cover"
+              height={1024}
+              priority
+              sizes="(min-width: 1280px) 1160px, calc(100vw - 2rem)"
+              src={post.coverImage}
+              width={1536}
+            />
+          </figure>
+        ) : null}
+
         <ArticleTocMobile
           headings={headings}
           title={post.title}

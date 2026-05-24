@@ -56,6 +56,16 @@ describe("buildMetadata", () => {
     expect(images?.[0]?.url).toMatch(/\/opengraph-image$/);
   });
 
+  it("uses explicit OG image alt text when provided", () => {
+    const meta = buildMetadata({
+      title: "My Title",
+      description: "d",
+      imageAlt: "Editorial cover image",
+    });
+    const images = meta.openGraph?.images as Array<{ alt: string }>;
+    expect(images?.[0]?.alt).toBe("Editorial cover image");
+  });
+
   it("includes twitter summary_large_image card", () => {
     const meta = buildMetadata({ title: "t", description: "d" });
     const twitter = meta.twitter as { card: string } | null;

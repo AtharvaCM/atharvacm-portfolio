@@ -35,6 +35,8 @@ export type BlogPostMeta = {
   updatedAt?: string;
   tags: string[];
   coverImage?: string;
+  coverImageAlt?: string;
+  showCoverImageInPost?: boolean;
   readingTime?: number;
   featured: boolean;
   draft: boolean;
