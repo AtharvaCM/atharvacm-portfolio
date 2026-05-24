@@ -1,0 +1,206 @@
+---
+title: From Conventional Commits to Automated Releases
+slug: from-conventional-commits-to-automated-releases
+excerpt: >-
+  Turn Conventional Commits into an automated release pipeline with commitlint
+  and semantic-release — versioning, changelogs, tags, and GitHub releases
+  handled for you.
+publishedAt: '2026-05-24T15:27:27.448Z'
+tags:
+  - Conventional Commits
+  - Semantic Release
+  - Commitlint
+  - DevOps
+  - CI/CD
+  - Git
+  - Automation
+featured: true
+draft: false
+updatedAt: '2026-05-24T15:27:27.448Z'
+---
+
+If you've started writing commits like `feat(auth): add forgot password flow` instead of `updates`, congrats — you've already done the hard part. But Conventional Commits aren't just a style guide. They're a contract between you and your tooling. Once your commits follow a predictable shape, automation can take over the boring parts of shipping software: versioning, changelogs, tags, releases, notifications.
+
+This post walks through that setup end to end.
+
+## The problem with manual releases
+
+Most release workflows look something like this:
+
+1. Someone decides "okay, time to cut a release."
+2. They scroll through commits since the last tag and try to remember what changed.
+3. They guess at the version bump — is this a patch? A minor? Did anything break?
+4. They write a changelog, usually by hand, usually rushed.
+5. They tag, push, publish, and announce.
+
+This breaks down in three predictable ways. Version numbers get inconsistent (one release is `1.4.0` for a small bugfix, another is `1.4.1` for a major feature, depending on who cut it). Changelogs get sparse or skipped entirely. And the whole thing creates friction that makes teams release _less often_, which makes each release riskier.
+
+The fix isn't discipline. The fix is making the computer do it.
+
+## The stack
+
+Three pieces, each doing one job:
+
+- **Conventional Commits** — the format your commit messages follow.
+- **commitlint** — enforces the format at commit time, so no one accidentally breaks the contract.
+- **semantic-release** — reads your commits in CI, figures out the next version, writes the changelog, creates the GitHub release, publishes the package.
+
+## Step 1: Set up commitlint
+
+commitlint runs as a git hook (via Husky) and rejects commits that don't match the Conventional Commits spec.
+
+Install:
+
+```bash
+npm install --save-dev @commitlint/cli @commitlint/config-conventional husky
+```
+
+Create `commitlint.config.js` at the project root:
+
+```javascript
+module.exports = {
+  extends: ["@commitlint/config-conventional"],
+};
+```
+
+Set up Husky to run commitlint on every commit:
+
+```bash
+npx husky init
+echo "npx --no -- commitlint --edit \$1" > .husky/commit-msg
+```
+
+Now if someone tries to commit `fixed stuff`, the commit is rejected locally before it ever hits the repo. They'll see something like:
+
+```
+✖ subject may not be empty
+✖ type may not be empty
+```
+
+This matters more than it looks. Without commitlint, one lazy commit poisons the whole pipeline — semantic-release will quietly skip it, your changelog gets a hole, and the next release might not even bump the version. With commitlint, the rules are non-negotiable.
+
+## Step 2: Set up semantic-release
+
+semantic-release is the brain. It runs in CI on your main branch, scans new commits, and acts on them.
+
+Install:
+
+```bash
+npm install --save-dev semantic-release \
+  @semantic-release/changelog \
+  @semantic-release/git \
+  @semantic-release/github
+```
+
+Create `.releaserc.json`:
+
+```json
+{
+  "branches": ["main"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    "@semantic-release/npm",
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "package.json"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}
+```
+
+Each plugin does one thing:
+
+- **commit-analyzer** reads commits since the last release and decides the version bump.
+- **release-notes-generator** turns those commits into human-readable notes, grouped by `feat`, `fix`, etc.
+- **changelog** writes those notes to `CHANGELOG.md`.
+- **npm** publishes to the registry (skip this for non-package projects).
+- **git** commits the updated changelog and `package.json` back to the repo.
+- **github** creates a GitHub Release with the notes attached.
+
+## Step 3: Wire it up in CI
+
+Here's a minimal GitHub Actions workflow at `.github/workflows/release.yml`:
+
+```yaml
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - run: npm ci
+      - run: npm test
+
+      - run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+```
+
+Two things worth flagging. `fetch-depth: 0` is required — semantic-release needs the full git history to figure out what's changed since the last tag. And `permissions: contents: write` lets the workflow push the changelog commit and create the release.
+
+## What this looks like in practice
+
+You merge a PR with these commits:
+
+```
+feat(auth): add forgot password flow
+fix(payments): handle failed webhook retries
+docs: update README
+```
+
+CI runs. semantic-release sees a `feat` and a `fix`, decides the highest bump is `minor`, and:
+
+1. Bumps `1.4.2` → `1.5.0`.
+2. Writes a CHANGELOG entry grouping the feat under "Features" and the fix under "Bug Fixes". The `docs:` commit is ignored by default.
+3. Commits the updated `CHANGELOG.md` and `package.json` back to main with `[skip ci]`.
+4. Creates a `v1.5.0` git tag.
+5. Publishes the package to npm.
+6. Opens a GitHub Release with the formatted notes.
+
+You did none of this. You just merged a PR.
+
+## A few gotchas
+
+**Breaking changes need explicit syntax.** A `feat` alone never triggers a major bump. You need either `feat!:` or a `BREAKING CHANGE:` footer in the commit body. This is intentional — major bumps should be deliberate.
+
+**Squash merges flatten your commit history.** If you squash-merge PRs on GitHub, only the PR title's commit message matters. Either enforce Conventional Commits in PR titles (there are GitHub Actions for this) or use merge commits.
+
+**`[skip ci]` matters.** Without it, the release commit triggers another CI run, which triggers another release, and so on. The `git` plugin's default message includes it, but double-check if you customize.
+
+**Test in a fork first.** semantic-release in dry-run mode (`npx semantic-release --dry-run`) tells you exactly what would happen without doing it. Run this locally before turning the workflow loose on main.
+
+## Why bother
+
+The first time I set this up I thought it was overkill for a small project. Then I realized I'd shipped four releases that month without writing a single changelog entry or thinking about a version number. Every release had clean notes I could send to stakeholders. Every version followed semver properly. And new contributors learned the commit format within their first rejected commit.
+
+Conventional Commits as a habit is good. Wiring it into your release pipeline is where it stops being a style guide and starts being leverage.
