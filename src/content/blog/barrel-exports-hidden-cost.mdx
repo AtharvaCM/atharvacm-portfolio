@@ -1,0 +1,342 @@
+---
+title: "Barrel Exports: The Hidden Cost of Clean-Looking Code"
+slug: barrel-exports-hidden-cost
+excerpt: >-
+  Barrel files looked like clean architecture. Turns out they were quietly
+  degrading build times, test performance, and IDE responsiveness. Here is
+  what is actually happening under the hood.
+publishedAt: '2026-06-18T00:00:00.000Z'
+tags:
+  - JavaScript
+  - TypeScript
+  - Architecture
+  - Performance
+  - Frontend
+featured: false
+draft: false
+updatedAt: '2026-06-18T00:00:00.000Z'
+---
+
+I was working through tech debt in our frontend monorepo, trying to understand why the codebase felt unusually painful to work in. Sluggish autocomplete. Circular import errors that came out of nowhere. "Go to Definition" bouncing you through two or three index files before landing on the actual source.
+
+These are the kinds of things developers tend to dismiss as just how it is with a large codebase. I did not want to accept that.
+
+We were already in the middle of a design system revamp and spinning up a new UI repo alongside it. It felt like the right moment to actually understand the root causes rather than carry the same problems into a new codebase.
+
+The answer, after some digging, traced back almost entirely to barrel files.
+
+This post covers what barrel files are, why the JavaScript ecosystem widely adopted them, and what the actual cost is at the module resolution level. There is also a section on what the fix looks like in practice and how to enforce it so the pattern does not creep back in.
+
+## What Barrel Files Are and Why We Started Using Them
+
+A barrel file is typically an `index.ts` (or `index.js`) that aggregates and re-exports multiple modules from a directory. Instead of importing from specific files, consumers import from the folder itself.
+
+```ts
+// Without barrel files
+import { Button } from '@/components/Button/Button';
+import { Modal } from '@/components/Modal/Modal';
+import { Input } from '@/components/Input/Input';
+
+// With a barrel file at @/components/index.ts
+import { Button, Modal, Input } from '@/components';
+```
+
+The appeal is obvious. Shorter import paths, a clean public API for a feature folder, and the ability to reorganize internal files without breaking consumers. This is standard encapsulation — the same principle behind why you expose a public interface in any well-designed system.
+
+The problem is not the idea. The problem is what happens when the JavaScript runtime actually processes those imports.
+
+## How ESM Module Resolution Actually Works
+
+Most developers carry a mental model that goes something like: "I imported `Button`, so only `Button` gets loaded." This is intuitive, but it is not how ECMAScript modules work.
+
+When the JS engine encounters an import statement, it runs a three-phase process:
+
+1. **Graph Resolution** — The engine reads the import path, finds the file, and recursively parses all of its imports to build a complete dependency graph before executing anything.
+2. **Instantiation** — Memory is allocated for every module in the graph. Export bindings are established.
+3. **Evaluation** — The actual code in each module runs, in dependency order.
+
+<figure style={{ margin: "2rem 0", padding: "1.25rem", background: "#fafaf7", borderRadius: "0.75rem", border: "1px solid rgba(0,0,0,0.08)" }}>
+  <img alt="ESM three-phase module resolution showing how a barrel file forces all 45 referenced files to be parsed in Phase 1 before any code runs" src="/images/blog/esm_three_phase_resolution.svg" style={{ width: "100%", height: "auto", display: "block" }} />
+</figure>
+
+The critical part is phase one. When you import from a barrel file, the engine must construct the entire dependency graph for that barrel before any of your code runs. Because the barrel re-exports from ten, twenty, or a hundred sibling files, the engine reads and parses all of them. It has no choice — it cannot know at graph resolution time whether any of those files contain side effects (global mutations, polyfill injections, CSS-in-JS registrations) that affect program correctness.
+
+```ts
+// @/components/index.ts
+export { Button } from './Button/Button';
+export { Modal } from './Modal/Modal';
+export { Input } from './Input/Input';
+export { Table } from './Table/Table';
+export { Chart } from './Chart/Chart';
+// ... 40 more exports
+```
+
+You asked for `Button`. The engine parsed all 45 files referenced by this barrel to give it to you.
+
+This is not a bug or an optimization failure. It is a requirement of the spec. The trade-off that made CommonJS's `require()` more flexible — dynamic, runtime resolution — is precisely what made it unoptimizable. ESM went the other direction: static declarations enable better tooling, but they require the engine to be thorough upfront.
+
+## The Spiderweb Effect at Scale
+
+In a small codebase, this overhead is negligible. In a large monorepo, it compounds fast.
+
+Barrel files are rarely isolated to a single directory. A root-level barrel imports from subdirectories, which have their own barrel files, which import from further nested directories with their own barrels. Importing a simple utility function from a high-level entry point pulls the entire sub-tree into the active dependency graph.
+
+```
+@/utils/index.ts
+  → @/utils/date/index.ts
+      → @/utils/date/format.ts
+      → @/utils/date/parse.ts
+      → @/utils/date/timezone.ts
+  → @/utils/string/index.ts
+      → @/utils/string/truncate.ts
+      → @/utils/string/capitalize.ts
+  → @/utils/array/index.ts
+      → ... (20 more files)
+```
+
+You needed `formatDate`. You got the entire utility layer.
+
+<figure style={{ margin: "2rem 0", padding: "1.25rem", background: "#fafaf7", borderRadius: "0.75rem", border: "1px solid rgba(0,0,0,0.08)" }}>
+  <img alt="Direct imports vs barrel exports dependency graph: three direct imports load three files; the same three imports through a barrel pull in all 45 sibling modules" src="/images/blog/direct_vs_barrel_dependency_graph.svg" style={{ width: "100%", height: "auto", display: "block" }} />
+</figure>
+
+What should be a sparse, directional dependency graph becomes a dense web where every module is implicitly coupled to large swaths of the codebase through shared barrel files. Clean Architecture describes dependencies as flowing strictly inward, from volatile outer layers toward stable inner layers. Barrel files routinely violate this — they create a flat, cross-cutting entry point that links domains together that have no business depending on each other.
+
+Atlassian's engineers called this exact topology the "spiderweb" when they diagnosed it as the root cause of system-wide performance degradation in the Jira frontend codebase.
+
+## Where It Hurts
+
+### Production Bundles and Tree-Shaking
+
+Tree-shaking is the process by which bundlers like Webpack, Rollup, and ESBuild discard exports that are never actually used in the application. It works by statically analyzing the Abstract Syntax Tree (AST) and proving that removing a specific module will not change the program's observable behavior.
+
+Barrel files make this proof much harder to establish. When a bundler encounters a barrel, it has to traverse the entire exported sub-tree. If it cannot definitively prove a module is free of side effects, it includes it in the bundle defensively.
+
+The `sideEffects` field in `package.json` is the primary tool for helping bundlers here. Setting it to `false` tells the bundler it is safe to prune any module whose exports are unused.
+
+```json
+{
+  "name": "my-ui-library",
+  "sideEffects": false
+}
+```
+
+If your package has files with genuine side effects (global CSS, polyfills), you can be explicit:
+
+```json
+{
+  "sideEffects": ["*.css", "./src/polyfills.js"]
+}
+```
+
+Getting this wrong is a significant source of silent production bugs. If you mark a package as side-effect-free but it contains a barrel that re-exports a global CSS file, the bundler will silently discard the stylesheet. The application ships with broken styling and no error in the build output.
+
+Even with correct `sideEffects` configuration, the real-world impact on bundle sizes is stark. One Next.js application reduced its initial JavaScript payload from 1.5MB to 200KB purely by switching to direct imports. A single barrel file re-exporting SVGs was adding 400KB to another team's production bundle. Importing a single `Button` component from Material UI's top-level barrel resulted in a 151KB chunk, versus a fraction of that with a direct import.
+
+### Vite's Dev Server and the HTTP Waterfall
+
+Vite's development architecture skips bundling entirely. It serves source files as native ES modules directly to the browser, letting the browser handle import resolution dynamically. This gives you near-instant cold starts and fast HMR — unless you have barrel files.
+
+When the browser requests a barrel file over HTTP, it parses it, discovers all the re-exports, and fires individual HTTP requests for every file referenced. Each of those responses may reveal further imports, triggering another round of requests. In a large project, a single component import can cascade into hundreds of simultaneous network requests.
+
+```
+GET /src/components/index.ts          → discovers 45 imports
+GET /src/components/Button/Button.ts  → you needed this
+GET /src/components/Modal/Modal.ts    → you did not
+GET /src/components/Input/Input.ts    → you did not
+... 42 more requests                  → none of which you needed
+```
+
+<figure style={{ margin: "2rem 0", padding: "1.25rem", background: "#fafaf7", borderRadius: "0.75rem", border: "1px solid rgba(0,0,0,0.08)" }}>
+  <img alt="HTTP request count and load time comparison: direct import triggers 1 request and ~50ms load; barrel import triggers 46 requests and ~400ms+ load in Vite dev server" src="/images/blog/vite_http_request_comparison.svg" style={{ width: "100%", height: "auto", display: "block" }} />
+</figure>
+
+The browser's concurrent connection limits get saturated. Page load times degrade. The development server that was supposed to give you instant feedback starts feeling sluggish. Importing `debounce` from an unoptimized `lodash-es` pipeline through this architecture can trigger over 600 HTTP requests for a single import.
+
+Vite's own optimization guidelines explicitly recommend bypassing barrel files in favor of direct imports for this reason. Its production build uses Rollup, which handles barrels well — but the development experience suffers significantly without architectural intervention.
+
+### Jest and Vitest: Process Isolation Overhead
+
+This is the angle that gets talked about the least, and is arguably the most expensive problem in large codebases.
+
+Jest isolates each test file in its own process or V8 context to ensure clean environments between tests. The consequence is that the entire module dependency graph is reconstructed from scratch for every single test file. There is no cross-test caching of the module graph.
+
+If loading the dependency graph of a heavily barreled codebase takes six seconds, and you have 100 test files, the test runner spends ten minutes doing nothing but parsing barrel files before executing a single assertion.
+
+Atlassian's measurements from the Jira codebase make this concrete:
+
+| Vector | Before | After | Improvement |
+| --- | --- | --- | --- |
+| Local unit tests | baseline | 50% faster avg, 10x in specific packages | Eliminated redundant graph construction per test |
+| CI tests per commit | 1,600 | 200 | Direct imports restored accurate dependency tracking |
+| Integration tests triggered | 130 | 20 | Severed implicit coupling from shared barrel files |
+
+The CI test reduction is particularly worth understanding. With barrel files in place, test impact analysis tools cannot accurately determine which tests are actually affected by a change — because everything is implicitly coupled through shared index files. Removing barrels restored the accuracy of the dependency graph, which meant the tool could now correctly identify that most commits only touched a small slice of the codebase. 88% of previously executed tests were unnecessary overhead.
+
+### TypeScript Language Server and IDE Responsiveness
+
+TSServer has to resolve, map, and evaluate the types of all re-exported modules to give you accurate autocomplete and type checking in your editor. Dense barrel files translate directly into slower response times.
+
+Atlassian reported TypeScript highlighting taking upwards of two minutes in their architecture, to the point where developers assumed the IDE was broken. Removing barrel files improved highlighting speed by over 30%.
+
+The "Go to Definition" problem compounds this frustration in daily development. Clicking a component definition in a heavily barreled codebase sends you through one or two index files before reaching the actual implementation. Direct imports make the physical location of the code immediately transparent — one keypress, one destination.
+
+## The Fix
+
+### Switch to Direct Imports
+
+The core fix is mechanical: replace barrel file imports with direct file path imports.
+
+```ts
+// Before
+import { Button, Modal, Input } from '@/components';
+
+// After
+import { Button } from '@/components/Button/Button';
+import { Modal } from '@/components/Modal/Modal';
+import { Input } from '@/components/Input/Input';
+```
+
+The common objection is verbosity. That is a fair concern and it is solvable without reintroducing barrels.
+
+### TypeScript Path Aliases
+
+Path aliases in `tsconfig.json` give you clean import paths without the module graph overhead.
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/components/*": ["./src/components/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/hooks/*": ["./src/hooks/*"]
+    }
+  }
+}
+```
+
+Now you can write:
+
+```ts
+import { Button } from '@/components/Button/Button';
+```
+
+Clean, readable, and the module graph resolves directly to the file. No barrel in the middle.
+
+If you are using Vite, mirror the alias in your config as well:
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import path from 'path';
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+});
+```
+
+### Configure sideEffects in Your Package
+
+If you maintain a library or are working with one that uses barrels, make sure `sideEffects` is correctly configured. This is what gives bundlers permission to aggressively prune unused modules:
+
+```json
+{
+  "sideEffects": ["*.css"]
+}
+```
+
+Do not set `"sideEffects": false` unless you have verified that none of your modules have global initialization behavior. The performance gain is real, but so is the risk of silently dropping CSS or polyfills in production.
+
+## Tooling and Enforcement
+
+Removing barrel files from a codebase is one thing. Keeping them out is another. IDE auto-import will suggest the nearest index file by default. Without lint rules in CI, the pattern returns within a few weeks.
+
+### ESLint Plugins
+
+```bash
+npm install --save-dev eslint-plugin-barrel-files
+```
+
+
+```js
+// eslint.config.js
+import barrelFiles from 'eslint-plugin-barrel-files';
+
+export default [
+  {
+    plugins: { 'barrel-files': barrelFiles },
+    rules: {
+      'barrel-files/avoid-barrel-files': 'warn',
+      'barrel-files/avoid-importing-barrel-files': 'warn',
+    },
+  },
+];
+```
+
+For stricter enforcement, `eslint-plugin-no-barrel-files` treats barrel usage as an error rather than a warning, which is appropriate for greenfield repos where you want to set a hard boundary from the start.
+
+If you are on a Rust-based toolchain, Biome and Oxlint both have native barrel file rules (`noBarrelFile` and `no-barrel-file` respectively) that run significantly faster than JS-based ESLint plugins.
+
+### Dependency Cruiser
+
+For enforcing broader architectural boundaries — not just barrel files, but cross-domain imports and circular dependencies — Dependency Cruiser is worth setting up:
+
+```bash
+npm install --save-dev dependency-cruiser
+npx depcruise --init
+```
+
+You can codify rules like "components cannot import from pages" or "utils cannot import from features" in `.dependency-cruiser.json`. These rules enforce in CI and the tool can output visual graphs of your current dependency structure, which makes it easy to identify which barrel file is acting as the nexus of a circular dependency chain.
+
+## When Barrel Files Are Actually the Right Call
+
+The argument against barrel files is specifically about internal application code. For published npm packages and component libraries, they remain necessary and appropriate.
+
+A distributed library needs a defined public interface. If you ship a UI component library and expose internal file paths directly, a minor version bump that moves a file breaks every consumer. The barrel file here is doing real work as an API contract.
+
+But library authors should still follow defensive practices.
+
+**Avoid wildcard exports.** `export * from './module'` breaks most bundler optimizations, complicates tree-shaking, and hides the true surface area of your API. Be explicit:
+
+```ts
+// Avoid
+export * from './Button';
+
+// Prefer
+export { Button } from './Button';
+export type { ButtonProps } from './Button';
+```
+
+**Use the `exports` field in `package.json` for granular entry points.** Instead of routing everything through one root barrel, define multiple targeted entry points:
+
+```json
+{
+  "exports": {
+    "./button": "./dist/components/Button/index.js",
+    "./modal": "./dist/components/Modal/index.js",
+    "./utils": "./dist/utils/index.js"
+  }
+}
+```
+
+Consumers can then import directly:
+
+```ts
+import { Button } from 'my-library/button';
+```
+
+This gives you a clean public API without forcing consumers to load your entire library to use one component.
+
+## Closing
+
+The investigation that started as "why is autocomplete slow" ended with a fairly significant rethink of how the module graph in our new repo should be structured. Barrel files were not the only problem, but they were the root of the most expensive ones: the circular dependencies, the IDE sluggishness, the bloated test graph.
+
+What made this worth writing about is that barrel files were not adopted carelessly. They looked like correct software engineering — encapsulation, clean public interfaces, stable APIs for feature folders. The cost was invisible until the codebase reached a size where it could not be ignored anymore.
+
+The fix is unglamorous: direct imports, path aliases, a few lint rules. But the impact on build times, test feedback loops, and daily developer experience compounds in the other direction just as fast as the problem did.
+
+If you are building a new frontend repo right now, design the module graph intentionally from the start. The right time to make this call is before the first barrel file lands, not after the tenth.
