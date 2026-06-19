@@ -108,7 +108,7 @@ export function ArticleTocDesktop({ headings, title, url }: Props) {
   return (
     <aside className="hidden lg:sticky lg:top-24 lg:block lg:self-start">
       <div className="pr-1">
-        <div className="article-rail-scroll rounded-[1.05rem] border border-border/85 bg-[linear-gradient(180deg,hsl(var(--surface)/0.8),hsl(var(--surface-soft)/0.72))] p-5 shadow-[inset_0_1px_0_hsl(var(--text)/0.03)]">
+        <div className="article-rail-scroll max-h-[calc(100vh-8rem)] overflow-y-auto rounded-[1.05rem] border border-border/85 bg-[linear-gradient(180deg,hsl(var(--surface)/0.8),hsl(var(--surface-soft)/0.72))] p-5 shadow-[inset_0_1px_0_hsl(var(--text)/0.03)]">
           <p className="eyebrow">On this page</p>
           <ul className="mt-4 space-y-3">
             {headings.map((heading) => (
