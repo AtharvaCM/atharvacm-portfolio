@@ -131,7 +131,7 @@ If your package has files with genuine side effects (global CSS, polyfills), you
 
 Getting this wrong is a significant source of silent production bugs. If you mark a package as side-effect-free but it contains a barrel that re-exports a global CSS file, the bundler will silently discard the stylesheet. The application ships with broken styling and no error in the build output.
 
-Even with correct `sideEffects` configuration, the real-world impact on bundle sizes is stark. One Next.js application reduced its initial JavaScript payload from 1.5MB to 200KB purely by switching to direct imports. A single barrel file re-exporting SVGs was adding 400KB to another team's production bundle. Importing a single `Button` component from Material UI's top-level barrel resulted in a 151KB chunk, versus a fraction of that with a direct import.
+Even with correct `sideEffects` configuration, the real-world impact on bundle sizes is stark. A single barrel file re-exporting SVGs was adding 400KB to one team's production bundle. Importing a single `Button` component from Material UI's top-level barrel resulted in a 151KB chunk, versus a fraction of that with a direct import.
 
 ### Vite's Dev Server and the HTTP Waterfall
 
@@ -201,7 +201,7 @@ The common objection is verbosity. That is a fair concern and it is solvable wit
 
 ### TypeScript Path Aliases
 
-Path aliases in `tsconfig.json` give you clean import paths without the module graph overhead.
+Path aliases in `tsconfig.json` give you clean import paths without expanding the module graph. They add resolver configuration and can obscure architectural layers if overused, but that is a separate problem from barrel files.
 
 ```json
 {
@@ -294,7 +294,7 @@ You can codify rules like "components cannot import from pages" or "utils cannot
 
 ## When Barrel Files Are Actually the Right Call
 
-The argument against barrel files is specifically about internal application code. For published npm packages and component libraries, they remain necessary and appropriate.
+The argument against barrel files is specifically about internal application code. At package boundaries, they still serve a purpose — you need a defined public API and you need it to be stable across versions. But even there, how you structure them matters. A flat barrel that re-exports everything from a single entry point creates the same graph-expansion problem for consumers, which is exactly why Next.js added `optimizePackageImports` and why subpath exports exist.
 
 A distributed library needs a defined public interface. If you ship a UI component library and expose internal file paths directly, a minor version bump that moves a file breaks every consumer. The barrel file here is doing real work as an API contract.
 
