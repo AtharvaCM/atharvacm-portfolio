@@ -1,5 +1,7 @@
+import { cache } from "react";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 
 import { AnimatedSection } from "@/components/animated-section";
@@ -30,16 +32,42 @@ function buildBlogCanonical(params: BlogSearchParams) {
   return qs ? `/blog?${qs}` : "/blog";
 }
 
+// Filter and pagination params come from the query string, so any value is
+// reachable by a crawler. Anything that is not a real tag or a real page
+// number 404s instead of rendering an indexable near-duplicate of /blog.
+const resolveBlogView = cache(async (params: BlogSearchParams) => {
+  const { isEnabled } = await draftMode();
+  const allPosts = await getAllBlogPosts({ includeUnpublished: isEnabled });
+  const tags = getAllTags(allPosts);
+
+  if (params.tag && !tags.includes(params.tag)) {
+    notFound();
+  }
+
+  if (params.page !== undefined && !/^[1-9]\d*$/.test(params.page)) {
+    notFound();
+  }
+
+  const filtered = filterPostsByTag(allPosts, params.tag);
+  const pagination = paginatePosts(filtered, Number(params.page ?? "1"));
+
+  if (pagination.currentPage > pagination.totalPages) {
+    notFound();
+  }
+
+  return { isEnabled, allPosts, tags, filtered, pagination };
+});
+
 export async function generateMetadata({
   searchParams
 }: {
   searchParams: Promise<BlogSearchParams>;
 }): Promise<Metadata> {
   const params = await searchParams;
+  const { pagination } = await resolveBlogView(params);
   const tagSuffix = params.tag ? ` · ${params.tag}` : "";
-  const pageNum = Number(params.page ?? "1");
   const pageSuffix =
-    Number.isFinite(pageNum) && pageNum > 1 ? ` · Page ${pageNum}` : "";
+    pagination.currentPage > 1 ? ` · Page ${pagination.currentPage}` : "";
 
   return buildMetadata({
     title: `Blog${tagSuffix}${pageSuffix} | ${SITE_NAME}`,
@@ -70,8 +98,11 @@ function buildPageHref(tag: string | undefined, page: number) {
   if (tag) {
     params.set("tag", tag);
   }
-  params.set("page", String(page));
-  return `/blog?${params.toString()}`;
+  if (page > 1) {
+    params.set("page", String(page));
+  }
+  const qs = params.toString();
+  return qs ? `/blog?${qs}` : "/blog";
 }
 
 export default async function BlogPage({
@@ -80,11 +111,8 @@ export default async function BlogPage({
   searchParams: Promise<{ tag?: string; page?: string }>;
 }) {
   const params = await searchParams;
-  const { isEnabled } = await draftMode();
-  const allPosts = await getAllBlogPosts({ includeUnpublished: isEnabled });
-  const tags = getAllTags(allPosts);
-  const filtered = filterPostsByTag(allPosts, params.tag);
-  const pagination = paginatePosts(filtered, Number(params.page ?? "1"));
+  const { isEnabled, allPosts, tags, filtered, pagination } =
+    await resolveBlogView(params);
   const hasPosts = allPosts.length > 0;
 
   return (
@@ -172,22 +200,30 @@ export default async function BlogPage({
               Showing {pagination.posts.length} of {filtered.length} posts ({BLOG_PAGE_SIZE} per page)
             </p>
             <div className="flex gap-2">
-              <Link
-                aria-disabled={pagination.currentPage <= 1}
-                className={`btn-secondary px-4 py-2 text-xs ${pagination.currentPage <= 1 ? "pointer-events-none opacity-45" : ""}`}
-                href={buildPageHref(params.tag, pagination.currentPage - 1)}
-              >
-                Previous
-              </Link>
-              <Link
-                aria-disabled={pagination.currentPage >= pagination.totalPages}
-                className={`btn-secondary px-4 py-2 text-xs ${
-                  pagination.currentPage >= pagination.totalPages ? "pointer-events-none opacity-45" : ""
-                }`}
-                href={buildPageHref(params.tag, pagination.currentPage + 1)}
-              >
-                Next
-              </Link>
+              {pagination.currentPage > 1 ? (
+                <Link
+                  className="btn-secondary px-4 py-2 text-xs"
+                  href={buildPageHref(params.tag, pagination.currentPage - 1)}
+                >
+                  Previous
+                </Link>
+              ) : (
+                <span aria-disabled className="btn-secondary px-4 py-2 text-xs opacity-45">
+                  Previous
+                </span>
+              )}
+              {pagination.currentPage < pagination.totalPages ? (
+                <Link
+                  className="btn-secondary px-4 py-2 text-xs"
+                  href={buildPageHref(params.tag, pagination.currentPage + 1)}
+                >
+                  Next
+                </Link>
+              ) : (
+                <span aria-disabled className="btn-secondary px-4 py-2 text-xs opacity-45">
+                  Next
+                </span>
+              )}
             </div>
           </div>
         </>
