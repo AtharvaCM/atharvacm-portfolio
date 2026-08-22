@@ -1,0 +1,122 @@
+---
+title: "The Session Writes the Note"
+slug: the-session-writes-the-note
+excerpt: >-
+  I already wrote notes while I worked. They were short, and sometimes missed
+  the part that mattered. Four weeks of handing that job to the session itself.
+publishedAt: '2026-08-19T00:00:00.000Z'
+tags:
+  - Claude Code
+  - Obsidian
+  - AI Agents
+  - Automation
+  - Developer Experience
+coverImage: /images/blog/the-session-writes-the-note.jpg
+coverImageAlt: "Editorial cover image for 'The Session Writes the Note'"
+showCoverImageInPost: false
+featured: false
+draft: false
+updatedAt: '2026-08-19T00:00:00.000Z'
+---
+
+I have kept a daily note since May 2025. Check-in time, check-out time, a task list carried forward by hand, and a running log of the day written while the day is happening. Not in the evening. At the moment something lands, because a note written three hours later is a different and worse note.
+
+The habit was not the problem. The cost was.
+
+Writing a note in the moment means leaving the terminal in the middle of the concentration the work required, several times an hour. And that interruption gets paid for out of the note itself. Nobody stops mid-debug to write the whole thing down. You type the shortest thing that will still mean something later, and you go back:
+
+```markdown
+- Looking at the empty rows on the export.
+```
+
+What actually happened in that session was that I tried the wrong layer first, reverted it, worked out the bug was in how units were handled rather than in the template, and left a commit worth linking to. None of that is in the line, because typing it would have cost more than the debugging did.
+
+So the notes were good and they were short, and the difference between those two is where the findings went. Meanwhile three to five Claude Code sessions a day were doing the work alongside me, holding the entire context of what had been tried and discarded, and writing nothing down at all.
+
+## A Skill That Follows Me Around
+
+A Claude Code skill is a markdown file of instructions that the agent loads and you invoke by name. It can live inside a project, or in `~/.claude/skills/`, where it loads in every session regardless of which directory you started in. Skills that operate on the vault, which in Obsidian means nothing more exotic than a folder of markdown files, belong in the vault. This one does not, because its whole job is running somewhere else.
+
+That is the first half. The second is that `/log-work` reads the working directory and decides where the write lands:
+
+| Working directory | Destination |
+| --- | --- |
+| `~/work/*` | Today's daily note, under Updates |
+| `~/projects/*` | That project's `Work Log.md` |
+| Anything else | Asks once, then writes the mapping into the table |
+
+Placement makes the skill available. Routing makes it correct, and that is the half easy to underrate. A skill available everywhere that wrote everything to one place would have collapsed work, freelance and side projects into a single stream. A skill that asked me where to put things at the end of every session would have been dead inside a week. The zero-friction property survives only because that third row extends itself.
+
+What comes out is the note I would have written if writing it had been free:
+
+```markdown
+- **api / empty rows on the CSV export:**
+	- Reproduced with a single-row fixture. Not a template problem.
+	- Tried normalising at render. Reverted, wrong layer.
+	- **Key finding:** unit coercion belongs in the builder. [[Unit Coercion]]
+	- Fix in `a1b2c3d`
+```
+
+One parent bullet per invocation, logs nested underneath. That shape was not the first thing I tried.
+
+## What Two and a Half Weeks by Hand Changed
+
+I did not schedule anything for the first two and a half weeks. That was a gate I wrote into the plan before there was anything to be disciplined about, which is the only reason I honoured it. The skills ran when I typed them, every working day, and the version that exists now is almost entirely a product of that period.
+
+This is the part I would repeat on any project like this. I was not automating a workflow I had designed in advance. I was automating a habit I already had, which meant I already knew what the output was supposed to look like, and every correction came from a real mismatch rather than from imagining one. Four of them:
+
+**Sessions blurred together.** The first version appended flat bullets, so five sessions across three repositories in a day produced an undifferentiated list. Hence the parent bullet above. Each invocation opens its own group and never merges into a previous one.
+
+**Long sessions logged the wrong day.** A session started Tuesday and finished Wednesday wrote Tuesday's work into Wednesday's note. The fix is a scope rule: `date +%F` decides the target, only that day's work goes into it, and anything earlier is offered as a backfill to the correct note.
+
+**Depth belonged elsewhere.** Early output was too long. A daily note is a log, not an essay, and a four-paragraph explanation buried in one is a paragraph nobody will find again. Now anything longer than a line becomes its own research note and the daily note carries a signpost to it. There are around twenty of those that would not otherwise exist.
+
+**Voice needed measuring.** Generated bullets did not sound like the ones around them, so I measured mine: four to eight a day, seventy to ninety-five characters, and wrote that measurement into the skill. It is a small thing that decides whether the vault reads as one document or two.
+
+None of those are bugs. They are what you only find by using something daily with nobody watching.
+
+## Nothing Unattended Changes a Note
+
+Three scheduled tasks now run without me, and some things stayed manual on purpose. `/today` still runs when I type it, because a scheduler cannot know when my working day started. My check-in times across these weeks range from 06:29 to 11:10, so an auto-created note would either stamp a false time or leave the field empty, and an empty field is worse than no note. It looks like data.
+
+| Task | Runs | What it may write |
+| --- | --- | --- |
+| Morning brief | Weekdays | Nothing. Strictly read-only |
+| Nightly sweep | Nightly | One dated proposals file, in a scratch directory |
+| Status draft | Fridays | One draft file, same directory |
+
+None of them may modify a note. That rule does not live in a prompt. A prompt is a preference expressed to something free to reason its way around it, so it lives in a permission file: `Write` and `Edit` are granted only inside a scratch directory that contains no content, and everything else these tasks can reach, they can only read.
+
+The best argument for that constraint is an episode I would not have got from a system allowed to fix things. The nightly sweep found two dead links pointing at notes that had never existed, and reported them. Then it reported them again. On the fifth consecutive night the report said the links were unchanged since the sweep five days earlier, that they wanted a decision, and that another sighting would add nothing.
+
+I fixed them by hand the next morning. An agent with write access would have repaired them on night one and I would have learned nothing except that a number went down. Instead the report was measuring something real: how long a known defect survives contact with the person who has to decide about it. Five days, which is information about me and not about the vault.
+
+## The Failure I Did Not Design For
+
+I had spent the whole project worrying about an agent writing something wrong. What actually went wrong was quieter.
+
+One night the sweep fired, was marked complete, and produced no file, no error, and no record of having failed. I caught it by noticing that the proposals file for that date carried a timestamp from a manual run earlier in the day. For a scheduled task whose only output is a report, a quiet night and a run that never happened leave an identical filesystem behind.
+
+So the reports now argue for their own liveness. They state that every phase ran and returned data, and that the counts are consistent with the night before instead of simply reading zero. A clean report is a statement about the check, not about the vault, and it took me a while to stop reading it as the second thing.
+
+## When This Is the Wrong Setup
+
+It does not create a habit. All of this works because a structured daily note already existed and was already being written most working days. `/log-work` improved a record that was there. Pointed at an empty vault it would produce a folder of machine-written logs nobody reads, which is a worse problem than the one I started with.
+
+And it did not remove work. It moved verification from noticing a problem eventually to reading a report in the morning, and added a report to read. Worth it here, because the failures it catches are failures of observation and those stay invisible right up until they are expensive. If nothing about your notes is silently wrong, you are buying a daily obligation and getting nothing back.
+
+## The Skills
+
+Six of these skills, plus an init skill that configures them, are on GitHub as [obsidian-claude-skills](https://github.com/AtharvaCM/obsidian-claude-skills). Pulling them out of my vault meant pulling my vault out of them: every folder name, heading, property and routing rule now lives in one config file rather than inside the skills. `/vault-init` reads your vault, proposes values from what it finds, asks only about what is not already on disk, and writes that file.
+
+Nothing runs until it exists, and the refusal is deliberate. A skill that silently assumes your vault looks like mine fails confusingly instead of loudly, which is the same mistake as a report that says clean when it means clean for the patterns it knew about.
+
+Two skills did not make the cut. They encoded what my particular status update and my particular review week look like, and scrubbed hard enough to be safe they would have shipped as a template, not a tool.
+
+## Closing
+
+The vault holds 638 notes across 86 commits. The weekly status update that used to be the most annoying twenty minutes of my week arrives as a draft I edit. The first time that task ran off its usual schedule, it worked out that its window was empty, wrote that there was therefore nothing new to report, and declined to pad. That is the behaviour you want from something writing on your behalf.
+
+What changed is smaller than the machinery around it. I was already capturing as I worked. What I could not afford was capturing all of it, and that is the cost the session absorbed. The notes are the same notes, taken at the same moment, by the participant who was actually paying attention.
+
+Which moves the interesting question. For a year the daily note was a record of what I did. Four weeks of commit hashes, abandoned approaches and dated findings later, it is starting to be a record of how, and that is a thing you can ask questions of.
