@@ -10,33 +10,6 @@ export const HERO_BADGES = [
   "Playwright",
 ] as const;
 
-export const HERO_PROOF_POINTS = [
-  {
-    label: "Experience",
-    value: "4+ years",
-    description:
-      "Building production web applications across SaaS, dashboards, and workflow-heavy products.",
-  },
-  {
-    label: "Architecture",
-    value: "Frontend systems at scale",
-    description:
-      "Owned architecture and delivery across React monorepos, reporting flows, and complex business modules.",
-  },
-  {
-    label: "Performance",
-    value: "7 MB to KB-level chunks",
-    description:
-      "Reduced frontend overhead through code splitting, lazy loading, and tighter dependency control.",
-  },
-  {
-    label: "Product scale",
-    value: "High-traffic + data-heavy",
-    description:
-      "Built for GraphQL-backed platforms, reporting systems, permissions, and operational workflows.",
-  },
-] as const;
-
 export const HOME_FOCUS_AREAS = [
   {
     title: "Architecture for growing products",
@@ -59,52 +32,8 @@ export const HOME_IMPACT_ITEMS = [
   "Improved backend response time by 17% on a high-traffic Next.js platform.",
 ] as const;
 
-export const QUICK_SNAPSHOT_ITEMS = [
-  "4+ years building production web applications",
-  "React, Next.js, and TypeScript across real product teams",
-  "Frontend architecture for monorepos and shared systems",
-  "Performance work across bundles, rendering, and load behavior",
-  "Complex products spanning dashboards, workflows, and reporting",
-  "GraphQL and API-heavy applications with production constraints",
-] as const;
-
 export const AVAILABILITY_NOTE =
   "Senior full-stack roles where engineering quality, ownership, and long-term product health matter.";
-
-export const BEST_FIT_NOTE =
-  "Best fit: teams shipping products where performance, maintainability, and delivery quality all matter.";
-
-export const ABOUT_INTERESTS = [
-  "Frontend architecture",
-  "Performance optimization",
-  "Scalable UI systems",
-  "Testing and release confidence",
-  "Developer experience",
-  "Product engineering",
-] as const;
-
-export const WORK_STYLE_POINTS = [
-  "Think in systems, not isolated screens.",
-  "Bias toward maintainability.",
-  "Care about performance where it actually matters.",
-  "Build for shipping, not just elegance.",
-  "Prefer clarity over cleverness.",
-] as const;
-
-export const EXPERIENCE_SNAPSHOT = [
-  {
-    company: "Sprih",
-    title: "Member of Technical Staff",
-    summary:
-      "Frontend architecture, reporting systems, supply chain dashboards, RTK Query, Zod, Playwright, and performance optimization.",
-  },
-  {
-    company: "Bluepineapple",
-    title: "Senior Cloud Analyst (Frontend Engineer)",
-    summary:
-      "High-traffic Next.js application, GraphQL APIs, product features, performance improvements, and reusable UI systems.",
-  },
-] as const;
 
 export const RESUME_SUMMARY =
   "Frontend-focused fullstack engineer with over four years shipping production React systems at scale. Currently own frontend architecture for the reporting and supply chain modules of an enterprise carbon accounting platform, where emissions data has to survive regulator audit. Depth in Nx monorepos, schema-driven forms, frontend performance, and end-to-end delivery across React and Java services.";
