@@ -54,7 +54,7 @@ export default async function ResumePage() {
         <div>
           <p className="eyebrow">Resume</p>
           <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.45rem,12vw,5rem)] leading-[0.94] tracking-tight md:leading-none">
-            Five years of shipping production frontend.
+            Four years of shipping production frontend.
           </h1>
           <p className="section-copy mt-7 max-w-[44rem] md:mt-6">
             {RESUME_SUMMARY}

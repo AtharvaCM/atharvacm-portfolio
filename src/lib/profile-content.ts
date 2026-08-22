@@ -13,7 +13,7 @@ export const HERO_BADGES = [
 export const HERO_PROOF_POINTS = [
   {
     label: "Experience",
-    value: "5+ years",
+    value: "4+ years",
     description:
       "Building production web applications across SaaS, dashboards, and workflow-heavy products.",
   },
@@ -60,7 +60,7 @@ export const HOME_IMPACT_ITEMS = [
 ] as const;
 
 export const QUICK_SNAPSHOT_ITEMS = [
-  "5+ years building production web applications",
+  "4+ years building production web applications",
   "React, Next.js, and TypeScript across real product teams",
   "Frontend architecture for monorepos and shared systems",
   "Performance work across bundles, rendering, and load behavior",
@@ -100,14 +100,14 @@ export const EXPERIENCE_SNAPSHOT = [
   },
   {
     company: "Bluepineapple",
-    title: "Software Engineer",
+    title: "Senior Cloud Analyst (Frontend Engineer)",
     summary:
       "High-traffic Next.js application, GraphQL APIs, product features, performance improvements, and reusable UI systems.",
   },
 ] as const;
 
 export const RESUME_SUMMARY =
-  "Senior full-stack engineer with five years of building scalable React applications and owning complex product workflows end to end. Strong on monorepo architecture, state management, and the performance and testing work that keeps production systems reliable.";
+  "Senior full-stack engineer with over four years of building scalable React applications and owning complex product workflows end to end. Strong on monorepo architecture, state management, and the performance and testing work that keeps production systems reliable.";
 
 export const RESUME_COMPETENCIES = [
   {
@@ -156,7 +156,7 @@ export const RESUME_EXPERIENCE = [
     ],
   },
   {
-    title: "Software Engineer",
+    title: "Senior Cloud Analyst (Frontend Engineer)",
     company: "Bluepineapple",
     period: "Jan 2022 - Oct 2025",
     points: [
