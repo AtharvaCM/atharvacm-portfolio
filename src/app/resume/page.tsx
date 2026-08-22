@@ -13,7 +13,9 @@ import {
 } from "@/lib/constants";
 import { getAllProjects } from "@/lib/content";
 import {
+  RESUME_CERTIFICATIONS,
   RESUME_COMPETENCIES,
+  RESUME_EDUCATION,
   RESUME_EXPERIENCE,
   RESUME_SKILLS,
   RESUME_SUMMARY,
@@ -252,6 +254,43 @@ export default async function ResumePage() {
                   key={skill}
                 >
                   <BadgeLabel label={skill} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-16 border-t border-border/90 pt-9 md:mt-18 md:pt-12">
+        <div className="grid gap-12 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-16">
+          <div>
+            <h2 className="section-heading">Education</h2>
+            <div className="mt-8 space-y-7 md:space-y-6">
+              {RESUME_EDUCATION.map((entry) => (
+                <article
+                  className="border-t border-border/75 pt-6 md:pt-6"
+                  key={entry.degree}
+                >
+                  <div className="grid gap-3 sm:flex sm:flex-wrap sm:items-baseline sm:justify-between">
+                    <h3 className="text-[clamp(1.35rem,7vw,1.75rem)] font-semibold leading-tight tracking-[-0.03em] text-text">
+                      {entry.degree}
+                    </h3>
+                    <p className="eyebrow">{entry.period}</p>
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-text/72">
+                    {entry.institution} &middot; {entry.detail}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="section-heading">Certifications</h2>
+            <ul className="mt-8 flex flex-wrap gap-2">
+              {RESUME_CERTIFICATIONS.map((certification) => (
+                <li className="tag-chip" key={certification}>
+                  <BadgeLabel label={certification} />
                 </li>
               ))}
             </ul>
