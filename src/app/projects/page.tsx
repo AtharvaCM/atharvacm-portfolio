@@ -1,4 +1,6 @@
+import { cache } from "react";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { AnimatedSection } from "@/components/animated-section";
 import { ProjectCard } from "@/components/project-card";
@@ -11,9 +13,34 @@ import {
   getBreadcrumbStructuredData,
   getCollectionPageStructuredData
 } from "@/lib/seo";
+import type { ProjectCategory } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 type ProjectsSearchParams = { category?: string };
+
+function buildProjectsCanonical(params: ProjectsSearchParams) {
+  return params.category
+    ? `/projects?category=${encodeURIComponent(params.category)}`
+    : "/projects";
+}
+
+// The category filter comes from the query string, so any value is reachable
+// by a crawler. Anything that is not a category a project actually carries
+// 404s instead of rendering an empty, indexable near-duplicate of /projects.
+const resolveProjectsView = cache(async (params: ProjectsSearchParams) => {
+  const allProjects = await getAllProjects();
+  const categoryOptions = Array.from(
+    new Set(allProjects.map((project) => project.category)),
+  );
+
+  if (params.category && !categoryOptions.includes(params.category as ProjectCategory)) {
+    notFound();
+  }
+
+  const filtered = filterProjects(allProjects, params.category);
+
+  return { allProjects, categoryOptions, filtered };
+});
 
 export async function generateMetadata({
   searchParams,
@@ -21,22 +48,21 @@ export async function generateMetadata({
   searchParams: Promise<ProjectsSearchParams>;
 }): Promise<Metadata> {
   const params = await searchParams;
+  await resolveProjectsView(params);
+
   const categoryLabel =
     params.category &&
     PROJECT_CATEGORY_LABELS[
       params.category as keyof typeof PROJECT_CATEGORY_LABELS
     ];
   const titleSuffix = categoryLabel ? ` · ${categoryLabel}` : "";
-  const canonical = categoryLabel
-    ? `/projects?category=${encodeURIComponent(params.category!)}`
-    : "/projects";
 
   return buildMetadata({
     title: `Projects${titleSuffix} | ${SITE_NAME}`,
     description: categoryLabel
       ? `${categoryLabel} projects — production systems, scalable web applications, and independent engineering work.`
       : "Selected frontend, platform, performance, and full-stack work across production systems, scalable web applications, and independent engineering projects.",
-    path: canonical,
+    path: buildProjectsCanonical(params),
     keywords: [
       "Frontend Architecture",
       "Scalable Web Applications",
@@ -81,15 +107,10 @@ const PROJECT_LISTING_COPY: Record<string, string> = {
 export default async function ProjectsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<ProjectsSearchParams>;
 }) {
   const params = await searchParams;
-  const allProjects = await getAllProjects();
-  const categoryOptions = Array.from(
-    new Set(allProjects.map((project) => project.category)),
-  );
-
-  const filtered = filterProjects(allProjects, params.category);
+  const { categoryOptions, filtered } = await resolveProjectsView(params);
   const urlParams = new URLSearchParams();
   if (params.category) {
     urlParams.set("category", params.category);
@@ -100,9 +121,7 @@ export default async function ProjectsPage({
     PROJECT_CATEGORY_LABELS[
       params.category as keyof typeof PROJECT_CATEGORY_LABELS
     ];
-  const listingCanonical = categoryLabel
-    ? `/projects?category=${encodeURIComponent(params.category!)}`
-    : "/projects";
+  const listingCanonical = buildProjectsCanonical(params);
 
   return (
     <section className="shell py-14 md:py-20">
