@@ -213,6 +213,55 @@ Example URLs:
 /blog?tag=Performance&page=2
 ```
 
+The second example only resolves while a `Performance` post exists and the tag
+has more than one page of posts. Both params are validated — see below.
+
+## Query Params and Crawlable URL Space
+
+`tag` and `page` come from the query string, so a crawler can reach any value.
+Left open, every value renders a 200 near-duplicate of `/blog` that links to
+`page - 1` and `page + 1`, which is an unbounded URL space. That happened —
+Search Console reported 559 indexed URLs for a site with 17 real ones. Fixed in
+`80ebbd65`.
+
+Google keeps crawling the URLs it discovered then. As of 2026-09-07 the page
+indexing report still carries 104 `Not found (404)` from that space, plus one
+`Server error (5xx)` on `/blog?page=165`, crawled 2026-08-23. `/blog` is
+dynamic (`searchParams` plus `draftMode()`), so those crawls hit the origin
+function with no cache in front of it; that one is unreproducible and reads as
+a transient function failure, not a code path. Expect the 404 count to drain
+slowly on its own.
+
+`resolveBlogView()` is one `cache()`d resolver shared by `generateMetadata` and
+the page, so validation cannot pass in one and fail in the other. It calls
+`notFound()` on:
+
+- a `tag` no currently loaded post carries;
+- a `page` that is not a positive integer without leading zeros (`/^[1-9]\d*$/`);
+- a `page` past the last page of the current filter.
+
+Two rules keep the valid space finite:
+
+- A pagination step that does not exist renders a `span`, not a `Link`.
+  `aria-disabled` and `pointer-events-none` are not honoured by crawlers.
+- `?page=1` is never emitted. It would duplicate `/blog`.
+
+`/projects` carries the same guard for its `category` param in
+`resolveProjectsView()`, validated against categories a project actually
+carries — so a real enum member with no projects behind it 404s too.
+
+Guarded by `src/app/blog/page.test.ts` and `src/app/projects/page.test.ts`,
+which assert the canonical for valid params and `notFound()` for the rest.
+
+**Constraint: no `loading.tsx` above these routes.** A route-segment loading
+boundary lets Next flush the response shell as soon as the render suspends.
+Once the response has begun the status is committed, so `notFound()` still
+renders the not-found body but under a 200, with its metadata streamed into the
+body rather than the head — a soft 404 that silently reverts this whole fix. A
+route group creates a boundary for everything inside it, so `(group)/loading.tsx`
+counts. Use a `<Suspense>` inside the page instead; its fallback can hold the
+same skeleton markup.
+
 ## Blog Detail Pages and Related Posts
 
 Blog detail pages live at `src/app/blog/[slug]/page.tsx`.
