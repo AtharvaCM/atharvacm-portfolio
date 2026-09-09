@@ -1,61 +1,69 @@
 ---
-title: Cash Cove Finance Cockpit
+title: CashCove Personal Finance Platform
 slug: cash-cove-finance-cockpit
-excerpt: Built a personal finance cockpit for transactions, budgets, reports, subscriptions, funds, and loans, with smart import flows, offline queueing, and automation hooks for Telegram and inbound email parsing.
-context: Single-page finance product built with Vite, React, Redux Toolkit, RTK Query, and Supabase, with Netlify and Supabase functions extending ingestion, notifications, and automation workflows.
-problem: Personal finance tools often force a tradeoff between fast data entry and serious analysis. The product needed better ways to capture transactions from messy real-world inputs while still supporting reports, budgets, subscriptions, loans, and operational control.
-contribution: Built the app shell, route architecture, finance modules, and import workflows across dashboard, transactions, budgets, subscriptions, funds, loans, and reports. Added Smart Paste, PDF statement parsing, Telegram bot ingestion, inbound email parsing, offline transaction queueing, quick templates, and bundle-health regression gates.
-impact: The product evolved from a budget-and-expense tracker into a broader finance workspace with faster input paths, automation-assisted ingestion, and stronger delivery discipline around a large UI surface.
+excerpt: Built and shipped a personal finance product spanning a React web app, an Android capture companion, and a shared ingestion pipeline that turns bank SMS, Telegram messages, email alerts, and statements into reviewable transactions.
+context: A pnpm and Turborepo monorepo holding a React 19 web app on the Astryx design system, an Expo Android companion, shared parsing packages, Supabase Postgres with edge functions, and Netlify functions for scheduled and inbound work.
+problem: Personal finance tools make you choose between fast capture and real analysis, and most automatic importers record money movements you never agreed to. CashCove needed to capture from messy real-world sources while staying review-first, and to hold budgets, bills, loans, funds, and shared spend in one honest model.
+contribution: Rebuilt the product on a design system and a monorepo, then took it to a public launch. Built the capture pipeline (Android SMS, Telegram, forwarded email, CSV, PDF statements) into a shared draft inbox with provenance, confidence scoring, deduplication, and a rules engine; the money model for ledger, plan, obligations, loans, funds, shared spend, transfers, and card payments; an insights engine with weekly digests, monthly recaps, and push alerts; and the public marketing site, privacy tooling, and test and release pipeline behind them.
+impact: CashCove went from a single-page tracker to a launched product with a public site at cashcove.app, a signed Android APK people can install, automated capture from four external sources, and a delivery pipeline that tests the database, the browser journeys, the bundle size, and the deployed site before and after every release.
 metricHighlights:
-  - Added Smart Paste, PDF statement parsing, and Telegram or email ingestion paths
-  - Introduced offline transaction queueing with automatic sync and visible status feedback
-  - Reduced startup cost with route-level lazy loading, vendor chunking, and a build regression gate
-coverImage: /images/projects/cash-cove-dashboard-screenshot.jpg
+  - Four capture sources — Android SMS, Telegram, forwarded email, and statement files — feeding one review-first draft inbox
+  - Tests run against a real Postgres for schema, RLS, and money functions, alongside 13 Playwright journeys and an axe sweep over every page and dialog
+  - CI gates on per-tier coverage floors, bundle size, and post-deploy smoke checks before a release counts as shipped
+coverImage: /images/projects/cash-cove-landing-screenshot.jpg
 year: 2026
 client: Independent Product
 role: Product Engineer
 services:
   - Product engineering
-  - Import workflows
-  - Offline UX
-  - Build optimization
+  - Capture pipeline
+  - Mobile companion
+  - Release engineering
 techStack:
-  - React
+  - React 19
   - TypeScript
-  - Redux Toolkit
-  - RTK Query
+  - Vite
+  - StyleX
   - Supabase
+  - Postgres
   - Netlify Functions
-  - AG Grid
+  - React Native
+  - Expo
+  - Turborepo
+  - Playwright
   - Recharts
 category: full-stack
 duration: Ongoing product build
 outcomes:
-  - Built a broader finance workspace spanning transactions, budgets, subscriptions, funds, loans, and reports
-  - Made data entry faster through smart text parsing, bulk entry, and template-driven workflows
-  - Added automation hooks for Telegram chat ingestion and inbound email parsing
-  - Improved build health through route-level lazy loading and regression checks tied to bundle changes
-liveUrl: https://cashcove.netlify.app
-repoUrl: https://github.com/AtharvaCM/cash-cove
+  - Shipped a public launch — marketing site, prerendered SEO pages, privacy and terms, and a downloadable signed Android APK
+  - Built one ingestion pipeline shared by Supabase edge functions and Netlify functions instead of a parser per source
+  - Kept capture review-first — nothing posts to the ledger without the user approving the draft it came from
+  - Added GDPR and DPDP export and delete, consent-gated analytics, and a retention purge that keeps redacted previews instead of raw messages
+  - Made the release pipeline the gate — database, component, e2e, accessibility, bundle-size, and post-deploy smoke checks
+liveUrl: https://cashcove.app
 featured: false
 ---
 
 ## Overview
 
-Cash Cove is a product engineering project focused on reducing friction in personal finance tracking without flattening everything into a simple ledger. The app mixes everyday transaction capture with richer analysis, planning, and automation.
+CashCove is a personal finance product for running a whole month of money in one place: transactions, bills, subscriptions, budgets, funds, loans, cashflow, reports, and the capture paths that feed them. Since the first version I rebuilt the web app on the [Astryx](https://www.npmjs.com/package/@astryxdesign/core) design system, split the repo into a pnpm and Turborepo workspace, added an Android companion, and took the whole thing to a public launch.
 
-## What I built
+## Capture, review-first
 
-- Core product areas for dashboarding, transactions, bills, budgets, subscriptions, funds, loans, cashflow, and reports.
-- Smart text import for bank SMS, UPI alerts, Telegram-style messages, and free-form notes.
-- PDF statement parsing with bank-specific heuristics and editable preview flows.
-- Quick bulk entry and reusable templates for repeated transaction patterns.
-- Offline transaction queueing with automatic sync and visible app-level status.
+The interesting problem is ingestion. A bank SMS, a Telegram forward, an email alert, a CSV export, and a PDF statement all describe the same thing badly and differently. They land in one pipeline: shared parsers in `packages/shared` run inside both Supabase edge functions and Netlify functions, a rules engine categorizes and routes what they produce, and everything arrives as a **transaction draft** with provenance — which source, which message, how confident the parse was.
 
-## Automation and ingestion
+Nothing posts to the ledger on its own. Drafts wait in a shared inbox the web app and the Android app both read, where they can be corrected, bulk-approved, snoozed, or dismissed while keeping their ingest history. Most of the work here was in the failure cases: card reversals reading as credits, prose merchants scoring as certain, available-limit figures being read as amounts, duplicate windows sized to what they actually detect.
 
-The interesting part of this project is how many input paths feed the same finance model. I built a Telegram bot on Supabase Edge Functions, an inbound email parser on Netlify Functions, and parser utilities that reuse categorization and mapping rules instead of creating separate import silos.
+## The money model
 
-## Delivery and build work
+Money movements are not all the same shape, so the model does not pretend they are. Accounts hold balances; loans are paid down against outstanding principal with their own schedules and rate revisions; funds progress toward a target; obligations cover standalone bills as well as the payments loans and funds generate. Transfers and card payments post as a pair and read as one row, so a card bill never double-counts as spend. Shared spend tracks who owes what and settles in a lump sum.
 
-As the app grew, build health became part of the product work. I added route-level lazy loading, vendor chunking, and a dedicated regression gate that ties test coverage and production build output together before shipping bundle-related changes.
+On top of that sits an insights engine that names patterns rather than restating totals — price creep on subscriptions, duplicate charges, the costliest day in the user's own timezone — plus a weekly digest email, a monthly recap, and push alerts with quiet hours.
+
+## The Android companion
+
+`apps/mobile` is an Expo and React Native app, deliberately a capture surface rather than a second product. It reads bank SMS on the device, maps senders to accounts, drains its queue in the background, and pushes drafts to the same inbox the web app reviews. It ships as a signed APK from a release script that refuses to publish unless the signature, version, and backend all check out.
+
+## Delivery
+
+The app's growth put most of the engineering weight on proving it still works. The database tests execute the schema against a real Postgres — RLS, balance triggers, settlement and draft RPCs, insight rules against golden fixtures. Above that: component and route suites per workspace tier with coverage floors CI enforces separately, thirteen Playwright journeys in a real browser, an axe sweep over every page and dialog, a bundle-size gate, edge functions deployed from CI when they change, and smoke checks against the deployed site afterward.

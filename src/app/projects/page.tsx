@@ -97,7 +97,7 @@ function filterLinkClass(active: boolean) {
 
 const PROJECT_LISTING_COPY: Record<string, string> = {
   "cash-cove-finance-cockpit":
-    "A personal finance workspace with import flows, automation hooks, offline queueing, and reporting.",
+    "A personal finance product with an Android capture companion, a review-first ingestion pipeline, and a tested release path.",
   "vehicle-vault-maintenance-platform":
     "A full-stack vehicle maintenance product with ownership workflows, reminders, attachments, and delivery coverage.",
   "eauction-platform":
