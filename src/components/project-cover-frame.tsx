@@ -59,6 +59,7 @@ export function ProjectCoverFrame({
             className={`${fit === "contain" ? "object-contain" : "object-cover"} object-top ${imageClassName}`.trim()}
             fill
             priority={priority}
+            quality={90}
             sizes={sizes}
             src={src}
           />

@@ -86,7 +86,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           fit={coverFit}
           imageClassName="scale-[1.01]"
           priority
-          sizes="(min-width: 1024px) 1024px, 100vw"
+          sizes="(min-width: 1360px) 1240px, (min-width: 1024px) calc(100vw - 80px), 100vw"
           src={project.coverImage}
         />
       </div>
