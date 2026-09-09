@@ -1,15 +1,15 @@
 ---
 title: Vehicle Vault Maintenance Platform
 slug: vehicle-vault-maintenance-platform
-excerpt: Built a full-stack vehicle maintenance platform covering authenticated ownership workflows, maintenance records, reminders, receipt uploads, fuel logs, and a curated vehicle catalog inside a shared monorepo.
-context: Product monorepo with a Vite + React frontend, NestJS API, shared TypeScript contracts, and user-scoped ownership data across vehicles, maintenance history, reminders, attachments, and fuel logs.
-problem: Vehicle ownership data is usually fragmented across notes, invoices, reminders, and spreadsheets. The product needed to become one reliable place for service history, due work, receipts, and supporting analytics without turning the system into a pile of disconnected flows.
-contribution: Built the product end to end across frontend, backend, shared schemas, and deployment paths. Shipped authenticated vehicle, maintenance, reminder, attachment, OCR, fuel-log, and dashboard workflows; expanded the India-first vehicle catalog pipeline; and added regression coverage plus CI for the main garage journey.
-impact: The app now supports the core ownership loop with production-ready auth, storage-backed attachments, OCR-assisted receipt parsing, fuel tracking, automated reminder alerts, and a deployment story that works across Vercel, GHCR, and a self-hosted API runtime.
+excerpt: Built an India-focused vehicle ownership platform covering service history, documents, tyres, accessories, loans, claims, and a triage dashboard, with an alert engine and AI document extraction behind it.
+context: A pnpm monorepo with a React and TanStack frontend, a NestJS and Prisma API over PostgreSQL, and shared TypeScript contracts, deployed as a Vercel frontend against a self-hosted API image released from CI.
+problem: Vehicle ownership data in India is scattered across paper, WhatsApp threads, and service centres — no history, no reminders that understand a vehicle, no single place that knows what is due. The product needed to hold everything attached to a car or two-wheeler and then be useful about it, without becoming a pile of disconnected forms.
+contribution: Built the product end to end — frontend, API, data model, and delivery. Shipped the ownership model (vehicles, service history, documents, tyres, accessories, loans, claims, shared access with roles), an alert engine that raises typed notifications over email and web push, Gemini-backed document extraction for invoices and compliance papers, a triage-first dashboard, and the India vehicle catalog pipeline behind vehicle entry.
+impact: The platform now runs as a versioned product on semantic-release, past twenty-four minor releases, with per-vehicle access control, a cron alert engine covering ten alert kinds, RLS enforced by a CI gate, and a deploy path that ships the frontend to Vercel and the API as a GHCR image that migrates itself on start.
 metricHighlights:
-  - Shipped end-to-end vehicle, maintenance, reminder, attachment, and fuel-log workflows
-  - Added Gemini-backed receipt OCR and Supabase Storage-backed attachment handling
-  - Covered the main garage journey with GitHub Actions, Vitest, and Playwright smoke tests
+  - Ten typed alert kinds — maintenance, reminders, expiring documents, accessory warranties, and tyre wear, age, and inspection gaps
+  - Vehicle documents unified behind one service across insurance, warranty, registration, PUC, and road tax
+  - India catalog spanning 30-plus brands with staged import review, curated aliases, and generation and year-aware offerings
 coverImage: /images/projects/vehicle-vault-overview-screenshot.jpg
 year: 2026
 client: Independent Product
@@ -17,7 +17,7 @@ role: Product Engineer
 services:
   - Product architecture
   - Full-stack development
-  - Workflow design
+  - Domain modelling
   - Delivery hardening
 techStack:
   - React
@@ -27,15 +27,18 @@ techStack:
   - PostgreSQL
   - TanStack Query
   - TanStack Router
+  - Tailwind CSS
   - Playwright
-  - Supabase
+  - Supabase Storage
+  - Docker
 category: platform
 duration: Ongoing product build
 outcomes:
-  - Built a single product surface for vehicle ownership, service history, due work, receipts, and fuel tracking
-  - Added production-grade auth, attachment storage, and OCR-assisted receipt capture across the ownership workflow
-  - Expanded the catalog model to support generation-aware and year-aware vehicle data for the India market
-  - Hardened delivery with shared contracts, CI, and regression coverage across the main garage flow
+  - Modelled vehicle ownership properly — documents, accessories, tyres, and maintenance are separate things because they behave differently, not variants of one table
+  - Turned reminders into an alert engine with dedup keys, per-kind templates, and email plus web-push delivery
+  - Added AI document extraction that pre-fills service invoices, compliance papers, and loan documents from a photo
+  - Built shared vehicle access with owner, editor, and viewer roles, invites, and ownership transfer for multi-vehicle households
+  - Kept delivery honest with conventional commits, semantic-release, Playwright smoke coverage, and a CI gate that fails when a table ships without RLS
 liveUrl: https://vehicle-vault-eight.vercel.app
 repoUrl: https://github.com/AtharvaCM/vehicle-vault
 featured: false
@@ -43,20 +46,24 @@ featured: false
 
 ## Overview
 
-Vehicle Vault is a product-led full-stack build rather than a one-screen CRUD demo. The work spans ownership data modeling, authenticated product flows, deployment, and the operational details needed to make the product usable over time.
+Vehicle Vault is an India-focused ownership platform for cars and two-wheelers: one place for what a vehicle has had done, what it is covered by, what it costs, and what is due next. Since the first release the product has grown from a maintenance log into a domain model with its own vocabulary, an alert engine, and a triage dashboard that opens on what needs attention rather than on a wall of charts.
 
-## What I built
+## The ownership model
 
-- Authenticated vehicle, maintenance, reminder, attachment, and dashboard flows.
-- Receipt upload and storage handling with metadata in PostgreSQL and binaries in Supabase Storage.
-- Gemini 1.5 Flash-backed OCR for extracting receipt data into the product workflow.
-- Fuel logging with usage-aware analytics and cost tracking.
-- India-first make/model/variant catalog ingestion with aliases, year-aware offerings, and internal review tooling.
+Most of the interesting work is in refusing to flatten things that behave differently. A **vehicle document** is a time-bounded record — insurance, warranty, registration, PUC, road tax — unified behind one service with per-kind adapters, so the three compliance kinds share a table while insurance and warranty keep theirs. A **maintenance record** is a service visit with line items, costs, and an odometer reading, which is why it is not a document. An **accessory** is a purchase with a fitment lifecycle, kept out of maintenance so it cannot corrupt the cost-per-kilometre figure that maintenance history exists to produce. Tyres are tracked by measurement rather than inferred, with the spare graded but excluded from the vehicle's mileage.
 
-## Engineering focus
+On top of that sit loans with amortization, prepayments, and foreclosure; claims linked to both a policy and the repair that settled them; and shared vehicle access with owner, editor, and viewer roles, invites, and ownership transfer — for the household where one person maintains everyone's vehicles.
 
-The repo is structured as a pnpm monorepo with `apps/web`, `apps/api`, and shared packages for contracts, schemas, and workspace config. On the frontend, the app uses React, TanStack Router, TanStack Query, and shared validation patterns. On the backend, NestJS, Prisma, and PostgreSQL handle user ownership, domain logic, and persistence.
+## Knowing what is due
 
-## Delivery and product quality
+The alert engine is a daily cron that reads each vehicle's predicted odometer and raises typed alerts: maintenance due and overdue, reminders approaching their odometer, documents expiring, accessory warranties running out, tyres worn, aged, or unmeasured for too long, and service baselines that were never established. Each kind owns its own template and dedup key, so a notification row is upserted rather than duplicated, and delivery fans out to email and web push without either channel being able to break the record.
 
-This project also includes the less visible but important work: GitHub Actions CI, Playwright smoke coverage for the core garage flow, Vercel deployment for the frontend, GHCR publishing for the API image, and a self-hosted runtime path for the backend. That made the product easier to keep moving, not just easier to demo locally.
+Baselines are the quiet part. A vehicle entering the vault has history nobody logged, so it carries a per-category baseline that is either a known figure or an explicit *unknown* — and an unmeasured tyre is treated as unknown rather than healthy, because that is a thing worth saying out loud.
+
+## Document extraction and the catalog
+
+Gemini-backed extraction reads service invoices, compliance papers, and loan documents into pre-filled drafts — straightening rotated photos, reading odometer and service date off an invoice, and surfacing failures instead of swallowing them. Vehicle entry is backed by a curated India catalog: staged imports reviewed in-app before publishing, curated aliases so messy real-world labels like "Old Swift ZXI" still resolve, and generation and year-aware offerings across more than thirty brands of cars and motorcycles.
+
+## Delivery
+
+The repo is a pnpm workspace with `apps/web`, `apps/api`, and shared contract and config packages, on conventional commits with semantic-release cutting versions and the changelog. CI runs typecheck, lint, Prettier, Vitest units, and Playwright smoke coverage of the core garage journey, plus a gate that fails the build when a public table ships without RLS enabled. The frontend deploys to Vercel; the API publishes as a GHCR image to a self-hosted Portainer stack and applies its own Prisma migrations on container start.
