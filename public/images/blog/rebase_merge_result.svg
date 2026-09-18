@@ -1,0 +1,94 @@
+<svg width="100%" viewBox="0 0 680 288" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Rebase: each branch commit is copied onto main with the same message and a new SHA</title>
+<desc>Main gains three commits, one per original. Each copy keeps its message and author but gets a new hash because its parent changed. The originals stay on the branch.</desc>
+<style>
+text{font-family:-apple-system,"Segoe UI",Roboto,system-ui,sans-serif}
+.lane{font-size:12px;fill:#8B93A1;font-weight:600;letter-spacing:.03em}
+.msg{font-size:12.5px;font-weight:600}
+.msg-sm{font-size:11.5px;font-weight:600}
+.sha{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px}
+.note{font-size:11.5px;fill:#A3AAB6}
+.teal-note{font-size:11.5px;fill:#5FCBA3}
+.ghost-note{font-size:11.5px;fill:#7D8594}
+.coral-note{font-size:11.5px;fill:#F0A088}
+.pill{font-size:11px;font-weight:600}
+.rowlab{font-size:12px;font-weight:700;fill:#E1E4EA;letter-spacing:.04em}
+.q{font-size:13.5px;fill:#E1E4EA;font-weight:600}
+.qsub{font-size:11.5px;fill:#A3AAB6}
+.ans{font-size:13.5px;fill:#F1EBE3;font-weight:700}
+.anssub{font-size:11.5px;fill:#A3AAB6}
+.branch{font-size:11.5px;fill:#A3AAB6;font-weight:600}
+.gray-r{fill:#232833;stroke:#5A6374;stroke-width:1}
+.branch-r{fill:#161A22;stroke:#A3AAB6;stroke-width:1}
+.teal-r{fill:#10302A;stroke:#34B38A;stroke-width:1}
+.amber-r{fill:#3A2A10;stroke:#D9A14A;stroke-width:1}
+.coral-r{fill:#3B1E17;stroke:#E2795A;stroke-width:1}
+.ghost-r{fill:none;stroke:#4B5362;stroke-width:1;stroke-dasharray:4 3}
+.q-r{fill:#232833;stroke:#5A6374;stroke-width:1}
+.a-r{fill:#1C212B;stroke:#8B93A1;stroke-width:1}
+.gray-t{fill:#E1E4EA}.gray-s{fill:#8B93A1}
+.teal-t{fill:#8FE3C4}.teal-s{fill:#5FCBA3}
+.amber-t{fill:#F2C879}.amber-s{fill:#D9A14A}
+.coral-t{fill:#F0A088}
+.ghost-t{fill:#7D8594}
+.edge{stroke:#4B5362;stroke-width:1;fill:none}
+.edge-strong{stroke:#8B93A1;stroke-width:1.25;fill:none}
+.coral-edge{stroke:#E2795A;stroke-width:1;fill:none}
+.funnel{fill:#34B38A;fill-opacity:.14;stroke:#34B38A;stroke-width:.6}
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#8B93A1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="af" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#6A7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="ac" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#E2795A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect class="teal-r" x="330" y="20" width="170" height="22" rx="11"/>
+<text class="pill teal-t" x="415" y="35" text-anchor="middle">same message and author</text>
+<rect class="coral-r" x="510" y="20" width="90" height="22" rx="11"/>
+<text class="pill coral-t" x="555" y="35" text-anchor="middle">new SHA</text>
+<path class="edge" d="M276 56 V 50 H 668 V 56"/>
+<text class="lane" x="8" y="48">main</text>
+<rect class="gray-r" x="8" y="62" width="124" height="44" rx="8"/>
+<text class="msg gray-t" x="70" y="80" text-anchor="middle">earlier work</text>
+<text class="sha gray-s" x="70" y="96" text-anchor="middle">9f8e7d6</text>
+<line class="edge" x1="132" y1="84" x2="142" y2="84"/>
+<rect class="gray-r" x="142" y="62" width="124" height="44" rx="8"/>
+<text class="msg gray-t" x="204" y="80" text-anchor="middle">fix: empty cart</text>
+<text class="sha gray-s" x="204" y="96" text-anchor="middle">2c4d6e8</text>
+<line class="edge" x1="266" y1="84" x2="276" y2="84"/>
+<rect class="teal-r" x="276" y="62" width="124" height="44" rx="8"/>
+<text class="msg teal-t" x="338" y="80" text-anchor="middle">wip</text>
+<text class="sha coral-t" x="338" y="96" text-anchor="middle">a1b2c3d'</text>
+<line class="edge" x1="400" y1="84" x2="410" y2="84"/>
+<rect class="teal-r" x="410" y="62" width="124" height="44" rx="8"/>
+<text class="msg teal-t" x="472" y="80" text-anchor="middle">fix typo</text>
+<text class="sha coral-t" x="472" y="96" text-anchor="middle">e4f5a6b'</text>
+<line class="edge" x1="534" y1="84" x2="544" y2="84"/>
+<rect class="teal-r" x="544" y="62" width="124" height="44" rx="8"/>
+<text class="msg teal-t" x="606" y="80" text-anchor="middle">feat: retry</text>
+<text class="sha coral-t" x="606" y="96" text-anchor="middle">b7c8d9e'</text>
+<text class="coral-note" x="96" y="122">parent is now 2c4d6e8,</text>
+<text class="coral-note" x="96" y="138">so every hash changes</text>
+<path class="coral-edge" d="M232 128 L 271 112" marker-end="url(#ac)"/>
+<path class="edge" d="M338 166 C 318 148, 318 126, 338 112" marker-end="url(#af)"/>
+<path class="edge" d="M472 166 C 452 148, 452 126, 472 112" marker-end="url(#af)"/>
+<path class="edge" d="M606 166 C 586 148, 586 126, 606 112" marker-end="url(#af)"/>
+<text class="lane" x="90" y="180">feature/checkout-retry</text>
+<path class="edge" d="M70 106 V 176 Q70 188 82 188 H 276"/>
+<rect class="ghost-r" x="276" y="166" width="124" height="44" rx="8"/>
+<text class="msg ghost-t" x="338" y="184" text-anchor="middle">wip</text>
+<text class="sha ghost-t" x="338" y="200" text-anchor="middle">a1b2c3d</text>
+<line class="edge" x1="400" y1="188" x2="410" y2="188"/>
+<rect class="ghost-r" x="410" y="166" width="124" height="44" rx="8"/>
+<text class="msg ghost-t" x="472" y="184" text-anchor="middle">fix typo</text>
+<text class="sha ghost-t" x="472" y="200" text-anchor="middle">e4f5a6b</text>
+<line class="edge" x1="534" y1="188" x2="544" y2="188"/>
+<rect class="ghost-r" x="544" y="166" width="124" height="44" rx="8"/>
+<text class="msg ghost-t" x="606" y="184" text-anchor="middle">feat: retry</text>
+<text class="sha ghost-t" x="606" y="200" text-anchor="middle">b7c8d9e</text>
+<path class="edge" d="M276 218 V 224 H 668 V 218"/>
+<text class="ghost-note" x="472" y="240" text-anchor="middle">originals stay in PR #142 and on your local branch</text>
+<rect class="gray-r" x="8" y="264" width="12" height="12" rx="3"/>
+<text class="note" x="26" y="274">already on main</text>
+<rect class="teal-r" x="140" y="264" width="12" height="12" rx="3"/>
+<text class="note" x="158" y="274">lands on main</text>
+<text class="sha coral-t" x="270" y="274">abc'</text>
+<text class="note" x="304" y="274">new SHA</text>
+<rect class="ghost-r" x="380" y="264" width="12" height="12" rx="3"/>
+<text class="note" x="398" y="274">exists, but not on main</text>
+</svg>

@@ -1,0 +1,61 @@
+<svg width="100%" viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Decision flow: needing the exact record means a merge commit, clean commits mean rebase, otherwise squash</title>
+<desc>Two questions. If you need the exact record for audits or signed commits, create a merge commit. Otherwise, if the branch commits already tell a clean story, rebase and merge. Otherwise squash and merge.</desc>
+<style>
+text{font-family:-apple-system,"Segoe UI",Roboto,system-ui,sans-serif}
+.lane{font-size:12px;fill:#8B93A1;font-weight:600;letter-spacing:.03em}
+.msg{font-size:12.5px;font-weight:600}
+.msg-sm{font-size:11.5px;font-weight:600}
+.sha{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px}
+.note{font-size:11.5px;fill:#A3AAB6}
+.teal-note{font-size:11.5px;fill:#5FCBA3}
+.ghost-note{font-size:11.5px;fill:#7D8594}
+.coral-note{font-size:11.5px;fill:#F0A088}
+.pill{font-size:11px;font-weight:600}
+.rowlab{font-size:12px;font-weight:700;fill:#E1E4EA;letter-spacing:.04em}
+.q{font-size:13.5px;fill:#E1E4EA;font-weight:600}
+.qsub{font-size:11.5px;fill:#A3AAB6}
+.ans{font-size:13.5px;fill:#F1EBE3;font-weight:700}
+.anssub{font-size:11.5px;fill:#A3AAB6}
+.branch{font-size:11.5px;fill:#A3AAB6;font-weight:600}
+.gray-r{fill:#232833;stroke:#5A6374;stroke-width:1}
+.branch-r{fill:#161A22;stroke:#A3AAB6;stroke-width:1}
+.teal-r{fill:#10302A;stroke:#34B38A;stroke-width:1}
+.amber-r{fill:#3A2A10;stroke:#D9A14A;stroke-width:1}
+.coral-r{fill:#3B1E17;stroke:#E2795A;stroke-width:1}
+.ghost-r{fill:none;stroke:#4B5362;stroke-width:1;stroke-dasharray:4 3}
+.q-r{fill:#232833;stroke:#5A6374;stroke-width:1}
+.a-r{fill:#1C212B;stroke:#8B93A1;stroke-width:1}
+.gray-t{fill:#E1E4EA}.gray-s{fill:#8B93A1}
+.teal-t{fill:#8FE3C4}.teal-s{fill:#5FCBA3}
+.amber-t{fill:#F2C879}.amber-s{fill:#D9A14A}
+.coral-t{fill:#F0A088}
+.ghost-t{fill:#7D8594}
+.edge{stroke:#4B5362;stroke-width:1;fill:none}
+.edge-strong{stroke:#8B93A1;stroke-width:1.25;fill:none}
+.coral-edge{stroke:#E2795A;stroke-width:1;fill:none}
+.funnel{fill:#34B38A;fill-opacity:.14;stroke:#34B38A;stroke-width:.6}
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#8B93A1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="af" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#6A7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="ac" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#E2795A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect class="q-r" x="8" y="24" width="364" height="60" rx="8"/>
+<text class="q" x="24" y="49">Do you need the exact record?</text>
+<text class="qsub" x="24" y="69">audits, signed commits, git-flow release branches</text>
+<line class="edge-strong" x1="372" y1="54" x2="448" y2="54" marker-end="url(#a)"/>
+<text class="branch" x="410" y="44" text-anchor="middle">yes</text>
+<rect class="a-r" x="452" y="32" width="220" height="44" rx="8"/>
+<text class="ans" x="470" y="59">Create a merge commit</text>
+<path class="edge-strong" d="M190 84 V 120" marker-end="url(#a)"/>
+<text class="branch" x="202" y="108">no</text>
+<rect class="q-r" x="8" y="124" width="364" height="60" rx="8"/>
+<text class="q" x="24" y="149">Do your branch commits already</text>
+<text class="q" x="24" y="169">tell a clean story on their own?</text>
+<line class="edge-strong" x1="372" y1="154" x2="448" y2="154" marker-end="url(#a)"/>
+<text class="branch" x="410" y="144" text-anchor="middle">yes</text>
+<rect class="a-r" x="452" y="132" width="220" height="44" rx="8"/>
+<text class="ans" x="470" y="159">Rebase and merge</text>
+<path class="edge-strong" d="M190 184 V 240 Q190 252 202 252 H 448" marker-end="url(#a)"/>
+<text class="branch" x="202" y="208">no</text>
+<rect class="a-r" x="452" y="228" width="220" height="48" rx="8"/>
+<text class="ans" x="470" y="249">Squash and merge</text>
+<text class="anssub" x="470" y="266">the safe default for most teams</text>
+</svg>

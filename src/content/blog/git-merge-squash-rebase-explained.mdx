@@ -1,0 +1,209 @@
+---
+title: 'Merge, Squash, or Rebase: What Each GitHub Merge Strategy Actually Does'
+slug: git-merge-squash-rebase-explained
+excerpt: >-
+  What happens to your commit history with each of GitHub's three merge buttons,
+  and how to pick one on purpose.
+publishedAt: '2026-09-18T09:27:36.000Z'
+tags:
+  - Git
+  - GitHub
+  - Version Control
+  - Developer Workflow
+coverImage: /images/blog/git-merge-squash-rebase-explained.png
+coverImageAlt: >-
+  Cover image titled “Merge, Squash, or Rebase”, next to three commit graphs of
+  the same branch: the merge commit keeps every commit and adds one more, squash
+  leaves one new commit, and rebase copies every commit onto main with new
+  hashes.
+showCoverImageInPost: false
+featured: false
+draft: false
+updatedAt: '2026-09-18T09:27:36.630Z'
+---
+
+Every GitHub pull request ends at the same dropdown: **Create a merge commit**, **Squash and merge**, or **Rebase and merge**. Most people pick whatever the last person on the team picked and move on. That click decides what main's history looks like from then on: what you scroll through in `git log`, what `git bisect` has to step over when you're hunting a regression, and which commit `git blame` points at when someone asks why a line exists. It's worth ninety seconds of thought.
+
+## What each option does to your commits
+
+Here's the setup for all three: a branch with three commits, one of them honest about what it is, and a teammate's fix that landed on main while you were working.
+
+<figure style={{ margin: "2rem 0", padding: "1.25rem", background: "#161a22", borderRadius: "0.75rem", border: "1px solid rgba(255,255,255,0.08)" }}>
+  <picture>
+    <source media="(max-width: 540px)" srcSet="/images/blog/merge_start_state_mobile.svg" />
+    <img alt="Starting point: main holds an earlier commit plus a teammate's fix, while the feature branch carries three commits that are not on main yet" src="/images/blog/merge_start_state.svg" style={{ width: "100%", height: "auto", display: "block" }} />
+  </picture>
+</figure>
+
+<details>
+
+<summary>What <code>git log</code> shows</summary>
+
+```console
+$ git log --oneline --graph --all
+* b7c8d9e (HEAD -> feature/checkout-retry) feat: retry
+* e4f5a6b fix typo
+* a1b2c3d wip
+| * 2c4d6e8 (main) fix: empty cart
+|/
+* 9f8e7d6 earlier work
+```
+
+</details>
+
+Each commit is identified by its SHA, the short code under each commit's name. Git computes it from the commit's contents, its author and committer, and its parent, the commit it sits on top of. Change any of those and you get a different SHA, which means a different commit. The hashes here are made up.
+
+### Create a merge commit
+
+<figure style={{ margin: "2rem 0", padding: "1.25rem", background: "#161a22", borderRadius: "0.75rem", border: "1px solid rgba(255,255,255,0.08)" }}>
+  <picture>
+    <source media="(max-width: 540px)" srcSet="/images/blog/merge_commit_result_mobile.svg" />
+    <img alt="Merge commit: all three branch commits land on main with their original SHAs, and a new commit with two parents joins the branch back into main" src="/images/blog/merge_commit_result.svg" style={{ width: "100%", height: "auto", display: "block" }} />
+  </picture>
+</figure>
+
+<details>
+
+<summary>What <code>git log</code> shows</summary>
+
+```console
+$ git log --oneline --graph
+*   d3e4f5a (HEAD -> main) Merge pull request #142 from acme/feature/checkout-retry
+|\
+| * b7c8d9e feat: retry
+| * e4f5a6b fix typo
+| * a1b2c3d wip
+* | 2c4d6e8 fix: empty cart
+|/
+* 9f8e7d6 earlier work
+```
+
+</details>
+
+All three branch commits land on main untouched: same SHAs, same author, same dates. GitHub adds one new commit on top with two parents, the old tip of main and the tip of your branch. That's what a merge commit is, and it's why main's history now has a visible fork and join in it. Nothing was rewritten, so what's on main is exactly what you pushed.
+
+### Squash and merge
+
+<figure style={{ margin: "2rem 0", padding: "1.25rem", background: "#161a22", borderRadius: "0.75rem", border: "1px solid rgba(255,255,255,0.08)" }}>
+  <picture>
+    <source media="(max-width: 540px)" srcSet="/images/blog/squash_merge_result_mobile.svg" />
+    <img alt="Squash: the three branch commits funnel into a single new commit on main, while the originals stay in pull request 142 and never enter main" src="/images/blog/squash_merge_result.svg" style={{ width: "100%", height: "auto", display: "block" }} />
+  </picture>
+</figure>
+
+<details>
+
+<summary>What <code>git log</code> shows</summary>
+
+```console
+$ git log --oneline --graph
+* c1d2e3f (HEAD -> main) feat: retry (#142)
+* 2c4d6e8 fix: empty cart
+* 9f8e7d6 earlier work
+```
+
+</details>
+
+The three commits collapse into one new commit sitting directly on main. No merge commit, no fork in the history. `wip` and `fix typo` never enter main at all. They still live in PR #142 on GitHub, even after the branch is deleted, so the detail isn't lost. It just isn't on main.
+
+The message on that commit is GitHub's default for a squash: the pull request title, with the squashed commits listed in the body. Remember that one. It bites later.
+
+### Rebase and merge
+
+<figure style={{ margin: "2rem 0", padding: "1.25rem", background: "#161a22", borderRadius: "0.75rem", border: "1px solid rgba(255,255,255,0.08)" }}>
+  <picture>
+    <source media="(max-width: 540px)" srcSet="/images/blog/rebase_merge_result_mobile.svg" />
+    <img alt="Rebase: each branch commit is copied onto main keeping its message and author but getting a new SHA, and the originals stay behind on the branch" src="/images/blog/rebase_merge_result.svg" style={{ width: "100%", height: "auto", display: "block" }} />
+  </picture>
+</figure>
+
+<details>
+
+<summary>What <code>git log</code> shows</summary>
+
+```console
+$ git log --oneline --graph
+* b7c8d9e' (HEAD -> main) feat: retry
+* e4f5a6b' fix typo
+* a1b2c3d' wip
+* 2c4d6e8 fix: empty cart
+* 9f8e7d6 earlier work
+```
+
+The prime marks are mine. Git just shows three hashes you've never seen before.
+
+</details>
+
+Each commit is replayed onto the tip of main, one at a time, keeping its message and its author. Every copy is a new commit with a new SHA, because its parent is now `2c4d6e8` instead of `9f8e7d6`. GitHub goes further than plain `git rebase` here: its docs say rebase and merge "always updates the committer information and creates new commit SHAs", so the hashes change even when main hasn't moved.
+
+History stays linear and every step survives individually. The originals are still sitting on your branch, which turns into a problem further down.
+
+## Side by side
+
+| | Merge commit | Squash | Rebase |
+|---|---|---|---|
+| Commits added to main | N + 1 | 1 | N, rewritten |
+| Merge commit created | Yes | No | No |
+| History shape | Forks and joins | Linear | Linear |
+| Individual commits on main | Yes, the originals | No | Yes, as copies |
+| Undoing the whole PR | Revert with `-m 1` | One revert | N reverts |
+| `git branch -d` after pulling main and pruning | Works | Refuses | Refuses |
+
+## Why the choice outlives the pull request
+
+This is the part people skip, and it's the part that matters.
+
+**`git bisect`** is a binary search for the commit that broke something: you mark one commit good and one bad, and git checks out the ones in between until it finds the culprit. With merge commits, `wip` and `fix typo` are part of main's history, so bisect can stop on a commit that doesn't even build, because it was never meant to stand on its own. Git 2.29 taught bisect `--first-parent`, which follows only main's own line and steps over everything a branch brought in, but not many people know the flag exists. Squash sidesteps the problem: every commit on main is a complete pull request. Rebase gets you there only if the branch commits were already sound, since it replays what you had rather than cleaning it up.
+
+**`git blame`** shows the last commit that touched each line. On a squashed repo that's always the one commit for the entire pull request. Useful for "which PR did this", useless for "why is this line the way it is", because the answer is the whole PR's diff. Merge commits and rebase both keep the narrower original commit.
+
+**Undoing a whole pull request** differs too. A squash is one `git revert <sha>`. A merge commit needs `git revert -m 1 <sha>`, where `-m 1` tells git to keep the first parent, the main side, and undo everything the second parent brought in. A rebase merge left N separate commits, so you revert the range: `git revert <oldest>^..<newest>`. GitHub's Revert button covers all three unless the revert conflicts. On a rebase merge it opens a PR with one revert per commit.
+
+## Picking one on purpose
+
+<figure style={{ margin: "2rem 0", padding: "1.25rem", background: "#161a22", borderRadius: "0.75rem", border: "1px solid rgba(255,255,255,0.08)" }}>
+  <picture>
+    <source media="(max-width: 540px)" srcSet="/images/blog/merge_strategy_decision_mobile.svg" />
+    <img alt="Decision flow: if you need the exact record, create a merge commit; otherwise, if the branch commits already tell a clean story, rebase and merge; otherwise squash and merge" src="/images/blog/merge_strategy_decision.svg" style={{ width: "100%", height: "auto", display: "block" }} />
+  </picture>
+</figure>
+
+**Merge commit** is the answer whenever the exact record matters, because it's the only strategy that leaves your original commits, and their signatures, untouched.
+
+**Squash** fits most teams. One pull request becomes one commit, one revert, one changelog line, and nobody has to write careful commits while they're still debugging. The catch is release tooling that reads commit messages: GitHub only uses the PR title as the squash message when the PR has two or more commits. A single-commit PR keeps that commit's own message, so linting PR titles isn't enough on its own. Under Settings → General → Pull Requests, set the squash dropdown to **Default to pull request title**, and the rule holds for every PR.
+
+**Rebase** is for branches whose commits were written to be read. Here's a branch like that, merged both ways:
+
+<figure style={{ margin: "2rem 0", padding: "1.25rem", background: "#161a22", borderRadius: "0.75rem", border: "1px solid rgba(255,255,255,0.08)" }}>
+  <picture>
+    <source media="(max-width: 540px)" srcSet="/images/blog/clean_branch_rebase_vs_squash_mobile.svg" />
+    <img alt="With clean commits, rebasing puts three readable steps on main so blame lands on a 1-file, 12-line commit, while squashing collapses them into one commit covering 9 files and 240 lines" src="/images/blog/clean_branch_rebase_vs_squash.svg" style={{ width: "100%", height: "auto", display: "block" }} />
+  </picture>
+</figure>
+
+Rebased, main gets three commits that each explain one step, and blame lands on a small one. Squashed, the steps are only visible inside the pull request. The payoff only exists if the commits were good to begin with: rebasing three `wip` commits gives you three `wip` commits with new hashes.
+
+You can also stop having this argument on every pull request. Repository settings let you turn off the options you don't want, under Settings → General → Pull Requests.
+
+## Two things that trip people up
+
+**GitHub's rebase isn't the dangerous kind of rebase.** What people are scared of is rewriting commits that others have already pulled and built on, which forces everyone downstream to recover. GitHub's rebase and merge replays your pull request's own commits onto main as part of merging. Nobody else's branch is touched. Different situation.
+
+**After a squash or rebase merge, git doesn't think your branch was merged.** Main holds different SHAs than your local branch, so once you've pulled main and pruned the deleted remote branch, git refuses to clean up:
+
+```console
+$ git branch -d feature/checkout-retry
+error: the branch 'feature/checkout-retry' is not fully merged
+```
+
+Nothing is lost: your work is on main under new hashes. Before you force it with `git branch -D`, check whether a teammate branched off yours. Their branch still carries your original commits. After a rebase merge that's usually fine, because git spots the copies and skips them. After a squash, rebasing it onto main replays those commits on top of the squashed version of the same work, which conflicts wherever the branch touched a line twice. Replay only their own commits instead:
+
+```bash
+git rebase --onto main feature/checkout-retry their-branch
+```
+
+Run this before deleting the old branch, or use its old tip SHA (`b7c8d9e`) in place of the branch name.
+
+## Closing thought
+
+The merge dropdown isn't a formality. It's the last edit you get to make to history before it hardens into whatever `git log` shows everyone afterwards. Decide once, per repo, write it down, and stop re-deciding it on every pull request.
