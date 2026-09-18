@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { StructuredData } from "@/components/structured-data";
 import { SITE_URL } from "@/lib/constants";
+import { getAllBlogPosts } from "@/lib/content";
 import "@/lib/env";
 import {
   HOME_DESCRIPTION,
@@ -61,6 +62,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [latestPost] = await getAllBlogPosts();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -75,6 +78,17 @@ export default async function RootLayout({
         <ClientOverlays
           clarityId={process.env.NEXT_PUBLIC_CLARITY_ID ?? ""}
           gtmId={process.env.NEXT_PUBLIC_GTM_ID ?? ""}
+          latestPost={
+            latestPost
+              ? {
+                  slug: latestPost.slug,
+                  title: latestPost.title,
+                  publishedAt: latestPost.publishedAt,
+                  readingTime: latestPost.readingTime ?? 1,
+                  excerpt: latestPost.excerpt
+                }
+              : null
+          }
         />
       </body>
     </html>
