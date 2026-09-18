@@ -2,8 +2,15 @@
 
 import dynamic from "next/dynamic";
 
+import type { LatestPost } from "@/components/latest-post-popover";
+
 const CookieBanner = dynamic(
   () => import("@/components/cookie-banner").then((mod) => mod.CookieBanner),
+  { ssr: false }
+);
+
+const LatestPostPopover = dynamic(
+  () => import("@/components/latest-post-popover").then((mod) => mod.LatestPostPopover),
   { ssr: false }
 );
 
@@ -36,13 +43,15 @@ const NavigationProgress = dynamic(
 type Props = {
   gtmId: string;
   clarityId: string;
+  latestPost: LatestPost | null;
 };
 
-export function ClientOverlays({ gtmId, clarityId }: Props) {
+export function ClientOverlays({ gtmId, clarityId, latestPost }: Props) {
   return (
     <>
       <NavigationProgress />
       <CookieBanner />
+      {latestPost ? <LatestPostPopover post={latestPost} /> : null}
       <GoogleTagManager gtmId={gtmId} />
       <MicrosoftClarity projectId={clarityId} />
       <CommandPalette />

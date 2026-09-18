@@ -37,3 +37,18 @@ export function writeConsent(value: Exclude<ConsentState, null>) {
 
   window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: value }));
 }
+
+export function subscribeConsent(onStoreChange: () => void) {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+
+  const handleChange = () => onStoreChange();
+  window.addEventListener(CONSENT_EVENT, handleChange);
+  window.addEventListener("storage", handleChange);
+
+  return () => {
+    window.removeEventListener(CONSENT_EVENT, handleChange);
+    window.removeEventListener("storage", handleChange);
+  };
+}
