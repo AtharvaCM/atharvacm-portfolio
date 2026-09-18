@@ -33,7 +33,7 @@ featured: true
 
 # Content`;
 
-const validBlogMdx = `---
+const blogFrontmatter = `---
 title: Test Post
 slug: test-post
 excerpt: Example
@@ -42,9 +42,14 @@ tags:
   - Next.js
 featured: false
 draft: true
----
+---`;
+
+const validBlogMdx = `${blogFrontmatter}
 
 One two three four five six seven eight nine ten.`;
+
+const words = (count: number) => Array.from({ length: count }, () => "word").join(" ");
+const readingTimeOf = (body: string) => parseBlogMdx(`${blogFrontmatter}\n\n${body}`).readingTime;
 
 describe("content parsing", () => {
   it("parses valid project frontmatter", () => {
@@ -83,6 +88,58 @@ describe("content parsing", () => {
         new Date("2025-01-01T00:00:00.000Z")
       )
     ).toBe(false);
+  });
+});
+
+describe("reading time", () => {
+  it("reads 200 prose words per minute", () => {
+    expect(readingTimeOf(words(200))).toBe(1);
+    expect(readingTimeOf(words(201))).toBe(2);
+  });
+
+  it("ignores JSX elements, their attributes, and MDX comments", () => {
+    const figure = `<figure style={{ margin: "2rem 0", border: "1px solid rgba(255,255,255,0.08)" }}>
+  <picture>
+    <source media="(max-width: 540px)" srcSet="/images/blog/diagram_mobile.svg" />
+    <img alt="A long description of the diagram for screen readers" src="/images/blog/diagram.svg" style={{ width: "100%", height: "auto" }} />
+  </picture>
+</figure>
+
+{/* TODO: redraw this diagram */}`;
+
+    expect(readingTimeOf(`${words(100)}\n\n${figure}\n\n${words(100)}`)).toBe(1);
+  });
+
+  it("counts the text inside elements but not the tags", () => {
+    const details = "<details>\n\n<summary>What shows</summary>\n\n</details>";
+
+    expect(readingTimeOf(`${words(198)}\n\n${details}`)).toBe(1);
+    expect(readingTimeOf(`${words(199)}\n\n${details}`)).toBe(2);
+  });
+
+  it("counts fenced code at half weight", () => {
+    const codeBlock = (count: number) => `\`\`\`console\n${words(count)}\n\`\`\``;
+
+    expect(readingTimeOf(`${words(100)}\n\n${codeBlock(200)}`)).toBe(1);
+    expect(readingTimeOf(`${words(100)}\n\n${codeBlock(202)}`)).toBe(2);
+  });
+
+  it("counts the words in markdown but not its syntax", () => {
+    const body = [
+      `## ${words(10)}`,
+      `- ${words(10)}`,
+      `1. ${words(10)}`,
+      `> ${words(10)}`,
+      `| ${words(5)} | ${words(5)} |`,
+      "|---|---|",
+      `[${words(10)}](https://example.com/a/long/path "Link title")`,
+      "![Alt text that is not prose](/images/blog/cover.png)",
+      "[ref]: https://example.com/reference",
+      `${words(139)} — \`<Button>\``
+    ].join("\n\n");
+
+    expect(readingTimeOf(body)).toBe(1);
+    expect(readingTimeOf(`${body} word`)).toBe(2);
   });
 });
 

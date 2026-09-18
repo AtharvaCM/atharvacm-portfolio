@@ -47,7 +47,7 @@ Optional fields:
 
 - `updatedAt`: ISO datetime string
 - `coverImage`: image path used for metadata/card support where applicable
-- `readingTime`: positive integer; if omitted, the site calculates it from body content at roughly 200 words per minute
+- `readingTime`: positive integer; if omitted, the site calculates it at roughly 200 words per minute from prose only (JSX/HTML markup, image alt text, and link URLs are ignored; fenced code counts at half weight)
 - `draft`: boolean; defaults to `false` when omitted
 
 ## Visibility Rules

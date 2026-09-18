@@ -58,9 +58,43 @@ type BlogQueryOptions = {
   now?: Date;
 };
 
+const WORDS_PER_MINUTE = 200;
+// Readers skim code blocks (console output, config, boilerplate) rather than read them word by word.
+const CODE_WORD_WEIGHT = 0.5;
+
+const FENCED_CODE_BLOCK = /^[ \t]*(`{3,}|~{3,})[^\n]*\n([\s\S]*?)(?:^[ \t]*\1[ \t]*$|(?![\s\S]))/gm;
+const MDX_COMMENT = /\{\/\*[\s\S]*?\*\/\}/g;
+const INLINE_CODE = /`([^`\n]+)`/g;
+// Attribute values may hold quoted strings or JSX expressions nested one level deep, like style={{ ... }}.
+const JSX_TAG = /<\/?[A-Za-z][\w.:-]*(?:[^"'{}>]|"[^"]*"|'[^']*'|\{(?:[^{}]|\{[^{}]*\})*\})*>/g;
+const MARKDOWN_IMAGE = /!\[[^\]]*]\([^)]*\)/g;
+const MARKDOWN_LINK = /\[([^\]]*)]\([^)]*\)/g;
+const LINK_DEFINITION = /^[ \t]*\[[^\]]+]:.*$/gm;
+const ORDERED_LIST_MARKER = /^[ \t]*\d+[.)][ \t]+/gm;
+
+// Tokens with no letter or digit are markup (#, -, |, >, ---) or punctuation (—), not words.
+function countWords(text: string) {
+  return text.split(/\s+/).filter((token) => /[\p{L}\p{N}]/u.test(token)).length;
+}
+
 function calculateReadingTime(content: string) {
-  const words = content.trim().split(/\s+/).length;
-  return Math.max(1, Math.ceil(words / 200));
+  let codeWords = 0;
+  const prose = content
+    .replace(FENCED_CODE_BLOCK, (_block, _fence, code: string) => {
+      codeWords += countWords(code);
+      return "\n";
+    })
+    .replace(MDX_COMMENT, " ")
+    // Keep inline code as words, but stop `<sha>` from reading as a tag.
+    .replace(INLINE_CODE, (_span, code: string) => code.replace(/[<>]/g, " "))
+    .replace(JSX_TAG, " ")
+    .replace(MARKDOWN_IMAGE, " ")
+    .replace(MARKDOWN_LINK, "$1")
+    .replace(LINK_DEFINITION, "")
+    .replace(ORDERED_LIST_MARKER, "");
+
+  const words = countWords(prose) + codeWords * CODE_WORD_WEIGHT;
+  return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
 }
 
 async function getFileList(directory: string) {
