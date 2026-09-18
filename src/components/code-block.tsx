@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 
 type Props = HTMLAttributes<HTMLPreElement> & {
   children?: ReactNode;
+  "data-language"?: string;
 };
 
 function extractText(node: ReactNode): string {
@@ -49,19 +50,24 @@ export function CodeBlock({ children, className = "", ...props }: Props) {
     }
   }
 
+  // `console` fences are terminal transcripts: prompt plus output, nothing worth pasting.
+  const isTranscript = props["data-language"] === "console";
+
   return (
     <div className="code-block-shell group">
-      <button
-        aria-label={copied ? "Code copied" : "Copy code"}
-        className="code-copy-button"
-        onClick={handleCopy}
-        type="button"
-      >
-        <span aria-hidden="true" className="code-copy-button-icon">
-          {copied ? "✓" : "⧉"}
-        </span>
-        <span className="code-copy-button-label">{copied ? "Copied" : "Copy"}</span>
-      </button>
+      {isTranscript ? null : (
+        <button
+          aria-label={copied ? "Code copied" : "Copy code"}
+          className="code-copy-button"
+          onClick={handleCopy}
+          type="button"
+        >
+          <span aria-hidden="true" className="code-copy-button-icon">
+            {copied ? "✓" : "⧉"}
+          </span>
+          <span className="code-copy-button-label">{copied ? "Copied" : "Copy"}</span>
+        </button>
+      )}
       <pre className={className} {...props}>
         {children}
       </pre>
