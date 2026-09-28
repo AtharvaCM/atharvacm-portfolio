@@ -1,15 +1,15 @@
 ---
 title: Vehicle Vault Maintenance Platform
 slug: vehicle-vault-maintenance-platform
-excerpt: Built an India-focused vehicle ownership platform covering service history, documents, tyres, accessories, loans, claims, and a triage dashboard, with an alert engine and AI document extraction behind it.
-context: A pnpm monorepo with a React and TanStack frontend, a NestJS and Prisma API over PostgreSQL, and shared TypeScript contracts, deployed as a Vercel frontend against a self-hosted API image released from CI.
-problem: Vehicle ownership data in India is scattered across paper, WhatsApp threads, and service centres — no history, no reminders that understand a vehicle, no single place that knows what is due. The product needed to hold everything attached to a car or two-wheeler and then be useful about it, without becoming a pile of disconnected forms.
-contribution: Built the product end to end — frontend, API, data model, and delivery. Shipped the ownership model (vehicles, service history, documents, tyres, accessories, loans, claims, shared access with roles), an alert engine that raises typed notifications over email and web push, Gemini-backed document extraction for invoices and compliance papers, a triage-first dashboard, and the India vehicle catalog pipeline behind vehicle entry.
-impact: The platform now runs as a versioned product on semantic-release, past twenty-four minor releases, with per-vehicle access control, a cron alert engine covering ten alert kinds, RLS enforced by a CI gate, and a deploy path that ships the frontend to Vercel and the API as a GHCR image that migrates itself on start.
+excerpt: Built an India-focused vehicle ownership platform covering service history, papers, tyres, accessories, loans, and claims, with an alert engine, bill reading from a photo, an installable phone-first app, and a public catalog of cars and bikes.
+context: A pnpm monorepo with a React and TanStack frontend, a NestJS and Prisma API over PostgreSQL, and shared TypeScript contracts, deployed as a Vercel frontend with prerendered public pages against a self-hosted API image released from CI.
+problem: Vehicle ownership data in India is scattered across paper, WhatsApp threads, and service centres. There is no history, no reminder that understands a vehicle, and no single place that knows what is due. The product needed to hold everything attached to a car or two-wheeler and then be useful about it, on the phone in the owner's pocket, without becoming a pile of disconnected forms.
+contribution: Built the product end to end, from frontend and API to data model, design system, and delivery. Shipped the ownership model (vehicles, service history, papers, tyres, accessories, loans, claims, shared access with roles), an alert engine that raises typed notifications over email and web push, Gemini-backed extraction that turns a photo of a bill into a draft record, a phone-first redesign on its own design system, and a prerendered public catalog that doubles as the front door.
+impact: The platform runs as a versioned product on semantic-release, past one hundred and twenty minor releases, with per-vehicle access control, a cron alert engine covering eleven alert kinds, an installable app that opens offline, accessibility and RLS enforced by CI gates, and a deploy path that ships the frontend to Vercel and the API as a GHCR image that migrates itself on start.
 metricHighlights:
-  - Ten typed alert kinds — maintenance, reminders, expiring documents, accessory warranties, and tyre wear, age, and inspection gaps
-  - Vehicle documents unified behind one service across insurance, warranty, registration, PUC, and road tax
-  - India catalog spanning 30-plus brands with staged import review, curated aliases, and generation and year-aware offerings
+  - Eleven typed alert kinds, from maintenance and reminders to expiring papers, warranty distance limits, and tyre wear, age, and inspection gaps
+  - A public catalog of 30-plus car and bike makes, prerendered with service schedules, specs, and a running-cost calculator
+  - Signed-in app and public pages both gated on axe in CI, with 44 px touch targets and WCAG AA contrast held by tests
 coverImage: /images/projects/vehicle-vault-overview-screenshot.jpg
 year: 2026
 client: Independent Product
@@ -18,6 +18,7 @@ services:
   - Product architecture
   - Full-stack development
   - Domain modelling
+  - Design systems
   - Delivery hardening
 techStack:
   - React
@@ -28,17 +29,20 @@ techStack:
   - TanStack Query
   - TanStack Router
   - Tailwind CSS
+  - Vite
+  - Workbox
   - Playwright
   - Supabase Storage
   - Docker
 category: platform
 duration: Ongoing product build
 outcomes:
-  - Modelled vehicle ownership properly — documents, accessories, tyres, and maintenance are separate things because they behave differently, not variants of one table
-  - Turned reminders into an alert engine with dedup keys, per-kind templates, and email plus web-push delivery
-  - Added AI document extraction that pre-fills service invoices, compliance papers, and loan documents from a photo
-  - Built shared vehicle access with owner, editor, and viewer roles, invites, and ownership transfer for multi-vehicle households
-  - Kept delivery honest with conventional commits, semantic-release, Playwright smoke coverage, and a CI gate that fails when a table ships without RLS
+  - Modelled vehicle ownership properly. Papers, accessories, tyres, and maintenance are separate things because they behave differently, not variants of one table
+  - Turned reminders into an alert engine with dedup keys, per-kind templates, per-kind email and push preferences, and a Done that hands off to logging the service
+  - Made logging a service one short form that starts from a photo of the bill and opens filled in, as a draft that counts nowhere until a person confirms it
+  - Rebuilt the app phone-first around Home, Garage, Upcoming, History, and Costs, on a token-based design system with dark mode and lint rules that keep it honest
+  - Opened a prerendered public catalog with JSON-LD and a sitemap, so a visitor can look up their vehicle and start tracking it from the same page
+  - Kept delivery honest with conventional commits, semantic-release, Playwright and axe coverage, and a CI gate that fails when a table ships without RLS
 liveUrl: https://vehicle-vault-eight.vercel.app
 repoUrl: https://github.com/AtharvaCM/vehicle-vault
 featured: false
@@ -46,24 +50,30 @@ featured: false
 
 ## Overview
 
-Vehicle Vault is an India-focused ownership platform for cars and two-wheelers: one place for what a vehicle has had done, what it is covered by, what it costs, and what is due next. Since the first release the product has grown from a maintenance log into a domain model with its own vocabulary, an alert engine, and a triage dashboard that opens on what needs attention rather than on a wall of charts.
+Vehicle Vault is an India-focused ownership platform for cars and two-wheelers: one place for what a vehicle has had done, what it is covered by, what it costs, and what is due next. It started as a maintenance log. It is now a domain model with its own vocabulary, an alert engine, a phone-first app that opens on what needs doing, and a public catalog that lets anyone look up their vehicle before they sign up.
 
 ## The ownership model
 
-Most of the interesting work is in refusing to flatten things that behave differently. A **vehicle document** is a time-bounded record — insurance, warranty, registration, PUC, road tax — unified behind one service with per-kind adapters, so the three compliance kinds share a table while insurance and warranty keep theirs. A **maintenance record** is a service visit with line items, costs, and an odometer reading, which is why it is not a document. An **accessory** is a purchase with a fitment lifecycle, kept out of maintenance so it cannot corrupt the cost-per-kilometre figure that maintenance history exists to produce. Tyres are tracked by measurement rather than inferred, with the spare graded but excluded from the vehicle's mileage.
+Most of the interesting work is in refusing to flatten things that behave differently. A **vehicle document** is a time-bounded paper (insurance, warranty, registration, PUC, road tax) unified behind one service with per-kind adapters, and each paper drives its own renewal reminder. A **maintenance record** is a service visit with line items, costs, and an odometer reading, which is why it is not a document. An **accessory** is a purchase with a fitment lifecycle, kept out of maintenance so it cannot corrupt the cost-per-kilometre figure that maintenance history exists to produce. Tyres are tracked by measurement rather than inferred, with front and rear positions, a two-wheel layout, and a verdict on each.
 
-On top of that sit loans with amortization, prepayments, and foreclosure; claims linked to both a policy and the repair that settled them; and shared vehicle access with owner, editor, and viewer roles, invites, and ownership transfer — for the household where one person maintains everyone's vehicles.
+On top of that sit loans with amortization, prepayments, and foreclosure; claims linked to both a document and the repair that settled them; and shared vehicle access with owner, editor, and viewer roles, invites, and ownership transfer, for the household where one person maintains everyone's vehicles.
 
 ## Knowing what is due
 
-The alert engine is a daily cron that reads each vehicle's predicted odometer and raises typed alerts: maintenance due and overdue, reminders approaching their odometer, documents expiring, accessory warranties running out, tyres worn, aged, or unmeasured for too long, and service baselines that were never established. Each kind owns its own template and dedup key, so a notification row is upserted rather than duplicated, and delivery fans out to email and web push without either channel being able to break the record.
+The alert engine is a daily cron that reads each vehicle's predicted odometer and raises typed alerts: maintenance and reminders due or overdue, papers expiring, accessory warranties running out, a warranty nearing its distance limit, tyres worn, aged, or unmeasured for too long, and service baselines that were never established. Each kind owns its own template and dedup key, so a notification row is upserted rather than duplicated, and delivery fans out to email and web push by the owner's per-kind preferences without either channel being able to break the record.
 
-Baselines are the quiet part. A vehicle entering the vault has history nobody logged, so it carries a per-category baseline that is either a known figure or an explicit *unknown* — and an unmeasured tyre is treated as unknown rather than healthy, because that is a thing worth saying out loud.
+Baselines are the quiet part. A vehicle entering the vault has history nobody logged, so it carries a per-category baseline that is either a known figure or an explicit *unknown*. An unmeasured tyre is treated as unknown rather than healthy, because that is a thing worth saying out loud.
 
-## Document extraction and the catalog
+## Phone first
 
-Gemini-backed extraction reads service invoices, compliance papers, and loan documents into pre-filled drafts — straightening rotated photos, reading odometer and service date off an invoice, and surfacing failures instead of swallowing them. Vehicle entry is backed by a curated India catalog: staged imports reviewed in-app before publishing, curated aliases so messy real-world labels like "Old Swift ZXI" still resolve, and generation and year-aware offerings across more than thirty brands of cars and motorcycles.
+The app was rebuilt around five places: **Home**, a to-do list with one status line; **Garage**, a list of vehicles led by the number plate; **Upcoming**, one timeline across every vehicle; **History**, service, fuel, and odometer by month; and **Costs**, spend and loans together. A vehicle page is an identity header and five tabs that fit a 390 px phone without scrolling.
+
+Logging is built for the forecourt. Snap the bill and Gemini-backed extraction reads it into a draft, so the form opens filled in, with each field it read marked as coming from the bill. The draft counts toward no cost, report, or reminder until someone confirms it. A reminder's Done hands off to logging the service, and the service completes the reminder and schedules the next one. The whole thing sits on a design system of semantic tokens with self-hosted fonts, dark mode, bottom sheets on phones, and lint rules that fail a migrated screen for reaching past the tokens. It installs as an app and opens offline.
+
+## The public catalog
+
+Vehicle entry is backed by a curated India catalog: staged imports reviewed in-app before publishing, curated aliases so messy real-world labels like "Old Swift ZXI" still resolve, and generation and year-aware offerings. That catalog is now public. Make, model, and variant pages for more than thirty brands of cars and bikes are prerendered to static HTML with breadcrumbs, JSON-LD, and a sitemap, behind a page-quality gate that keeps thin pages out of the index. A variant page leads with key facts, its service schedule, and a running-cost calculator, and "track this vehicle" carries that intent through sign-up so a new account lands on the add-vehicle form with it already filled in.
 
 ## Delivery
 
-The repo is a pnpm workspace with `apps/web`, `apps/api`, and shared contract and config packages, on conventional commits with semantic-release cutting versions and the changelog. CI runs typecheck, lint, Prettier, Vitest units, and Playwright smoke coverage of the core garage journey, plus a gate that fails the build when a public table ships without RLS enabled. The frontend deploys to Vercel; the API publishes as a GHCR image to a self-hosted Portainer stack and applies its own Prisma migrations on container start.
+The repo is a pnpm workspace with `apps/web`, `apps/api`, and shared contract and config packages, on conventional commits with semantic-release cutting versions and the changelog. CI runs typecheck, lint, Prettier, Vitest units, and Playwright coverage of the core garage journey, plus axe checks across the public pages and the signed-in app, and a gate that fails the build when a public table ships without RLS enabled. The frontend deploys to Vercel; the API publishes as a GHCR image to a self-hosted Portainer stack and applies its own Prisma migrations on container start.

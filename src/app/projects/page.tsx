@@ -99,7 +99,7 @@ const PROJECT_LISTING_COPY: Record<string, string> = {
   "cash-cove-finance-cockpit":
     "A personal finance product with an Android capture companion, a review-first ingestion pipeline, and a tested release path.",
   "vehicle-vault-maintenance-platform":
-    "A full-stack vehicle maintenance product with ownership workflows, reminders, attachments, and delivery coverage.",
+    "A phone-first vehicle ownership product with an alert engine, bill reading from a photo, and a public catalog of cars and bikes.",
   "eauction-platform":
     "A real-time auction build covering live bidding, auth, backend services, and containerized deployment.",
 };
