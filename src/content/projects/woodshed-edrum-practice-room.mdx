@@ -2,7 +2,7 @@
 title: Woodshed E-Drum Practice Room
 slug: woodshed-edrum-practice-room
 excerpt: Turned an open-source browser drumming game into a practice room for a real electronic kit, with a Roland preset, a highway locked to the audio you hear, a renderer held at 120 Hz, bar-by-bar practice, menus driven from the pads, and macOS tooling for recording collab takes.
-context: A fork of DRUMKILLER, an MIT-licensed browser rhythm game by sam1am, written in TypeScript on Vite with Canvas 2D, the Web Audio API, and Web MIDI. Around it sit a Python chart pipeline over demucs and drum transcription models, and Swift command-line tools on CoreMIDI and AVFoundation.
+context: A fork of DRUMKILLER, an MIT-licensed browser rhythm game by sam1am, written in TypeScript on Vite with Canvas 2D, the Web Audio API, and Web MIDI, and deployed to GitHub Pages on every push to main. Around it sit a Python chart pipeline over demucs and drum transcription models, and Swift command-line tools on CoreMIDI and AVFoundation.
 problem: Rhythm games chart the songs their community likes, and almost nobody charts Hindi film music. Practising one of those songs on a Roland TD-07 meant no chart, a highway that ran a quarter second ahead of the sound on Bluetooth, frame drops on expert charts, and a practice mode built around A/B points rather than bars. Recording a take for a band's collab clip then meant a DAW that ignores the kit's hi-hat edge notes.
 contribution: Forked and rebranded the game, added a Roland V-Drums preset, and made the highway, miss detection, and playhead follow the audio time you hear rather than the raw clock. Profiled and rebuilt the renderer, rebuilt practice around bars with a results screen that finds your weakest stretch, and added menus you drive from the kit. Outside the browser, wrote a script that turns a transcribed stem into an importable song, and macOS tools that record, grade, and stack collab takes.
 impact: Expert charts went from a mean frame time of 17.6 ms, with a fifth of frames over 33 ms, to a locked 120 Hz on an M4. The highway now lines up with what the drummer hears, and the practice loop runs from the throne without touching the keyboard.
@@ -41,13 +41,14 @@ outcomes:
   - Rebuilt practice around bars, with loops of 1 to 8 bars, a per-bar accuracy strip, and one key back into the weakest four bars
   - Made the menus playable from the pads, with rules that tell a gesture from a groove so fills never move the menu
   - Built a Python and Swift toolchain that turns a transcribed stem into a song folder and records, grades, and stacks collab takes
+liveUrl: https://atharvacm.github.io/woodshed/
 repoUrl: https://github.com/AtharvaCM/woodshed
 featured: false
 ---
 
 ## Overview
 
-Woodshed is a browser practice room for electronic drum kits. Plug a Roland TD-07 into Chrome, pick a song, and play it on a Guitar Hero style highway that scores every hit, then slow the hard bars down, loop them, and take the full run. The name is jazz slang for practising alone until it sits.
+Woodshed is a browser practice room for electronic drum kits. It runs in Chrome or Edge with nothing to install: plug a Roland TD-07 in, pick a song, and play it on a Guitar Hero style highway that scores every hit, then slow the hard bars down, loop them, and take the full run. The name is jazz slang for practising alone until it sits.
 
 It is a fork of DRUMKILLER by sam1am, released under the MIT license. The highway, scoring, song folders, pad setup wizard, performance video, and the Studio with its chart editor are DRUMKILLER's. Woodshed is what it took to practise real songs on a real kit with that as the base.
 
