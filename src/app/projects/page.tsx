@@ -100,6 +100,8 @@ const PROJECT_LISTING_COPY: Record<string, string> = {
     "A personal finance product with an Android capture companion, a review-first ingestion pipeline, and a tested release path.",
   "vehicle-vault-maintenance-platform":
     "A phone-first vehicle ownership product with an alert engine, bill reading from a photo, and a public catalog of cars and bikes.",
+  "woodshed-edrum-practice-room":
+    "A browser practice room for an electronic drum kit, with a renderer held at 120 Hz, bar-by-bar practice, and collab recording tools.",
   "eauction-platform":
     "A real-time auction build covering live bidding, auth, backend services, and containerized deployment.",
 };

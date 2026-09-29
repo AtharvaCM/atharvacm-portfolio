@@ -1,0 +1,72 @@
+---
+title: Woodshed E-Drum Practice Room
+slug: woodshed-edrum-practice-room
+excerpt: Turned an open-source browser drumming game into a practice room for a real electronic kit, with a Roland preset, a highway locked to the audio you hear, a renderer held at 120 Hz, bar-by-bar practice, menus driven from the pads, and macOS tooling for recording collab takes.
+context: A fork of DRUMKILLER, an MIT-licensed browser rhythm game by sam1am, written in TypeScript on Vite with Canvas 2D, the Web Audio API, and Web MIDI. Around it sit a Python chart pipeline over demucs and drum transcription models, and Swift command-line tools on CoreMIDI and AVFoundation.
+problem: Rhythm games chart the songs their community likes, and almost nobody charts Hindi film music. Practising one of those songs on a Roland TD-07 meant no chart, a highway that ran a quarter second ahead of the sound on Bluetooth, frame drops on expert charts, and a practice mode built around A/B points rather than bars. Recording a take for a band's collab clip then meant a DAW that ignores the kit's hi-hat edge notes.
+contribution: Forked and rebranded the game, added a Roland V-Drums preset, and made the highway, miss detection, and playhead follow the audio time you hear rather than the raw clock. Profiled and rebuilt the renderer, rebuilt practice around bars with a results screen that finds your weakest stretch, and added menus you drive from the kit. Outside the browser, wrote a script that turns a transcribed stem into an importable song, and macOS tools that record, grade, and stack collab takes.
+impact: Expert charts went from a mean frame time of 17.6 ms, with a fifth of frames over 33 ms, to a locked 120 Hz on an M4. The highway now lines up with what the drummer hears, and the practice loop runs from the throne without touching the keyboard.
+metricHighlights:
+  - Renderer rebuilt from 17.6 ms mean and 50 ms p95 frames to 8.33 ms mean and 9.3 ms p99, with none of 3,000 frames over 12 ms
+  - Highway drift of up to 280 ms on Bluetooth output removed by following the heard audio time
+  - Collab sync tested on a synthetic take within 10 ms, and recorded takes rendered with a median offset of 0.3 ms from their MIDI
+coverImage: /images/projects/woodshed-title-screenshot.jpg
+year: 2026
+client: Personal Project
+role: Developer and drummer
+services:
+  - Fork and rebrand
+  - Rendering performance
+  - Practice design
+  - Audio tooling
+techStack:
+  - TypeScript
+  - Vite
+  - Canvas 2D
+  - Web Audio API
+  - Web MIDI API
+  - Vitest
+  - Python
+  - Demucs
+  - FFmpeg
+  - Swift
+  - CoreMIDI
+  - AVFoundation
+category: frontend
+duration: Ongoing personal build
+outcomes:
+  - Added a Roland V-Drums preset that loads itself from the TD-07's port name and maps every zone, from rim shots to hi-hat edges
+  - Tied the highway, miss detection, and playhead to the audio output timestamp, so notes cross the line when the drum is heard
+  - Replaced every live shadowBlur with pre-rendered halo sprites and cached the static layers, taking expert charts to a locked 120 Hz
+  - Rebuilt practice around bars, with loops of 1 to 8 bars, a per-bar accuracy strip, and one key back into the weakest four bars
+  - Made the menus playable from the pads, with rules that tell a gesture from a groove so fills never move the menu
+  - Built a Python and Swift toolchain that turns a transcribed stem into a song folder and records, grades, and stacks collab takes
+repoUrl: https://github.com/AtharvaCM/woodshed
+featured: false
+---
+
+## Overview
+
+Woodshed is a browser practice room for electronic drum kits. Plug a Roland TD-07 into Chrome, pick a song, and play it on a Guitar Hero style highway that scores every hit, then slow the hard bars down, loop them, and take the full run. The name is jazz slang for practising alone until it sits.
+
+It is a fork of DRUMKILLER by sam1am, released under the MIT license. The highway, scoring, song folders, pad setup wizard, performance video, and the Studio with its chart editor are DRUMKILLER's. Woodshed is what it took to practise real songs on a real kit with that as the base.
+
+## Following the heard audio
+
+The highway, miss detection, and playhead were drawn against the audio context's clock, while hits were already mapped through the output timestamp. On wired headphones that is a 5 to 30 ms mismatch. With the Mac's audio going to the TD-07 over Bluetooth it was 280 ms, and notes crossed the strike line a quarter second before the drum was heard. The audio engine now reports the time you hear, interpolated between output timestamps so the highway moves smoothly, and the transport draws against it while scheduling stays on the raw clock. On a wired rig into the module's MIX IN, calibration measures hits within 3 ms.
+
+## Holding 120 Hz
+
+Expert charts stuttered, but JavaScript draw time was 0.5 ms a frame. The cost was raster work: every hit spawned a blurred ripple larger than a 3008 by 1606 canvas, ghosts and notes each carried their own blur layer, and busy passages stacked up to ten full-canvas blurs a frame. The road, lanes, strike line, and glow are now painted once into offscreen canvases and copied in. Each blurred shape is rendered once into a small sprite and drawn under its crisp glyph. The HUD animates without forcing layout. On an M4 that took the mean frame from 17.6 ms to 8.33 ms, with none of 3,000 frames over 12 ms.
+
+## Practising in bars
+
+DRUMKILLER's practice mode looped between A and B points. Woodshed's works in bars: a bar counter, loops of 1, 2, 4, or 8 bars from where you are, stepping bar by bar with a one-beat run-up, and guide drums that switch on and off mid-take. The results screen colours every bar by accuracy, picks the weakest four-bar stretch, and one key drops you into practice looping it. The title screen checks the kit, the pad map, and calibration, each with a button to fix it.
+
+The menus can be driven from the kit: toms to move, the floor tom twice to select, the crash twice to go back. Because the pads are also the instrument, a hit only counts as a gesture after 600 ms of silence, any other pad switches navigation off, and a double hit closer than 60 ms is read as one stroke bouncing.
+
+## Charts and collab takes
+
+Only the demo songs are bundled, so a song starts as your own audio file. Demucs separates the drums, a transcription model turns the stem into MIDI, and a script pins the tempo map, snaps the notes to the grid so the easier difficulties survive, and builds a song folder ready to import. The chart is then fixed by ear in the editor.
+
+For a band's collab clip, a Swift tool plays the reference track and stamps each hit with its CoreMIDI timestamp, relative to when the reference is heard. It folds Roland's edge zones onto General MIDI notes, since GarageBand ignores them, and renders the take with macOS's built-in drum sounds. A session script records takes back to back and reads a spoken report into the headphones after each one, so the drummer never leaves the kit. A last script finds the camera by cross-correlating its microphone against the drums, and stacks the band's panels and the drum camera into one portrait video with a fresh mix.
