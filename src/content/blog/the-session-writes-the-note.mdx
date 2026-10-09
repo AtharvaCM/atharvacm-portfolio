@@ -16,7 +16,7 @@ coverImageAlt: "Editorial cover image for 'The Session Writes the Note'"
 showCoverImageInPost: false
 featured: false
 draft: false
-updatedAt: '2026-08-19T00:00:00.000Z'
+updatedAt: '2026-10-09T00:00:00.000Z'
 ---
 
 I have kept a daily note since May 2025. Check-in time, check-out time, a task list carried forward by hand, and a running log of the day written while the day is happening. Not in the evening. At the moment something lands, because a note written three hours later is a different and worse note.
@@ -29,7 +29,7 @@ Writing a note in the moment means leaving the terminal in the middle of the con
 - Looking at the empty rows on the export.
 ```
 
-What actually happened in that session was that I tried the wrong layer first, reverted it, worked out the bug was in how units were handled rather than in the template, and left a commit worth linking to. None of that is in the line, because typing it would have cost more than the debugging did.
+In that session I tried the wrong layer first, reverted it, worked out the bug was in how units were handled rather than in the template, and left a commit worth linking to. None of that is in the line, because typing it would have cost more than the debugging did.
 
 So the notes were good and they were short, and the difference between those two is where the findings went. Meanwhile three to five Claude Code sessions a day were doing the work alongside me, holding the entire context of what had been tried and discarded, and writing nothing down at all.
 
@@ -53,7 +53,7 @@ What comes out is the note I would have written if writing it had been free:
 - **api / empty rows on the CSV export:**
 	- Reproduced with a single-row fixture. Not a template problem.
 	- Tried normalising at render. Reverted, wrong layer.
-	- **Key finding:** unit coercion belongs in the builder. [[Unit Coercion]]
+	- **Key finding:** [self] unit coercion belongs in the builder. [[Unit Coercion]]
 	- Fix in `a1b2c3d`
 ```
 
@@ -93,7 +93,7 @@ I fixed them by hand the next morning. An agent with write access would have rep
 
 ## The Failure I Did Not Design For
 
-I had spent the whole project worrying about an agent writing something wrong. What actually went wrong was quieter.
+I had spent the whole project worrying about an agent writing something wrong. What went wrong was quieter.
 
 One night the sweep fired, was marked complete, and produced no file, no error, and no record of having failed. I caught it by noticing that the proposals file for that date carried a timestamp from a manual run earlier in the day. For a scheduled task whose only output is a report, a quiet night and a run that never happened leave an identical filesystem behind.
 
@@ -107,7 +107,7 @@ And it did not remove work. It moved verification from noticing a problem eventu
 
 ## The Skills
 
-Six of these skills, plus an init skill that configures them, are on GitHub as [obsidian-claude-skills](https://github.com/AtharvaCM/obsidian-claude-skills). Pulling them out of my vault meant pulling my vault out of them: every folder name, heading, property and routing rule now lives in one config file rather than inside the skills. `/vault-init` reads your vault, proposes values from what it finds, asks only about what is not already on disk, and writes that file.
+Six of these skills, plus an init skill that configures them, are on GitHub at `AtharvaCM/obsidian-claude-skills`. Pulling them out of my vault meant pulling my vault out of them: every folder name, heading, property and routing rule now lives in one config file rather than inside the skills. `/vault-init` reads your vault, proposes values from what it finds, asks only about what is not already on disk, and writes that file.
 
 Nothing runs until it exists, and the refusal is deliberate. A skill that silently assumes your vault looks like mine fails confusingly instead of loudly, which is the same mistake as a report that says clean when it means clean for the patterns it knew about.
 
@@ -117,6 +117,20 @@ Two skills did not make the cut. They encoded what my particular status update a
 
 The vault is at 638 notes, most of them older than any of this. Only the tooling is four weeks old. The weekly status update that used to be the most annoying twenty minutes of my week arrives as a draft I edit. The first time that task ran off its usual schedule, it worked out that its window was empty, wrote that there was therefore nothing new to report, and declined to pad. That is the behaviour you want from something writing on your behalf.
 
-What changed is smaller than the machinery around it. I was already capturing as I worked. What I could not afford was capturing all of it, and that is the cost the session absorbed. The notes are the same notes, taken at the same moment, by the participant who was actually paying attention.
+What changed is smaller than the machinery around it. I was already capturing as I worked. What I could not afford was capturing all of it, and that is the cost the session absorbed. The notes are the same notes, taken at the same moment, by the participant who was paying attention.
 
 Which moves the interesting question. For a year the daily note was a record of what I did. Four weeks of commit hashes, abandoned approaches and dated findings later, it is starting to be a record of how, and that is a thing you can ask questions of.
+
+## Seven Weeks Later
+
+The skills kept changing after this went up, the same way as before: a real note looked wrong and a rule moved. Three of those changes matter beyond my vault.
+
+**The measurement was the bug.** The voice rule above had a count in it, four to eight bullets a day. A busy session cannot fit in eight, so the count held and the lines grew instead, with semicolons chaining three changes into one bullet. The rule now runs the other way. The parent bullet is a label of a few words with no content in it, each line holds one fact, and there is no cap on how many lines a session gets. A long session earns more bullets, never longer ones. My July days had a median of 8 lines under Updates. The last three weeks have 65, with more sessions logging and nothing squeezed to fit.
+
+**Findings say where they came from.** A `**Key finding:**` line now opens with an origin token: `[self]` for something found mid-task that nobody asked about, `[review]` for something surfaced while reviewing someone else's change, `[asked]` and `[incident]` for work that arrived from someone else. A sibling `**Confirmed:**` line records a named person signing something off, dated the day they did. Neither was backfilled onto the 137 findings already written. A tag added months later is a reconstruction, and it would sit in the vault looking exactly like an observation. Of the 146 findings tagged since, 135 are `[self]`.
+
+**Note bodies became queryable.** Obsidian Bases, the built-in table view, reads frontmatter (the properties block at the top of a note) and never the body, which is where all of this lives. So a script reads each daily note and writes what it finds into properties: hours worked, commits, PRs, findings, open and closed tasks. It runs at check-out, inside `/today`, which I still type. The morning brief only reports notes whose derived values have gone stale. Nothing unattended writes to a note.
+
+One caveat came with the numbers. The first `**Key finding:**` in the vault is dated 21-07-2026, so a month-over-month chart across that date shows me adopting a habit, not the work changing. Asking the record questions also means knowing when each question became askable.
+
+The vault is at 863 notes. All three changes are in the published skills, with the property names and section headings read from the same config file as everything else.
