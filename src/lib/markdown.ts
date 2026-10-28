@@ -40,3 +40,41 @@ export function extractMarkdownHeadings(source: string): MarkdownHeading[] {
     } satisfies MarkdownHeading;
   }).filter((heading) => heading.text.length > 0);
 }
+
+function absolutize(path: string, origin: string) {
+  return path.startsWith("/") ? new URL(path, origin).toString() : path;
+}
+
+// Posts embed figures as JSX (<figure><picture><img …/></picture></figure>), which
+// reads as noise once pasted elsewhere. Swap each for a plain markdown image and
+// point root-relative links at the live site so they still resolve.
+export function toPortableMarkdown(source: string, origin: string) {
+  return source
+    .replace(/<figure[\s\S]*?<\/figure>/g, (figure) => {
+      const img = figure.match(/<img\b[^>]*>/)?.[0] ?? "";
+      const alt = img.match(/\balt="([^"]*)"/)?.[1] ?? "";
+      const src = img.match(/\bsrc="([^"]*)"/)?.[1];
+
+      return src ? `![${alt}](${absolutize(src, origin)})` : "";
+    })
+    .replace(/(!?\[[^\]]*]\()(\/[^)\s]*)/g, (_, prefix: string, path: string) => {
+      return `${prefix}${absolutize(path, origin)}`;
+    })
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+type ArticleMarkdownInput = {
+  title: string;
+  excerpt: string;
+  url: string;
+  content: string;
+};
+
+export function buildArticleMarkdown({ title, excerpt, url, content }: ArticleMarkdownInput) {
+  const origin = new URL(url).origin;
+
+  return [`# ${title}`, `Source: ${url}`, `> ${excerpt.trim()}`, toPortableMarkdown(content, origin)].join(
+    "\n\n"
+  ) + "\n";
+}
