@@ -11,6 +11,7 @@ import {
 } from "@/components/article-toc";
 import { BadgeLabel } from "@/components/badge-label";
 import { BlogCard } from "@/components/blog-card";
+import { CopyArticleButton } from "@/components/copy-article-button";
 import { MdxRenderer } from "@/components/mdx-renderer";
 import { StructuredData } from "@/components/structured-data";
 import {
@@ -20,7 +21,10 @@ import {
   getRelatedPosts,
   isPublishedBlogPost
 } from "@/lib/content";
-import { extractMarkdownHeadings as extractArticleHeadings } from "@/lib/markdown";
+import {
+  buildArticleMarkdown,
+  extractMarkdownHeadings as extractArticleHeadings
+} from "@/lib/markdown";
 import { SITE_NAME } from "@/lib/constants";
 import {
   buildMetadata,
@@ -80,6 +84,12 @@ export default async function BlogDetailPage({ params }: Props) {
   const isPreviewingUnpublished = isEnabled && !isPublishedBlogPost(post);
   const headings = extractArticleHeadings(post.content);
   const articleUrl = absoluteUrl(`/blog/${post.slug}`);
+  const articleMarkdown = buildArticleMarkdown({
+    title: post.title,
+    excerpt: post.excerpt,
+    url: articleUrl,
+    content: post.content
+  });
 
   return (
     <article className="shell py-16 md:py-20">
@@ -101,9 +111,12 @@ export default async function BlogDetailPage({ params }: Props) {
       <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.45rem,6.2vw,5.35rem)] leading-[0.94] tracking-[-0.055em]">
         {post.title}
       </h1>
-      <p className="mt-5 text-sm uppercase tracking-[0.15em] text-text/58">
-        {formatDate(post.publishedAt)} • {post.readingTime ?? 1} min read
-      </p>
+      <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+        <p className="text-sm uppercase tracking-[0.15em] text-text/58">
+          {formatDate(post.publishedAt)} • {post.readingTime ?? 1} min read
+        </p>
+        <CopyArticleButton markdown={articleMarkdown} slug={post.slug} />
+      </div>
       <p className="mt-7 max-w-3xl border-l border-accent/45 pl-5 text-[1.05rem] leading-8 text-text/74 md:text-[1.18rem] md:leading-9">
         {post.excerpt}
       </p>
